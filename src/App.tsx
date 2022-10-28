@@ -1,26 +1,89 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
 
-function App() {
+import { RouterProvider } from "react-router-dom";
+import Router from "./Router";
+import {
+  toolkit as tezosToolkit,
+  useAuditor,
+  useAuditorDispatch,
+} from "./context/AuditorContext";
+import { useEffect, useState } from "react";
+import useInterval from "./hooks/useInterval";
+import { getTezosBlockHash } from "./context/AuditorAction";
+import {
+  getTezosCurrentBlockLevel,
+  getTezosCurrentBlockHash,
+  getContract,
+  getStorage,
+} from "./api/Tezos";
+import { AUDITOR_SC_ADDRESS, BLOCK_FREQUENCY } from "./config";
+import RawStorage from "./api/AuditorSc/RawStorage";
+import { full } from "./api/AuditorSc/Views";
+import BigNumber from "bignumber.js";
+
+const App = () => {
+  const dispatch = useAuditorDispatch();
+  const state = useAuditor();
+  const [clock, setClock] = useState(0);
+  const [lastBlockHash, setLastBlockHash] = useState<string | null>(null);
+
+  useInterval(() => setClock(clock + 1), BLOCK_FREQUENCY);
+
+  useEffect(() => {
+    let subscription = true;
+    if (state.type === "NOT_ASKED" || state.type === "BOOTED") {
+      const fetchBlock = async () => {
+        if (subscription) {
+          console.log("fetch the current block");
+          const toolkit = tezosToolkit;
+          const currentBlockHash = await getTezosCurrentBlockHash(toolkit);
+          const currentBlockLevel = await getTezosCurrentBlockLevel(toolkit);
+          const contract = await getContract(toolkit, AUDITOR_SC_ADDRESS);
+          const storage = await getStorage<RawStorage>(contract);
+          const auditEvents = await full(
+            contract,
+            storage.max_audit_event_index,
+            BigNumber(0)
+          );
+          console.log([
+            "block fetched",
+            currentBlockHash,
+            currentBlockLevel,
+            contract,
+          ]);
+          if (lastBlockHash !== currentBlockHash) {
+            setLastBlockHash(currentBlockHash);
+            dispatch(
+              getTezosBlockHash(
+                currentBlockHash,
+                currentBlockLevel,
+                contract,
+                storage,
+                auditEvents
+              )
+            );
+          }
+        }
+      };
+      fetchBlock();
+    }
+    return () => {
+      subscription = false;
+    };
+  }, [lastBlockHash, clock, state, dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <main role="main">
+        <section className="section main-content container">
+          <RouterProvider router={Router} />
+        </section>
+      </main>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;
