@@ -8,3 +8,4 @@ export const IPFS_GATEWAY_MULTIADDR = "/ip4/127.0.0.1/tcp/5001";
 export const LIGO_REGISTRY_BASE_URI = "beta.packages.ligolang.org";
 export const EXPLORER_BASE_URI = "https://kathmandu.tzstats.com";
 export const BLOCK_FREQUENCY = 15000;
+export const ENDPOINT_BASE = "https://beta.packages.ligolang.org/-";

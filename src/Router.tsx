@@ -1,7 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Error from "./pages/Error";
-import ViewPackage, { loadPackage } from "./pages/ViewPackage";
+import { Home, Error, loadPackage, Package, Packages } from "./pages";
 
 const Router = createBrowserRouter([
   {
@@ -16,9 +14,13 @@ const Router = createBrowserRouter([
     element: <Home />,
   },
   {
+    path: "packages",
+    element: <Packages />,
+  },
+  {
     loader: loadPackage,
-    path: "package/:packageName",
-    element: <ViewPackage />,
+    path: "packages/*",
+    element: <Package />,
   },
 ]);
 

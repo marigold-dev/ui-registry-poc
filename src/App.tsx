@@ -73,17 +73,7 @@ const App = () => {
     };
   }, [lastBlockHash, clock, state, dispatch]);
 
-  return (
-    <>
-      <Header />
-      <main role="main">
-        <section className="section main-content container">
-          <RouterProvider router={Router} />
-        </section>
-      </main>
-      <Footer />
-    </>
-  );
+  return <RouterProvider router={Router} />;
 };
 
 export default App;

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { viewbox } from "../../types/size";
 import ChainHeightButton from "../elements/ChainHeightButton";
 import Ligo from "../images/Ligo";
@@ -29,9 +30,10 @@ const Header = () => {
           </a>
           <div className="navbar-menu is-active">
             <div className="navbar-end is-vcentered">
-              <a className="navbar-item" href="s">
+              <Link className="navbar-item" to="packages">
                 Packages
-              </a>
+              </Link>
+
               <a className="navbar-item" href="http://ligolang.org/">
                 About Ligo
               </a>

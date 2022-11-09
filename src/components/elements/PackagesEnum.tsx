@@ -1,10 +1,11 @@
-import { Package } from "../../mock/types";
+import { DownloadPackage, Package } from "../../mock/types";
 import PackageCard from "./PackageCard";
+import DownloadCard from "./DownloadCard";
 
 type Props = {
   title: string;
   subtitle: string;
-  packages: Package[] | null | undefined;
+  packages: (Package | DownloadPackage)[] | null | undefined;
 };
 
 const PackageEnum = ({ title, subtitle, packages }: Props) => {
@@ -15,11 +16,17 @@ const PackageEnum = ({ title, subtitle, packages }: Props) => {
         <p className="subtitle">{subtitle}</p>
         <div className="columns is-desktop is-multiline">
           {packages !== null && packages !== undefined ? (
-            packages.map((aPackage: Package, i: number) => (
-              <div key={i} className="column is-4">
-                <PackageCard pkg={aPackage} />
-              </div>
-            ))
+            packages.map((aPackage, i: number) =>
+              "dist-tags" in aPackage ? (
+                <div key={i} className="column is-4">
+                  <PackageCard pkg={aPackage} />
+                </div>
+              ) : (
+                <div key={i} className="column is-4">
+                  <DownloadCard pkg={aPackage} />
+                </div>
+              )
+            )
           ) : (
             <></>
           )}

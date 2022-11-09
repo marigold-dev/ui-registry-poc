@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Footer, Header } from "../components";
 import PackageEnum from "../components/elements/PackagesEnum";
 import { allFeaturedPackages, allSortedByDownloadPackages } from "../mock/data";
-import { Package } from "../mock/types";
+import { DownloadPackage, Package } from "../mock/types";
 
 const Home = () => {
-  const [packageList, setPackageList] = useState<Package[] | null>(null);
-  const [featuredPackageList, setFeaturedPackageList] = useState<
-    Package[] | null
-  >(null);
+  const navigate = useNavigate();
+  const [packageList, setPackageList] = useState<DownloadPackage[]>([]);
+  const [featuredPackageList, setFeaturedPackageList] = useState<Package[]>([]);
 
   useEffect(() => {
     let subscription = true;
     const getPackagesList = async () => {
       if (subscription) {
-        const packages = await allSortedByDownloadPackages();
-        const featuredPackages = await allFeaturedPackages();
-        setPackageList(packages);
-        setFeaturedPackageList(featuredPackages);
+        allSortedByDownloadPackages().then(setPackageList);
+        allFeaturedPackages().then(setFeaturedPackageList);
       }
     };
     getPackagesList();
@@ -27,17 +26,37 @@ const Home = () => {
 
   return (
     <>
-      <PackageEnum
-        title="Featured Packages"
-        subtitle="Packages curated by developers"
-        packages={featuredPackageList}
-      />
+      <Header />
+      <main role="main">
+        <section className="section main-content container">
+          <div className="px-12">
+            <input
+              placeholder="Search"
+              className="w-full h-12 border p-4 rounded-full"
+              onKeyDown={(e) => {
+                if (e.key !== "Enter") return;
 
-      <PackageEnum
-        title="Most downloaded"
-        subtitle="Last week"
-        packages={packageList?.slice(0, 6)}
-      />
+                navigate(
+                  `/packages?search=${(e.target as HTMLInputElement).value}`
+                );
+              }}
+            />
+          </div>
+
+          <PackageEnum
+            title="Featured Packages"
+            subtitle="Packages curated by developers"
+            packages={featuredPackageList}
+          />
+
+          <PackageEnum
+            title="Most downloaded"
+            subtitle="Last week"
+            packages={packageList?.slice(0, 6)}
+          />
+        </section>
+      </main>
+      <Footer />
     </>
   );
 };
