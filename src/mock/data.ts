@@ -72,26 +72,28 @@ export const getPackageDownload = (packageName: string) =>
     } // TODO(prometheansacrifice) error handling
   );
 
-export const allFeaturedPackages = (): Promise<Package[]> => {
-  return fetch(`${ENDPOINT_BASE}/ui/featured`)
-    .then(
-      (r) => {
-        if (r.status === 200) {
-          return r.json();
-        } else {
-          r.text().then(console.log);
-          return [];
-        }
-      },
-      () => [] // TODO(prometheansacrifice) error handling
-    )
-    .then((featuredPackages: Package[]) =>
-      Promise.all(
-        featuredPackages
-          .filter((p) => p !== null && !!p["dist-tags"])
-          .map((p) => addPacakgeDownloads({ ...p, isFeatured: true }))
+export const allFeaturedPackages = (): Promise<AllPackage[]> => {
+  return allPackages().then((packages) => {
+    return fetch(`${ENDPOINT_BASE}/ui/featured`)
+      .then(
+        (r) => {
+          if (r.status === 200) {
+            return r.json();
+          } else {
+            r.text().then(console.log);
+            return [];
+          }
+        },
+        () => [] // TODO(prometheansacrifice) error handling
       )
-    );
+      .then((featuredPackages: Package[]) => {
+        const names = featuredPackages.map((p) => p.name);
+        return packages.flatMap((p) => {
+          if (names.includes(p.name)) return [{ ...p, isFeatured: true }];
+          else return [];
+        });
+      });
+  });
 };
 
 // export const allSortedByDownloadPackages = async (): Promise<
@@ -114,9 +116,8 @@ export const allFeaturedPackages = (): Promise<Package[]> => {
 //     )
 //     .then((packages) => Promise.all(packages.map(addPacakgeDownloads)));
 // };
-export const allSortedByDownloadPackages = async (): Promise<
-  DownloadPackage[]
-> => allPackages().then((p) => p.sort((a, b) => b.downloads - a.downloads));
+export const allSortedByDownloadPackages = async (): Promise<AllPackage[]> =>
+  allPackages().then((p) => p.sort((a, b) => b.downloads - a.downloads));
 
 export const getOnePackage = async (name: string): Promise<Package | null> =>
   fetch(`${ENDPOINT_BASE}/api/${name}`).then(

@@ -1,7 +1,6 @@
 export { default as AddressBadge } from "./AddressBadge";
 export { default as BalanceBox } from "./BalanceBox";
 export { default as ChainHeightButton } from "./ChainHeightButton";
-export { default as DownloadCard } from "./DownloadCard";
 export { default as EnquirementButton } from "./EnquirementButton";
 export { default as PackageCard } from "./PackageCard";
 export { default as PackagesEnum } from "./PackagesEnum";

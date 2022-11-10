@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Footer, Header } from "../components";
 import PackageEnum from "../components/elements/PackagesEnum";
 import { allFeaturedPackages, allSortedByDownloadPackages } from "../mock/data";
-import { DownloadPackage, Package } from "../mock/types";
+import { AllPackage, DownloadPackage, Package } from "../mock/types";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [packageList, setPackageList] = useState<DownloadPackage[]>([]);
-  const [featuredPackageList, setFeaturedPackageList] = useState<Package[]>([]);
+  const [packageList, setPackageList] = useState<AllPackage[]>([]);
+  const [featuredPackageList, setFeaturedPackageList] = useState<AllPackage[]>(
+    []
+  );
 
   useEffect(() => {
     let subscription = true;

@@ -44,6 +44,7 @@ export type AllPackage = {
   time: string;
   users: {};
   downloads: number;
+  isFeatured?: boolean;
 };
 
 export type DownloadPackage = {

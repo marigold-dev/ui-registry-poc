@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Footer, Header, Spinner } from "../components";
-import PackageCard from "../components/elements/PackageCard";
 import { allPackages } from "../mock/data";
 import { AllPackage } from "../mock/types";
 

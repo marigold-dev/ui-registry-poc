@@ -1,8 +1,8 @@
-import { DownloadPackage, Package } from "../../mock/types";
+import { AllPackage } from "../../mock/types";
 import { Link } from "react-router-dom";
 
 type Props = {
-  pkg: Package;
+  pkg: AllPackage;
 };
 
 const PackageCard = ({ pkg }: Props) => {
@@ -20,14 +20,18 @@ const PackageCard = ({ pkg }: Props) => {
           </p>
         </header>
         <div className="card-content">
-          <div className="content">...</div>
+          <div className="content">
+            {!pkg.description ? (
+              <span className="text-neutral-500">No description</span>
+            ) : (
+              pkg.description
+            )}
+          </div>
         </div>
         <div className="card-footer">
           <div className="card-footer-item">
             <span className="has-text-weight-light">
-              <span className="has-text-weight-light ml-2">
-                {pkg["dist-tags"].latest}
-              </span>
+              <span className="has-text-weight-light ml-2">{pkg.version}</span>
             </span>
           </div>
           <div className="card-footer-item">
