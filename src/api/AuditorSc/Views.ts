@@ -1,9 +1,8 @@
 import { MichelsonMap, WalletContract } from "@taquito/taquito";
-import BigNumber from "bignumber.js";
 import { AUDITOR_SC_ADDRESS } from "../../config";
-import { Index, Nat } from "../../types/common";
+import { Address, Index, Nat } from "../../types/common";
 import { Requested } from "./ProceededStorage";
-import RawStorage, { RawAuditEvent, RawReviewedDoc } from "./RawStorage";
+import { RawAuditEvent, RawBadge, RawReviewedDoc } from "./RawStorage";
 
 export interface LookupView {
   readonly audit_event: RawAuditEvent;
@@ -33,44 +32,36 @@ export const lookup = async (
   return lookup.executeView({ viewCaller: AUDITOR_SC_ADDRESS });
 };
 
-export const forOne = async (
+export const forOnePackage = async (
   contract: WalletContract,
-  rawStorage: RawStorage,
   packageName: string,
   version: string
 ): Promise<Requested[]> => {
-  const { max_audit_event_index, audit_events } = rawStorage;
-  const requestedList = [];
-  for (
-    let index = BigNumber(0);
-    max_audit_event_index.gt(index);
-    index = index.plus(BigNumber(1))
-  ) {
-    const mapKey = index.plus(BigNumber(1));
+  const views = await lookup(contract, packageName, version);
+  return views
+    .map((view: LookupView) => {
+      const requested: Requested = {
+        index: view.id,
+        owner: view.audit_event.enquired_doc.metadata.signer,
+        datetime: new Date(view.audit_event.enquired_doc.metadata.created_time),
+        target: view.audit_event.enquired_doc.content,
+        state: view.audit_event.state,
+        reviews: Array.from(view.reviewed_docs.values()),
+      };
+      console.log(requested);
+      return requested;
+    })
+    .sort(
+      (a: Requested, b: Requested) =>
+        a.datetime.getTime() - b.datetime.getTime()
+    );
+};
 
-    try {
-      const entry = await audit_events.get(mapKey);
-      if (entry !== undefined && "ligo" in entry.enquired_doc.content) {
-        const p = entry.enquired_doc.content.ligo;
-        if (p.package === packageName && p.version === version) {
-          const state = entry.state;
-
-          if ("asked" in state) {
-            const requestedEntry: Requested = {
-              owner: entry.enquired_doc.metadata,
-              target: entry.enquired_doc.content,
-              index: mapKey,
-            };
-            requestedList.push(requestedEntry);
-          } else if ("audited" in state) {
-            const x = await lookup(contract, packageName, version);
-            console.log(x);
-          }
-        }
-      }
-    } catch (_: any) {
-      console.log("ignored entry");
-    }
-  }
-  return requestedList;
+export const getBadgeFor = async (
+  contract: WalletContract,
+  address: Address
+): Promise<RawBadge | null> => {
+  const views = await contract.contractViews;
+  const getBadge = views.get_badge(address);
+  return getBadge.executeView({ viewCaller: AUDITOR_SC_ADDRESS });
 };

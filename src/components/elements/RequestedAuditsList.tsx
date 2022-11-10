@@ -1,5 +1,5 @@
 import { Requested } from "../../api/AuditorSc/ProceededStorage";
-import AddressBadge from "./AddressBadge";
+import EnquiredAudit from "./EnquiredAudit";
 
 type Props = {
   requests: Requested[] | null;
@@ -14,7 +14,7 @@ const RequestedAuditsList = ({ requests }: Props) => {
       <ul>
         {requests.map((r: Requested, i: number) => (
           <li key={i}>
-            <AddressBadge value={r.owner} needNormalization />
+            <EnquiredAudit requested={r} />
           </li>
         ))}
       </ul>

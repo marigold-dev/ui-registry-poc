@@ -3,6 +3,7 @@ import { Dispatch } from "react";
 import AuditorAction from "../context/AuditorAction";
 
 export type AuditorDispatcher = Dispatch<AuditorAction>;
+export type FileOrNullDispatcher = Dispatch<File | null>;
 
 export type Forge = "github" | "gitlab";
 
