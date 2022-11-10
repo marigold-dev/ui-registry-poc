@@ -7,7 +7,7 @@ import { Repository } from "../types/common";
 import { resolveRepositoryUrl } from "../util/Resolver";
 import { useAuditor } from "../context/AuditorContext";
 import { useEffect, useState } from "react";
-import { forOne } from "../api/AuditorSc/Views";
+import { forOnePackage } from "../api/AuditorSc/Views";
 import EnquirementButton from "../components/elements/EnquirementButton";
 import { Requested } from "../api/AuditorSc/ProceededStorage";
 import { Link } from "react-router-dom";
@@ -34,6 +34,9 @@ const ViewPackage = () => {
     null
   );
 
+  // We should use different Context in order to provide specific states
+  // if the application can be booted.
+
   useEffect(() => {
     let subscription = true;
     console.log("test");
@@ -45,14 +48,12 @@ const ViewPackage = () => {
           const makeLookup = async () => {
             const packageName = fullPkg.package.name;
             const version = fullPkg.package.versions.slice(-1)[0];
-            const x = await forOne(
+            const requested = await forOnePackage(
               contract.contract,
-              contract.storage,
               packageName,
               version
             );
-            console.log(x);
-            setRequestedAudits(x);
+            setRequestedAudits(requested);
           };
           makeLookup();
         }
@@ -61,7 +62,7 @@ const ViewPackage = () => {
     return () => {
       subscription = false;
     };
-  }, [state, fullPkg]);
+  }, [fullPkg, state]);
 
   if (fullPkg === null) {
     return (

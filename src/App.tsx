@@ -17,10 +17,9 @@ import {
   getContract,
   getStorage,
 } from "./api/Tezos";
+
 import { AUDITOR_SC_ADDRESS, BLOCK_FREQUENCY } from "./config";
 import RawStorage from "./api/AuditorSc/RawStorage";
-import { full } from "./api/AuditorSc/Views";
-import BigNumber from "bignumber.js";
 
 const App = () => {
   const dispatch = useAuditorDispatch();
@@ -41,11 +40,6 @@ const App = () => {
           const currentBlockLevel = await getTezosCurrentBlockLevel(toolkit);
           const contract = await getContract(toolkit, AUDITOR_SC_ADDRESS);
           const storage = await getStorage<RawStorage>(contract);
-          const auditEvents = await full(
-            contract,
-            storage.max_audit_event_index,
-            BigNumber(0)
-          );
           console.log([
             "block fetched",
             currentBlockHash,
@@ -59,8 +53,7 @@ const App = () => {
                 currentBlockHash,
                 currentBlockLevel,
                 contract,
-                storage,
-                auditEvents
+                storage
               )
             );
           }
