@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Footer, Header, Spinner } from "../components";
+import { Footer, Header, SkeletonCard, Spinner } from "../components";
 import { allPackages } from "../mock/data";
 import { AllPackage } from "../mock/types";
 
@@ -43,9 +43,12 @@ const Packages = () => {
             />
             <div className="mt-8 flex flex-col space-y-4">
               {isLoading ? (
-                <div className="flex justify-center">
-                  <Spinner />
-                </div>
+                <>
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                  <SkeletonCard />
+                </>
               ) : (
                 packages
                   .filter((p) => p.name.toLowerCase().includes(filter))

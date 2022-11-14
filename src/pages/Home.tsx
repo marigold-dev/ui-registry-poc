@@ -7,10 +7,10 @@ import { AllPackage, DownloadPackage, Package } from "../mock/types";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [packageList, setPackageList] = useState<AllPackage[]>([]);
-  const [featuredPackageList, setFeaturedPackageList] = useState<AllPackage[]>(
-    []
-  );
+  const [packageList, setPackageList] = useState<AllPackage[] | null>(null);
+  const [featuredPackageList, setFeaturedPackageList] = useState<
+    AllPackage[] | null
+  >(null);
 
   useEffect(() => {
     let subscription = true;

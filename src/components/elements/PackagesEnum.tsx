@@ -1,5 +1,6 @@
 import { AllPackage } from "../../mock/types";
 import PackageCard from "./PackageCard";
+import SkeletonCard from "./SkeletonCard";
 
 type Props = {
   title: string;
@@ -13,15 +14,17 @@ const PackageEnum = ({ title, subtitle, packages }: Props) => {
       <div className="hero-body">
         <p className="title">{title}</p>
         <p className="subtitle">{subtitle}</p>
-        <div className="columns is-desktop is-multiline">
-          {packages !== null && packages !== undefined ? (
+        <div className="grid-cols-3 grid gap-4">
+          {!!packages ? (
             packages.map((aPackage, i: number) => (
-              <div key={i} className="column is-4">
-                <PackageCard pkg={aPackage} />
-              </div>
+              <PackageCard key={i} pkg={aPackage} />
             ))
           ) : (
-            <></>
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
           )}
         </div>
       </div>

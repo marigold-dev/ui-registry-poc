@@ -88,9 +88,10 @@ const ViewPackage = () => {
       typeof e === "string"
         ? { url: e, name: "Website" }
         : resolveRepositoryUrl(e);
+
     return (
       <li key={i}>
-        <a href={url} target="_blank">
+        <a href={url} target="_blank" rel="noreferrer">
           {name}
         </a>
       </li>
