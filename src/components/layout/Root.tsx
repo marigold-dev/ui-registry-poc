@@ -6,11 +6,7 @@ const Root = () => {
   return (
     <>
       <Header />
-      <main role="main">
-        <section className="section main-content container">
-          <Outlet />
-        </section>
-      </main>
+      <Outlet />
       <Footer />
     </>
   );

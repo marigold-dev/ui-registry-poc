@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PageContainer } from "../components";
 import PackageEnum from "../components/elements/PackagesEnum";
 import { allFeaturedPackages, allSortedByDownloadPackages } from "../mock/data";
 import { AllPackage } from "../mock/types";
 
 const Home = () => {
-  const navigate = useNavigate();
   const [packageList, setPackageList] = useState<AllPackage[] | null>(null);
   const [featuredPackageList, setFeaturedPackageList] = useState<
     AllPackage[] | null
@@ -26,33 +26,21 @@ const Home = () => {
   }, []);
 
   return (
-    <>
-      <div className="px-12">
-        <input
-          placeholder="Search"
-          className="w-full h-12 border p-4 rounded-full"
-          onKeyDown={(e) => {
-            if (e.key !== "Enter") return;
+    <PageContainer>
+      <div className="space-y-6">
+        <PackageEnum
+          title="Featured Packages"
+          subtitle="Packages curated by developers"
+          packages={featuredPackageList}
+        />
 
-            navigate(
-              `/packages?search=${(e.target as HTMLInputElement).value}`
-            );
-          }}
+        <PackageEnum
+          title="Most downloaded"
+          subtitle="Last week"
+          packages={packageList?.slice(0, 6)}
         />
       </div>
-
-      <PackageEnum
-        title="Featured Packages"
-        subtitle="Packages curated by developers"
-        packages={featuredPackageList}
-      />
-
-      <PackageEnum
-        title="Most downloaded"
-        subtitle="Last week"
-        packages={packageList?.slice(0, 6)}
-      />
-    </>
+    </PageContainer>
   );
 };
 

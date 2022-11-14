@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { SkeletonCard } from "../components";
+import { PageContainer, SkeletonCard } from "../components";
 import { allPackages } from "../mock/data";
 import { AllPackage } from "../mock/types";
 
@@ -30,7 +30,7 @@ const Packages = () => {
   }, [filter]);
 
   return (
-    <>
+    <PageContainer>
       <div>
         <input
           placeholder="Search"
@@ -86,7 +86,7 @@ const Packages = () => {
           )}
         </div>
       </div>
-    </>
+    </PageContainer>
   );
 };
 

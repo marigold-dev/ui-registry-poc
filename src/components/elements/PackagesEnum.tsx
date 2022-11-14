@@ -10,23 +10,21 @@ type Props = {
 
 const PackageEnum = ({ title, subtitle, packages }: Props) => {
   return (
-    <section className="hero">
-      <div className="hero-body">
-        <p className="title">{title}</p>
-        <p className="subtitle">{subtitle}</p>
-        <div className="grid-cols-3 grid gap-4">
-          {!!packages ? (
-            packages.map((aPackage, i: number) => (
-              <PackageCard key={i} pkg={aPackage} />
-            ))
-          ) : (
-            <>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </>
-          )}
-        </div>
+    <section>
+      <h2 className="text-2xl font-bold">{title}</h2>
+      <h3 className="text-xl">{subtitle}</h3>
+      <div className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid gap-4 mt-2">
+        {!!packages ? (
+          packages.map((aPackage, i: number) => (
+            <PackageCard key={i} pkg={aPackage} />
+          ))
+        ) : (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
       </div>
     </section>
   );

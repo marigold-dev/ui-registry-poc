@@ -7,7 +7,7 @@ type Props = {
 
 const PackageCard = ({ pkg }: Props) => {
   return (
-    <div className="card">
+    <div className="card rounded">
       <Link className="has-text-black" to={`packages/${pkg.name}`}>
         <header className="card-header">
           <p className="card-header-title">

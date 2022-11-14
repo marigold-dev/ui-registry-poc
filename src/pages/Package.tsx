@@ -10,6 +10,7 @@ import { forOnePackage } from "../api/AuditorSc/Views";
 import EnquirementButton from "../components/elements/EnquirementButton";
 import { Requested } from "../api/AuditorSc/ProceededStorage";
 import RequestedAuditsList from "../components/elements/RequestedAuditsList";
+import { PageContainer } from "../components";
 
 type FullPackage = {
   package: Package;
@@ -70,7 +71,6 @@ const ViewPackage = () => {
   ) as (string | Repository)[];
 
   const renderedLinks = links.map((e: string | Repository, i: number) => {
-    console.log(e);
     const { url, name } =
       typeof e === "string"
         ? { url: e, name: "Website" }
@@ -78,130 +78,145 @@ const ViewPackage = () => {
 
     return (
       <li key={i}>
-        <a href={url} target="_blank" rel="noreferrer">
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          className="hover:text-ligo"
+        >
           {name}
         </a>
       </li>
     );
   });
 
-  if (!pkg)
-    return (
-      <section className="hero">
-        <div className="hero-body">
-          <h1 className="title">
-            <div className="animate-pulse h-4 w-64 bg-neutral-300 rounded"></div>
-          </h1>
-          <h2 className="subtitle">
-            <div className="animate-pulse w-32 h-4 bg-neutral-300 rounded"></div>
-          </h2>
-          <div className="columns">
-            <div className="column is-8">
-              <section className="mb-6 package-meta flex space-x-4 animate-pulse">
-                <div className="h-4 w-12 bg-neutral-300 rounded"></div>
-                <div className="h-4 w-12 bg-neutral-300 rounded"></div>
-              </section>
+  return (
+    <PageContainer>
+      {(() => {
+        if (!pkg)
+          return (
+            <section>
+              <div>
+                <h1 className="title">
+                  <div className="animate-pulse h-4 w-64 bg-neutral-300 rounded"></div>
+                </h1>
+                <h2 className="subtitle">
+                  <div className="animate-pulse w-32 h-4 bg-neutral-300 rounded"></div>
+                </h2>
+                <div className="columns">
+                  <div className="column is-8">
+                    <section className="mb-6 package-meta flex space-x-4 animate-pulse">
+                      <div className="h-4 w-12 bg-neutral-300 rounded"></div>
+                      <div className="h-4 w-12 bg-neutral-300 rounded"></div>
+                    </section>
 
-              <section className="mt-4">
-                <div className="animate-pulse w-24 h-4 bg-neutral-300 rounded"></div>
-                <div className="animate-pulse h-24 bg-neutral-300 rounded mt-4"></div>
-              </section>
+                    <section className="mt-4">
+                      <div className="animate-pulse w-24 h-4 bg-neutral-300 rounded"></div>
+                      <div className="animate-pulse h-24 bg-neutral-300 rounded mt-4"></div>
+                    </section>
 
-              <section className="mt-6 space-y-2 animate-pulse">
-                <div className="h-4 bg-neutral-300 rounded"></div>
-                <div className="h-4 bg-neutral-300 rounded"></div>
-                <div className="h-4 bg-neutral-300 rounded"></div>
-                <div className="h-4 bg-neutral-300 rounded"></div>
-                <div className="h-4 bg-neutral-300 rounded"></div>
-              </section>
-            </div>
-
-            <div className="column is-4 is-medium pl-5 animate-pulse space-y-2">
-              <div className="h-24 bg-neutral-300 rounded"></div>
-              <div className="h-24 bg-neutral-300 rounded"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  else
-    return (
-      <section className="hero">
-        <div className="hero-body">
-          <h1 className="title">
-            {pkg.name}
-            <span className="ml-2 has-text-weight-light">
-              {"v" + pkg.version}
-            </span>
-          </h1>
-          <h2 className="subtitle">{pkg.description}</h2>
-          <div className="columns">
-            <div className="column is-8">
-              <section className="mb-6 package-meta">
-                {!!fullPkg.package.license && (
-                  <span className="tag is-medium">
-                    {fullPkg.package.license}
-                  </span>
-                )}
-                <span className="tag is-medium author">{pkg.author.name}</span>
-                <span className="tag is-medium is-white download">
-                  {fullPkg.package.downloads}
-                </span>
-              </section>
-
-              <section className="mt-4">
-                <h2 className="title is-4">Installation</h2>
-                <pre className="has-background-black has-text-white shell">
-                  <code>
-                    ligo install{" "}
-                    <strong className="has-text-white">{pkg.name}</strong>
-                  </code>
-                </pre>
-              </section>
-              {fullPkg.package.readme !== null && (
-                <section className="mt-6">
-                  <h2 className="title is-4">Readme</h2>
-                  <div className="box content p-6">
-                    <ReactMarkdown>
-                      {fullPkg.package.readme.replaceAll("\\n", "\n")}
-                    </ReactMarkdown>
+                    <section className="mt-6 space-y-2 animate-pulse">
+                      <div className="h-4 bg-neutral-300 rounded"></div>
+                      <div className="h-4 bg-neutral-300 rounded"></div>
+                      <div className="h-4 bg-neutral-300 rounded"></div>
+                      <div className="h-4 bg-neutral-300 rounded"></div>
+                      <div className="h-4 bg-neutral-300 rounded"></div>
+                    </section>
                   </div>
-                </section>
-              )}
-            </div>
 
-            <div className="column is-4 is-medium pl-5">
-              <section className="mb-6">
-                <EnquirementButton
-                  version={pkg.version}
-                  packageName={pkg.name}
-                  requested={requestedAudits}
-                />
-              </section>
-              {renderedLinks.length > 0 ? (
-                <aside className="menu">
-                  <h2 className="title is-5">Links</h2>
-                  <ul className="menu-list">{renderedLinks}</ul>
-                </aside>
-              ) : (
-                <></>
-              )}
-              {/* {pkg.keywords.length > 0 && (
-              <>
-                <h2 className="title is-5 mt-6">Keywords</h2>
-                {pkg.keywords.map((tag: string, i: number) => (
-                  <span key={i} className="keyword tag p-2 m-1">
-                    {tag}
+                  <div className="column is-4 is-medium pl-5 animate-pulse space-y-2">
+                    <div className="h-24 bg-neutral-300 rounded"></div>
+                    <div className="h-24 bg-neutral-300 rounded"></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+        else
+          return (
+            <section>
+              <div>
+                <h1 className="text-3xl font-bold">
+                  {pkg.name}
+                  <span className="ml-2 text-xl font-light">
+                    {"v" + pkg.version}
                   </span>
-                ))}
-              </>
-            )} */}
-              <RequestedAuditsList requests={requestedAudits} />
-            </div>
-          </div>
-        </div>
-      </section>
-    );
+                </h1>
+                <h2 className="mt-1 text-xl">{pkg.description}</h2>
+                <div className="mt-4 flex">
+                  <div className="w-4/6">
+                    <section className="mb-6 package-meta space-x-4">
+                      {!!fullPkg.package.license && (
+                        <span className="tag is-medium">
+                          {fullPkg.package.license}
+                        </span>
+                      )}
+                      <span className="text-lg p-2 bg-neutral-100 rounded">
+                        <span className="font-bold">Built by </span>
+                        {pkg.author.name}
+                      </span>
+                      <span>
+                        {fullPkg.package.downloads}
+                        {` download${fullPkg.package.downloads > 1 ? "s" : ""}`}
+                      </span>
+                    </section>
+
+                    <section className="mt-4">
+                      <h2 className="text-2xl font-bold">Installation</h2>
+                      <pre className="text-white bg-black shell mt-4">
+                        <code>
+                          ligo install{" "}
+                          <strong className="has-text-white">{pkg.name}</strong>
+                        </code>
+                      </pre>
+                    </section>
+                    {fullPkg.package.readme !== null && (
+                      <section className="mt-4">
+                        <h2 className="text-2xl font-bold">Readme</h2>
+                        <div className="box content p-6 mt-4">
+                          <ReactMarkdown>
+                            {fullPkg.package.readme.replaceAll("\\n", "\n")}
+                          </ReactMarkdown>
+                        </div>
+                      </section>
+                    )}
+                  </div>
+
+                  <div className="w-2/6 pl-5">
+                    <section className="mb-6">
+                      <EnquirementButton
+                        version={pkg.version}
+                        packageName={pkg.name}
+                        requested={requestedAudits}
+                      />
+                    </section>
+                    {renderedLinks.length > 0 ? (
+                      <aside className="menu">
+                        <h2 className="text-xl font-bold">Links</h2>
+                        <ul className="mt-2 space-y-2">{renderedLinks}</ul>
+                      </aside>
+                    ) : (
+                      <></>
+                    )}
+                    {/* {pkg.keywords.length > 0 && (
+                      <>
+                        <h2 className="title is-5 mt-6">Keywords</h2>
+                        {pkg.keywords.map((tag: string, i: number) => (
+                          <span key={i} className="keyword tag p-2 m-1">
+                            {tag}
+                          </span>
+                        ))}
+                      </>
+                    )} */}
+                    <RequestedAuditsList requests={requestedAudits} />
+                  </div>
+                </div>
+              </div>
+            </section>
+          );
+      })()}
+    </PageContainer>
+  );
 };
 
 export default ViewPackage;
