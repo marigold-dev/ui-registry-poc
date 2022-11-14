@@ -12,7 +12,7 @@ const Header = () => {
           role="navigation"
           aria-label="main navigation"
         >
-          <a href="/" className="navbar-brand">
+          <Link to="/" className="navbar-brand">
             <h1 className="title columns is-mobile m-0">
               <div className="column is-vcentered is-narrow">
                 <Ligo
@@ -27,19 +27,30 @@ const Header = () => {
                 <span className="has-text-weight-medium">Registry</span>
               </div>
             </h1>
-          </a>
+          </Link>
           <div className="navbar-menu is-active">
             <div className="navbar-end is-vcentered">
+              <Link className="navbar-item" to="/">
+                Home
+              </Link>
+
               <Link className="navbar-item" to="packages">
                 Packages
               </Link>
 
-              <a className="navbar-item" href="http://ligolang.org/">
+              <a
+                className="navbar-item"
+                href="http://ligolang.org/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 About Ligo
               </a>
               <a
                 className="navbar-item"
                 href="https://ligolang.org/docs/advanced/package-management"
+                target="_blank"
+                rel="noreferrer"
               >
                 How to use
               </a>

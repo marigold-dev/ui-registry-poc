@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Footer, Header } from "../components";
 import PackageEnum from "../components/elements/PackagesEnum";
 import { allFeaturedPackages, allSortedByDownloadPackages } from "../mock/data";
-import { AllPackage, DownloadPackage, Package } from "../mock/types";
+import { AllPackage } from "../mock/types";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -28,37 +27,31 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <main role="main">
-        <section className="section main-content container">
-          <div className="px-12">
-            <input
-              placeholder="Search"
-              className="w-full h-12 border p-4 rounded-full"
-              onKeyDown={(e) => {
-                if (e.key !== "Enter") return;
+      <div className="px-12">
+        <input
+          placeholder="Search"
+          className="w-full h-12 border p-4 rounded-full"
+          onKeyDown={(e) => {
+            if (e.key !== "Enter") return;
 
-                navigate(
-                  `/packages?search=${(e.target as HTMLInputElement).value}`
-                );
-              }}
-            />
-          </div>
+            navigate(
+              `/packages?search=${(e.target as HTMLInputElement).value}`
+            );
+          }}
+        />
+      </div>
 
-          <PackageEnum
-            title="Featured Packages"
-            subtitle="Packages curated by developers"
-            packages={featuredPackageList}
-          />
+      <PackageEnum
+        title="Featured Packages"
+        subtitle="Packages curated by developers"
+        packages={featuredPackageList}
+      />
 
-          <PackageEnum
-            title="Most downloaded"
-            subtitle="Last week"
-            packages={packageList?.slice(0, 6)}
-          />
-        </section>
-      </main>
-      <Footer />
+      <PackageEnum
+        title="Most downloaded"
+        subtitle="Last week"
+        packages={packageList?.slice(0, 6)}
+      />
     </>
   );
 };

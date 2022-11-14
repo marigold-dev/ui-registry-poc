@@ -120,17 +120,19 @@ export const allSortedByDownloadPackages = async (): Promise<AllPackage[]> =>
   allPackages().then((p) => p.sort((a, b) => b.downloads - a.downloads));
 
 export const getOnePackage = async (name: string): Promise<Package | null> =>
-  fetch(`${ENDPOINT_BASE}/api/${name}`).then(
-    (r) => {
-      if (r.status === 200) {
-        return r.json();
-      } else {
-        // eslint-disable-next-line no-console
-        console.log("/-/api/metrics/top-last-week returned", r.status);
-        // eslint-disable-next-line no-console
-        r.text().then(console.log);
-        return null;
-      }
-    },
-    () => null
-  );
+  fetch(`${ENDPOINT_BASE}/api/${name}`)
+    .then(
+      (r) => {
+        if (r.status === 200) {
+          return r.json();
+        } else {
+          // eslint-disable-next-line no-console
+          console.log("/-/api/metrics/top-last-week returned", r.status);
+          // eslint-disable-next-line no-console
+          r.text().then(console.log);
+          return null;
+        }
+      },
+      () => null
+    )
+    .then(addPacakgeDownloads);
