@@ -2,7 +2,8 @@ import { BeaconWallet } from "@taquito/beacon-wallet";
 import { TezosToolkit, WalletContract } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 import RawStorage from "../api/AuditorSc/RawStorage";
-import { LookupView } from "../api/AuditorSc/Views";
+import { client as ipfsClient } from "../api/IPFS";
+import { Address } from "../types/common";
 
 export type NotAsked = {
   type: "NOT_ASKED";
@@ -13,6 +14,7 @@ export type WalletLinked = {
   wallet: BeaconWallet;
   balance: BigNumber;
   address: string;
+  ipfsClient: ipfsClient;
 };
 
 export type WalletState = NotAsked | WalletLinked;
@@ -21,7 +23,6 @@ export type ContractLinked = {
   type: "CONTRACT_LINKED";
   contract: WalletContract;
   storage: RawStorage;
-  auditEvents: LookupView[];
 };
 
 export type ContractState = NotAsked | ContractLinked;
@@ -33,6 +34,7 @@ export type Booted = {
   currentBlockLevel: number;
   wallet: WalletState;
   contract: ContractLinked;
+  verifiedAddresses: Map<Address, boolean>;
 };
 
 type State = NotAsked | Booted;
@@ -51,8 +53,7 @@ export const booted = (
   currentBlockHash: string,
   currentBlockLevel: number,
   contract: WalletContract,
-  storage: RawStorage,
-  auditEvents: LookupView[]
+  storage: RawStorage
 ): State => {
   switch (state.type) {
     case "NOT_ASKED": {
@@ -61,8 +62,9 @@ export const booted = (
         toolkit,
         currentBlockHash,
         currentBlockLevel,
-        contract: { type: "CONTRACT_LINKED", contract, storage, auditEvents },
+        contract: { type: "CONTRACT_LINKED", contract, storage },
         wallet: walletNotAsked(),
+        verifiedAddresses: new Map<Address, boolean>([]),
       };
     }
     default:
@@ -73,12 +75,14 @@ export const booted = (
 export const linkWallet = (
   wallet: BeaconWallet,
   address: string,
-  balance: BigNumber
+  balance: BigNumber,
+  ipfsClient: ipfsClient
 ): WalletState => ({
   type: "WALLET_LINKED",
   wallet,
   balance,
   address,
+  ipfsClient,
 });
 
 export default State;

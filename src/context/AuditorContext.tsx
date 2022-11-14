@@ -5,6 +5,7 @@ import AuditorState, {
   walletNotAsked,
 } from "./AuditorState";
 import AUditorAction, {
+  ACTION_ADD_VERIFIED_USER,
   ACTION_GET_TEZOS_BLOCK_HASH,
   ACTION_LINK_BEACON_WALLET,
   ACTION_UNLINK_BEACON_WALLET,
@@ -18,7 +19,7 @@ import {
   useContext,
   useReducer,
 } from "react";
-import { AuditorDispatcher } from "../types/common";
+import { Address, AuditorDispatcher } from "../types/common";
 
 export const toolkit = new TezosToolkit(RPC_URL);
 
@@ -28,22 +29,17 @@ const AuditorContextReducer = (
 ): AuditorState => {
   switch (action.type) {
     case ACTION_GET_TEZOS_BLOCK_HASH: {
-      const { blockHash, blockLevel, contract, storage, auditEvents } = action;
-      return booted(
-        state,
-        toolkit,
-        blockHash,
-        blockLevel,
-        contract,
-        storage,
-        auditEvents
-      );
+      const { blockHash, blockLevel, contract, storage } = action;
+      return booted(state, toolkit, blockHash, blockLevel, contract, storage);
     }
     case ACTION_LINK_BEACON_WALLET: {
-      const { wallet, balance, address } = action;
+      const { wallet, balance, address, ipfsClient } = action;
       if (state.type === "BOOTED") {
         if (state.wallet.type === "NOT_ASKED") {
-          return { ...state, wallet: linkWallet(wallet, address, balance) };
+          return {
+            ...state,
+            wallet: linkWallet(wallet, address, balance, ipfsClient),
+          };
         }
       }
       return state;
@@ -51,6 +47,16 @@ const AuditorContextReducer = (
     case ACTION_UNLINK_BEACON_WALLET: {
       if (state.type === "BOOTED") {
         return { ...state, wallet: walletNotAsked() };
+      }
+      return state;
+    }
+    case ACTION_ADD_VERIFIED_USER: {
+      if (state.type === "BOOTED") {
+        const value: [Address, boolean] = [action.address, action.isVerified];
+        const arr = [...state.verifiedAddresses, value]; // lol dumb unification
+        const map: Map<Address, boolean> = new Map(arr);
+
+        return { ...state, verifiedAddresses: map };
       }
       return state;
     }

@@ -1,4 +1,8 @@
-import { Repository } from "../types/common";
+export type Repository = {
+  type: "git";
+  url: string;
+  directory: null;
+};
 
 export type version = {
   _id: string;
@@ -7,7 +11,8 @@ export type version = {
   description: string;
   dist: { integrity: string; shasum: string; tarball: string };
   name: string;
-  repository: string;
+  repository: string | Repository;
+  website?: string;
   scripts: string[];
   version: string;
 };
@@ -24,13 +29,7 @@ export type AllPackage = {
   type: "library";
   storage_fn: null;
   storage_arg: null;
-  repository:
-    | {
-        type: "git";
-        url: string;
-        directory: null;
-      }
-    | string;
+  repository: Repository | string;
   version: string;
   description: string;
   scripts: [];

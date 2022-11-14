@@ -33,10 +33,34 @@ export type Forge = GithubPath | GitlabPath | PackagePath;
 
 export type RawEnquiredContent = Forge;
 
+export interface RawMetadata {
+  readonly signer: Address;
+  readonly created_time: Date;
+}
+
 export interface RawDoc<Content> {
-  readonly metadata: Address;
+  readonly metadata: RawMetadata;
   readonly content: Content;
 }
+
+export type RawBadgeStatePending = { pending: any };
+export type RawBadgeStateVerified = { verified: any };
+export type RawBadgeStateUnverified = { unverified: any };
+
+export type RawBadgeState =
+  | RawBadgeStatePending
+  | RawBadgeStateUnverified
+  | RawBadgeStateVerified;
+
+export interface RawBadge {
+  readonly state: RawBadgeState;
+  readonly alias: string | null;
+}
+
+export const hasBadge = (badge: RawBadge | null): boolean => {
+  if (badge !== null && "verified" in badge.state) return true;
+  return false;
+};
 
 export interface RawAuditEvent {
   readonly state: RawState;
@@ -55,6 +79,9 @@ export type RawResult = RawResultApprove | RawResultReject;
 
 export const boolToResult = (x: boolean): RawResult =>
   x === true ? { approve: {} } : { reject: {} };
+
+export const resultToBool = (x: RawResult): boolean =>
+  "approve" in x ? true : false;
 
 export interface RawFinalizedContent {
   readonly doc_index: Index;
