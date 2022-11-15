@@ -23,7 +23,7 @@ const Header = () => {
     <nav
       className={`w-full fixed top-0 left-0 right-0 ${
         hasNav ? "h-auto" : "h-20"
-      } bg-white drop-shadow z-50 flex justify-center overflow-hidden`}
+      } bg-white drop-shadow z-50 flex justify-center overflow-hidden md:overflow-visible`}
       role="navigation"
       aria-label="main navigation"
     >
