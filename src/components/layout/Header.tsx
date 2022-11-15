@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { viewbox } from "../../types/size";
 import ChainHeightButton from "../elements/ChainHeightButton";
@@ -9,48 +10,73 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   } hover:bg-neutral-100 hover:text-ligo`;
 
 const Header = () => {
+  const [hasNav, setHasNav] = useState(false);
+
   const navigate = useNavigate();
 
+  const removeNav = () => {
+    if (!hasNav) return;
+
+    setHasNav(false);
+  };
   return (
     <nav
-      className="w-full fixed top-0 left-0 right-0 h-20 bg-white drop-shadow z-50 flex justify-center"
+      className={`w-full fixed top-0 left-0 right-0 ${
+        hasNav ? "h-auto" : "h-20"
+      } bg-white drop-shadow z-50 flex justify-center overflow-hidden`}
       role="navigation"
       aria-label="main navigation"
     >
-      <div className="max-w-7xl flex items-center justify-between w-full h-full">
-        <NavLink to="/" className="navbar-brand">
-          <h1 className="title columns is-mobile m-0">
-            <div className="column is-vcentered is-narrow">
-              <Ligo
-                width={40}
-                height={40}
-                viewBox={viewbox(0, 0, 60, 60)}
-                fill="#0E74FF"
-              />
-            </div>
-            <div className="column is-vcenteredis-narrow is-uppercase">
-              <span className="has-text-weight-bold">Ligo</span>
-              <span className="has-text-weight-medium">Registry</span>
+      <div className="max-w-7xl px-4 md:px-0 flex items-center justify-between flex-wrap md:flex-no-wrap w-full h-full">
+        <NavLink to="/" className="mt-4 md:mt-0" onClick={removeNav}>
+          <h1 className="flex items-center">
+            <Ligo
+              width={40}
+              height={40}
+              viewBox={viewbox(0, 0, 60, 60)}
+              fill="#0E74FF"
+            />
+            <div className="uppercase ml-4 text-xl md:text-3xl">
+              <span className="font-bold">Ligo</span>
+              <span className="font-medium">Registry</span>
             </div>
           </h1>
         </NavLink>
-        <div className="flex items-center space-x-2">
+        <button
+          className={`mt-4 md:mt-0 flex items-center hamburger hamburger--spin ${
+            hasNav ? "is-active" : ""
+          }`}
+          onClick={() => setHasNav(!hasNav)}
+        >
+          <span className="hamburger-box">
+            <span className="hamburger-inner bg-neutral-700 before:bg-neutral-700 after:bg-neutral-700"></span>
+          </span>
+        </button>
+        <div className="flex flex-col w-full space-y-2 md:space-y-0 py-4 md:py-0 md:w-auto md:flex-row items-center justify-center md:justify-start space-x-2">
           <input
             placeholder="Search"
-            className="w-56 h-8 border p-4 rounded-full mr-2"
+            className="w-full md:w-56 h-8 border p-4 rounded-full mr-2"
             onKeyDown={(e) => {
               if (e.key !== "Enter") return;
 
-              navigate(
-                `/packages?search=${(e.target as HTMLInputElement).value}`
-              );
+              const target = e.target as HTMLInputElement;
+
+              navigate(`/packages?search=${target.value}`);
+
+              target.value = "";
+              target.blur();
             }}
           />
-          <NavLink className={navLinkClass} to="/" end>
+          <NavLink className={navLinkClass} to="/" end onClick={removeNav}>
             Home
           </NavLink>
 
-          <NavLink className={navLinkClass} to="packages" end>
+          <NavLink
+            className={navLinkClass}
+            to="packages"
+            end
+            onClick={removeNav}
+          >
             Packages
           </NavLink>
 

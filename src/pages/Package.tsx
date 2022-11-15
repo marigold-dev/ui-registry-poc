@@ -136,16 +136,14 @@ const ViewPackage = () => {
           return (
             <section>
               <div>
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-2xl md:text-3xl font-bold">
                   {pkg.name}
-                  <span className="ml-2 text-xl font-light">
-                    {"v" + pkg.version}
-                  </span>
+                  <span className="ml-2 font-light">{"v" + pkg.version}</span>
                 </h1>
-                <h2 className="mt-1 text-xl">{pkg.description}</h2>
-                <div className="mt-4 flex">
-                  <div className="w-4/6">
-                    <section className="mb-6 package-meta space-x-4">
+                <h2 className="mt-1 text-md md:text-xl">{pkg.description}</h2>
+                <div className="mt-4 flex flex-col md:flex-row">
+                  <div className="w-full md:w-4/6">
+                    <section className="mb-2 md:mb-6 package-meta space-x-4">
                       {!!fullPkg.package.license && (
                         <span className="tag is-medium">
                           {fullPkg.package.license}
@@ -166,14 +164,14 @@ const ViewPackage = () => {
                       <pre className="text-white bg-black shell mt-4">
                         <code>
                           ligo install{" "}
-                          <strong className="has-text-white">{pkg.name}</strong>
+                          <strong className="has-text-white">{`${pkg.name}  `}</strong>
                         </code>
                       </pre>
                     </section>
                     {fullPkg.package.readme !== null && (
                       <section className="mt-4">
                         <h2 className="text-2xl font-bold">Readme</h2>
-                        <div className="box content p-6 mt-4">
+                        <div className="box content p-3 md:p-6 mt-4">
                           <ReactMarkdown>
                             {fullPkg.package.readme.replaceAll("\\n", "\n")}
                           </ReactMarkdown>
@@ -182,7 +180,7 @@ const ViewPackage = () => {
                     )}
                   </div>
 
-                  <div className="w-2/6 pl-5">
+                  <div className="w-full md:w-2/6 md:pl-5">
                     <section className="mb-6">
                       <EnquirementButton
                         version={pkg.version}
