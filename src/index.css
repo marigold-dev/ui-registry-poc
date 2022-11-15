@@ -1,11 +1,14 @@
-@import 'bulma/css/bulma.css';
+@import "bulma/css/bulma.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body,
 #root {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
@@ -16,15 +19,14 @@ main {
   display: none;
 }
 
-
 .shell > code {
-  color:  hsl(48, 100%, 67%);
+  color: hsl(48, 100%, 67%);
 }
 
 .shell > code::before {
-  content:"$";
+  content: "$";
   margin-right: 12px;
-  color:  hsl(217, 71%, 53%);
+  color: hsl(217, 71%, 53%);
 }
 
 .keyword::before {
@@ -57,4 +59,40 @@ main {
   content: "Tez";
   font-weight: 300;
   margin-left: 8px;
+}
+
+/*
+  Spinner animation
+*/
+.Spinner {
+  animation: rotate 2s linear infinite;
+  /* width: 50px;
+  height: 50px; */
+}
+
+.Spinner__path {
+  stroke: #4a4a4a;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
 }

@@ -1,29 +1,30 @@
-import { Package } from "../../mock/types";
+import { AllPackage } from "../../mock/types";
 import PackageCard from "./PackageCard";
+import SkeletonCard from "./SkeletonCard";
 
 type Props = {
   title: string;
   subtitle: string;
-  packages: Package[] | null | undefined;
+  packages: AllPackage[] | null | undefined;
 };
 
 const PackageEnum = ({ title, subtitle, packages }: Props) => {
   return (
-    <section className="hero">
-      <div className="hero-body">
-        <p className="title">{title}</p>
-        <p className="subtitle">{subtitle}</p>
-        <div className="columns is-desktop is-multiline">
-          {packages !== null && packages !== undefined ? (
-            packages.map((aPackage: Package, i: number) => (
-              <div key={i} className="column is-4">
-                <PackageCard pkg={aPackage} />
-              </div>
-            ))
-          ) : (
-            <></>
-          )}
-        </div>
+    <section>
+      <h2 className="text-2xl font-bold">{title}</h2>
+      <h3 className="text-xl">{subtitle}</h3>
+      <div className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 grid gap-4 mt-2">
+        {!!packages ? (
+          packages.map((aPackage, i: number) => (
+            <PackageCard key={i} pkg={aPackage} />
+          ))
+        ) : (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        )}
       </div>
     </section>
   );

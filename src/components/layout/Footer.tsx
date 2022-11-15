@@ -4,61 +4,72 @@ import Marigold from "../images/Marigold";
 
 const Footer = () => {
   return (
-    <div className="footer has-background-white">
-      <div className="container">
-        <div className="columns is-desktop">
-          <div className="column">
-            <nav>
-              <ul>
-                <li>
-                  <a className="has-text-black" href="http://ligolang.org/">
-                    About Ligo
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="has-text-black"
-                    href="https://ligolang.org/docs/advanced/package-management"
-                  >
-                    How to use
-                  </a>
-                </li>
-                <li>
-                  <a className="has-text-black" href={exploreAuditorSc}>
-                    Auditor Smart-contract
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="has-text-black"
-                    href="https://github.com/marigold-dev/auditor"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
-            </nav>
+    <div className="w-full py-8">
+      <div className="max-w-7xl flex flex-col md:flex-row justify-between m-auto">
+        <nav>
+          <ul className="flex flex-col items-center md:block">
+            <li>
+              <a
+                className="text-black hover:text-ligo"
+                target="_blank"
+                rel="noreferrer"
+                href="http://ligolang.org/"
+              >
+                About Ligo
+              </a>
+            </li>
+            <li>
+              <a
+                className="text-black hover:text-ligo"
+                target="_blank"
+                rel="noreferrer"
+                href="https://ligolang.org/docs/advanced/package-management"
+              >
+                How to use
+              </a>
+            </li>
+            <li>
+              <a
+                className="text-black hover:text-ligo"
+                target="_blank"
+                rel="noreferrer"
+                href={exploreAuditorSc}
+              >
+                Auditor Smart-contract
+              </a>
+            </li>
+            <li>
+              <a
+                className="text-black hover:text-ligo"
+                target="_blank"
+                rel="noreferrer"
+                href="https://github.com/marigold-dev/auditor"
+              >
+                Source code
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <a
+          href="https://marigold.dev"
+          className="text-black flex flex-col items-center md:items-start md:flex-row mt-4 md:mt-0"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <div className="text-center md:text-right">
+            <div>Proudly powered by</div>
+            <h2 className="text-2xl">Marigold</h2>
           </div>
-          <div className="column is-narrow">
-            <a
-              href="https://marigold.dev"
-              className="columns is-vcentered has-text-black is-mobile"
-            >
-              <div className="column has-text-right">
-                <div className="powered">Proudly powered by</div>
-                <h2 className="title is-4">Marigold</h2>
-              </div>
-              <div className="column is-narrow">
-                <Marigold
-                  width={50}
-                  height={50}
-                  viewBox={viewbox(0, 0, 25, 25)}
-                  fill="#F25430"
-                />
-              </div>
-            </a>
+          <div className="px-4 py-1">
+            <Marigold
+              width={50}
+              height={50}
+              viewBox={viewbox(0, 0, 25, 25)}
+              fill="#F25430"
+            />
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const ChainHeightButton = () => {
               aria-haspopup="true"
               aria-controls="wallet-button"
             >
-              ...
+              <div className="animate-pulse h-full w-32 bg-neutral-300 rounded"></div>
             </button>
           </div>
         </div>

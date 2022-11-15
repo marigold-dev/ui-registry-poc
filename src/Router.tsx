@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import Home from "./pages/Home";
-import Error from "./pages/Error";
-import ViewPackage, { loadPackage } from "./pages/ViewPackage";
+import Root from "./components/layout/Root";
+import { Home, Error, Package, Packages } from "./pages";
 
 const Router = createBrowserRouter([
   {
@@ -13,12 +12,21 @@ const Router = createBrowserRouter([
         message="Unable to find the requested page, if the problem persists, try contacting the administrators."
       />
     ),
-    element: <Home />,
-  },
-  {
-    loader: loadPackage,
-    path: "package/:packageName",
-    element: <ViewPackage />,
+    element: <Root />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "packages",
+        element: <Packages />,
+      },
+      {
+        path: "packages/*",
+        element: <Package />,
+      },
+    ],
   },
 ]);
 
