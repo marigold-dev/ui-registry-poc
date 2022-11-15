@@ -28,7 +28,11 @@ const Header = () => {
       aria-label="main navigation"
     >
       <div className="max-w-7xl px-4 md:px-0 flex items-center justify-between flex-wrap md:flex-no-wrap w-full h-full">
-        <NavLink to="/" className="mt-4 md:mt-0" onClick={removeNav}>
+        <NavLink
+          to="/"
+          className="mt-4 md:mt-0 md:-translate-y-2"
+          onClick={removeNav}
+        >
           <h1 className="flex items-center">
             <Ligo
               width={40}
@@ -43,7 +47,7 @@ const Header = () => {
           </h1>
         </NavLink>
         <button
-          className={`mt-4 md:mt-0 flex items-center hamburger hamburger--spin ${
+          className={`md:hidden mt-4 md:mt-0 flex items-center hamburger hamburger--spin ${
             hasNav ? "is-active" : ""
           }`}
           onClick={() => setHasNav(!hasNav)}
