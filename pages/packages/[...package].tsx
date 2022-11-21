@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -126,6 +127,10 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
 
   return (
     <>
+      <Head>
+        <title>Ligo Package Registry - {fullPkg?.name ?? ""}</title>
+        <meta name="description" content={fullPkg?.readme.substring(0, 155)} />
+      </Head>
       {(() => {
         if (!versionPkg)
           return (

@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from "next";
+import Head from "next/head";
 import PackageEnum from "../src/components/elements/PackagesEnum";
 import {
   allFeaturedPackages,
@@ -33,6 +34,13 @@ const Home = ({
 }) => {
   return (
     <>
+      <Head>
+        <title>Ligo Package Registry</title>
+        <meta
+          name="description"
+          content="Search for a package or template to use in your project"
+        />
+      </Head>
       <div className="space-y-6">
         <PackageEnum
           title="Featured Packages"

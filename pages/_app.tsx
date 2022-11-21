@@ -11,7 +11,6 @@ export default function App({ Component, pageProps }: AppProps) {
     <AuditorProvider>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Ligolang package registry</title>
       </Head>
       <Header />
       <PageContainer>

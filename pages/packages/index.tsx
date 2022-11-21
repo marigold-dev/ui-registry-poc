@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from "next";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -35,6 +36,13 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
 
   return (
     <>
+      <Head>
+        <title>Ligo Package Registry - Search Package</title>
+        <meta
+          name="description"
+          content="Search any Ligo package through our registry"
+        />
+      </Head>
       <div>
         <input
           placeholder="Search"
