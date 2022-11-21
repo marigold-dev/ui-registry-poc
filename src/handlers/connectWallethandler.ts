@@ -1,10 +1,10 @@
-import { AuditorDispatcher } from "../types/common";
-import AuditorState from "../context/AuditorState";
-import { connectWallet, createWallet } from "../api/BeaconWallet";
 import { MichelCodecPacker } from "@taquito/taquito";
+import { connectWallet, createWallet } from "../api/BeaconWallet";
+import { connect as ipfsConnect } from "../api/IPFS";
 import { getBalance } from "../api/Tezos";
 import { linkBeaconWallet } from "../context/AuditorAction";
-import { connect as ipfsConnect } from "../api/IPFS";
+import AuditorState from "../context/AuditorState";
+import { AuditorDispatcher } from "../types/common";
 
 const handle =
   (dispatch: AuditorDispatcher, state: AuditorState) =>

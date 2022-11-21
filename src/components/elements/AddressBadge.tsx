@@ -1,13 +1,13 @@
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import { TbClipboard, TbClipboardCheck, TbZoomIn } from "react-icons/tb";
-import { GoVerified } from "react-icons/go";
-import { VscUnverified } from "react-icons/vsc";
 import { useEffect, useState } from "react";
-import { exploreHashUrl } from "../../util/Resolver";
-import { useAuditor, useAuditorDispatch } from "../../context/AuditorContext";
-import { getBadgeFor } from "../../api/AuditorSc/Views";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { GoVerified } from "react-icons/go";
+import { TbClipboard, TbClipboardCheck, TbZoomIn } from "react-icons/tb";
+import { VscUnverified } from "react-icons/vsc";
 import { hasBadge } from "../../api/AuditorSc/RawStorage";
+import { getBadgeFor } from "../../api/AuditorSc/Views";
 import { addVerifiedUser } from "../../context/AuditorAction";
+import { useAuditor, useAuditorDispatch } from "../../context/AuditorContext";
+import { exploreHashUrl } from "../../util/Resolver";
 
 type Props = {
   value: string;

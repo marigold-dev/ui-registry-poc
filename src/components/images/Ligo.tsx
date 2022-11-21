@@ -1,6 +1,5 @@
 /* The component used to describe the marigold logo.
  */
-
 import CustomSvg, { Props as SvgProps, normalizeFill } from "./CustomSvg";
 
 const Ligo = ({ width, height, viewBox, fill }: SvgProps) => {

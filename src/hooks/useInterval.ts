@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+
 type IntervalFunction = () => unknown | void;
 
 const useInterval = (callback: IntervalFunction, delay: number | null) => {

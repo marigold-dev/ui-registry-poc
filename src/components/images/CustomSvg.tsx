@@ -1,4 +1,4 @@
-import { Width, Height, ViewBox } from "../../types/size";
+import { Height, ViewBox, Width } from "../../types/size";
 
 export type Props = {
   width: Width;

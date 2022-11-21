@@ -1,5 +1,5 @@
-import { AllPackage } from "../../mock/types";
 import Link from "next/link";
+import { AllPackage } from "../../mock/types";
 
 type Props = {
   pkg: AllPackage;

@@ -1,7 +1,7 @@
-import { AuditorDispatcher } from "../types/common";
-import AuditorState from "../context/AuditorState";
 import { disconnectWallet } from "../api/BeaconWallet";
 import { unlinkBeaconWallet } from "../context/AuditorAction";
+import AuditorState from "../context/AuditorState";
+import { AuditorDispatcher } from "../types/common";
 
 const handle =
   (dispatch: AuditorDispatcher, state: AuditorState) =>
