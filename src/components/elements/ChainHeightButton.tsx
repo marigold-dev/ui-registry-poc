@@ -32,19 +32,13 @@ const ChainHeightButton = () => {
     if (state.type === "NOT_ASKED" || state.type === "BOOTED") {
       const fetchBlock = async () => {
         if (subscription) {
-          console.log("fetch the current block");
           try {
             const toolkit = tezosToolkit;
             const currentBlockHash = await getTezosCurrentBlockHash(toolkit);
             const currentBlockLevel = await getTezosCurrentBlockLevel(toolkit);
             const contract = await getContract(toolkit, AUDITOR_SC_ADDRESS);
             const storage = await getStorage<RawStorage>(contract);
-            console.log([
-              "block fetched",
-              currentBlockHash,
-              currentBlockLevel,
-              contract,
-            ]);
+
             if (lastBlockHash !== currentBlockHash) {
               setLastBlockHash(currentBlockHash);
               dispatch(

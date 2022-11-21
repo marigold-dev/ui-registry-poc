@@ -1,4 +1,5 @@
 import { GetStaticPropsContext } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
@@ -13,10 +14,14 @@ import { resolveRepositoryUrl } from "../../src/util/Resolver";
 
 export async function getStaticPaths() {
   return allPackages()
-    .then((packages) => ({
-      paths: packages.map((p) => ({ params: { package: p.name.split("/") } })),
-      fallback: true,
-    }))
+    .then((packages) => {
+      return {
+        paths: packages.map((p) => ({
+          params: { package: p.name.split("/") },
+        })),
+        fallback: true,
+      };
+    })
     .catch(() => ({
       paths: [],
       fallback: true,
@@ -25,20 +30,42 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   return getOnePackage((context.params!.package as string[]).join("/"))
-    .then((fullPkg) => ({
-      props: { fullPkg },
-    }))
-    .catch(() => ({
-      notFound: true,
-    }));
+    .then((pkg) => {
+      return {
+        props: {
+          pkg,
+        },
+      };
+    })
+    .catch(() => {
+      return {
+        notFound: true,
+      };
+    });
 }
 
-const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
+const ViewPackage = ({ pkg }: { pkg: Package }) => {
+  const router = useRouter();
+
   const state = useAuditor();
+
+  const [fallbackPackage, setFallbackPackage] = useState<Package | null>(null);
 
   const [requestedAudits, setRequestedAudits] = useState<Requested[] | null>(
     null
   );
+
+  const fullPkg = router.isFallback ? fallbackPackage : pkg;
+
+  useEffect(() => {
+    if (!router.isFallback) return;
+
+    getOnePackage(router.asPath.replace(/^\/packages\//, ""))
+      .then(setFallbackPackage)
+      .catch(() => {
+        router.push("/");
+      });
+  }, []);
 
   useEffect(() => {
     let subscription = true;
@@ -70,9 +97,9 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
     };
   }, [fullPkg, state]);
 
-  const pkg = fullPkg.versions[fullPkg["dist-tags"].latest];
+  const versionPkg = fullPkg?.versions[fullPkg["dist-tags"]?.latest];
 
-  const links = [pkg?.website, pkg?.repository].filter(
+  const links = [versionPkg?.website, versionPkg?.repository].filter(
     (e: string | Repository | null | undefined) => !!e
   ) as (string | Repository)[];
 
@@ -99,7 +126,7 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
   return (
     <>
       {(() => {
-        if (!pkg)
+        if (!versionPkg)
           return (
             <section>
               <div>
@@ -143,10 +170,14 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
             <section>
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {pkg.name}
-                  <span className="ml-2 font-light">{"v" + pkg.version}</span>
+                  {versionPkg.name}
+                  <span className="ml-2 font-light">
+                    {"v" + versionPkg.version}
+                  </span>
                 </h1>
-                <h2 className="mt-1 text-md md:text-xl">{pkg.description}</h2>
+                <h2 className="mt-1 text-md md:text-xl">
+                  {versionPkg.description}
+                </h2>
                 <div className="mt-4 flex flex-col md:flex-row">
                   <div className="w-full md:w-4/6">
                     <section className="mb-2 md:mb-6 package-meta space-x-4">
@@ -155,7 +186,7 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
                       )}
                       <span className="text-lg p-2 bg-neutral-100 rounded">
                         <span className="font-bold">Built by </span>
-                        {pkg.author.name}
+                        {versionPkg.author?.name ?? "Unknown"}
                       </span>
                       <span>
                         {fullPkg.downloads}
@@ -168,7 +199,7 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
                       <pre className="text-white bg-black shell mt-4">
                         <code>
                           ligo install{" "}
-                          <strong className="has-text-white">{`${pkg.name}  `}</strong>
+                          <strong className="has-text-white">{`${versionPkg.name}  `}</strong>
                         </code>
                       </pre>
                     </section>
@@ -187,8 +218,8 @@ const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
                   <div className="w-full md:w-2/6 md:pl-5">
                     <section className="mb-6">
                       <EnquirementButton
-                        version={pkg.version}
-                        packageName={pkg.name}
+                        version={versionPkg.version}
+                        packageName={versionPkg.name}
                         requested={requestedAudits}
                       />
                     </section>
