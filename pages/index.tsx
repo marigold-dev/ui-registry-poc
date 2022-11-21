@@ -13,12 +13,14 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
         allSortedDl,
         allFeatured,
       },
+      revalidate: 60,
     }))
     .catch(() => ({
       props: {
         allSortedDl: [],
         allFeatured: [],
       },
+      revalidate: 60,
     }));
 }
 

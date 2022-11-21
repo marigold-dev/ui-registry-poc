@@ -35,6 +35,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         props: {
           pkg,
         },
+        revalidate: 60,
       };
     })
     .catch(() => {

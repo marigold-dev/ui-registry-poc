@@ -10,9 +10,11 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   return allPackages()
     .then((packages) => ({
       props: { packages },
+      revalidate: 60,
     }))
     .catch(() => ({
       props: { packages: [] },
+      revalidate: 60,
     }));
 }
 
