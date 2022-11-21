@@ -1,3 +1,4 @@
+import { Head } from "next/document";
 import Link from "next/link";
 import Footer from "../src/components/layout/Footer";
 import Header from "../src/components/layout/Header";
@@ -5,6 +6,9 @@ import Header from "../src/components/layout/Header";
 const Error = () => {
   return (
     <>
+      <Head>
+        <title>Ligo Package Registry</title>
+      </Head>
       <Header />
       <main role="main">
         <section className="section main-content container">
