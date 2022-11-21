@@ -1,11 +1,72 @@
-import { useState } from "react";
-import { useAuditor } from "../../context/AuditorContext";
+import { useEffect, useState } from "react";
+import RawStorage from "../../api/AuditorSc/RawStorage";
+import {
+  getContract,
+  getStorage,
+  getTezosCurrentBlockHash,
+  getTezosCurrentBlockLevel,
+} from "../../api/Tezos";
+import { AUDITOR_SC_ADDRESS, BLOCK_FREQUENCY } from "../../config";
+import { getTezosBlockHash } from "../../context/AuditorAction";
+import {
+  toolkit as tezosToolkit,
+  useAuditor,
+  useAuditorDispatch,
+} from "../../context/AuditorContext";
+import useInterval from "../../hooks/useInterval";
 import AddressBadge from "./AddressBadge";
 import WalletSection from "./WalletSection";
 
 const ChainHeightButton = () => {
   const state = useAuditor();
+  const dispatch = useAuditorDispatch();
   const [isActive, setActive] = useState(false);
+  const [clock, setClock] = useState(0);
+  const [lastBlockHash, setLastBlockHash] = useState<string | null>(null);
+
+  useInterval(() => setClock(clock + 1), BLOCK_FREQUENCY);
+
+  useEffect(() => {
+    let subscription = true;
+
+    if (state.type === "NOT_ASKED" || state.type === "BOOTED") {
+      const fetchBlock = async () => {
+        if (subscription) {
+          console.log("fetch the current block");
+          try {
+            const toolkit = tezosToolkit;
+            const currentBlockHash = await getTezosCurrentBlockHash(toolkit);
+            const currentBlockLevel = await getTezosCurrentBlockLevel(toolkit);
+            const contract = await getContract(toolkit, AUDITOR_SC_ADDRESS);
+            const storage = await getStorage<RawStorage>(contract);
+            console.log([
+              "block fetched",
+              currentBlockHash,
+              currentBlockLevel,
+              contract,
+            ]);
+            if (lastBlockHash !== currentBlockHash) {
+              setLastBlockHash(currentBlockHash);
+              dispatch(
+                getTezosBlockHash(
+                  currentBlockHash,
+                  currentBlockLevel,
+                  contract,
+                  storage
+                )
+              );
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      };
+      fetchBlock();
+    }
+    return () => {
+      subscription = false;
+    };
+  }, [lastBlockHash, clock, state, dispatch]);
 
   switch (state.type) {
     case "NOT_ASKED": {

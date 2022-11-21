@@ -1,25 +1,25 @@
-import AuditorState, {
-  booted,
-  linkWallet,
-  notAsked,
-  walletNotAsked,
-} from "./AuditorState";
+import { TezosToolkit } from "@taquito/taquito";
+import {
+  Context,
+  ReactNode,
+  createContext,
+  useContext,
+  useReducer,
+} from "react";
+import { RPC_URL } from "../config";
+import { Address, AuditorDispatcher } from "../types/common";
 import AUditorAction, {
   ACTION_ADD_VERIFIED_USER,
   ACTION_GET_TEZOS_BLOCK_HASH,
   ACTION_LINK_BEACON_WALLET,
   ACTION_UNLINK_BEACON_WALLET,
 } from "./AuditorAction";
-import { RPC_URL } from "../config";
-import { TezosToolkit } from "@taquito/taquito";
-import {
-  Context,
-  createContext,
-  ReactNode,
-  useContext,
-  useReducer,
-} from "react";
-import { Address, AuditorDispatcher } from "../types/common";
+import AuditorState, {
+  booted,
+  linkWallet,
+  notAsked,
+  walletNotAsked,
+} from "./AuditorState";
 
 export const toolkit = new TezosToolkit(RPC_URL);
 
@@ -63,7 +63,7 @@ const AuditorContextReducer = (
   }
 };
 
-export const AuditorContext: Context<any> = createContext(null);
+export const AuditorContext: Context<any> = createContext(notAsked());
 export const AuditorDispatchContext: Context<any> = createContext(null);
 
 type Props = {

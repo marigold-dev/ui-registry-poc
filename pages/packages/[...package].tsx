@@ -1,59 +1,65 @@
+import { GetStaticPropsContext } from "next";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { getOnePackage } from "../mock/data";
-import { Package } from "../mock/types";
-import { Repository } from "../mock/types";
-import { resolveRepositoryUrl } from "../util/Resolver";
-import { useAuditor } from "../context/AuditorContext";
-import { forOnePackage } from "../api/AuditorSc/Views";
-import EnquirementButton from "../components/elements/EnquirementButton";
-import { Requested } from "../api/AuditorSc/ProceededStorage";
-import RequestedAuditsList from "../components/elements/RequestedAuditsList";
-import { PageContainer } from "../components";
+import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
+import { forOnePackage } from "../../src/api/AuditorSc/Views";
+import EnquirementButton from "../../src/components/elements/EnquirementButton";
+import RequestedAuditsList from "../../src/components/elements/RequestedAuditsList";
+import { useAuditor } from "../../src/context/AuditorContext";
+import { allPackages, getOnePackage } from "../../src/mock/data";
+import { Package } from "../../src/mock/types";
+import { Repository } from "../../src/mock/types";
+import { resolveRepositoryUrl } from "../../src/util/Resolver";
 
-type FullPackage = {
-  package: Package;
-};
+export async function getStaticPaths() {
+  return allPackages()
+    .then((packages) => ({
+      paths: packages.map((p) => ({ params: { package: p.name.split("/") } })),
+      fallback: true,
+    }))
+    .catch(() => ({
+      paths: [],
+      fallback: true,
+    }));
+}
 
-const ViewPackage = () => {
-  const params = useParams();
-  const navigate = useNavigate();
+export async function getStaticProps(context: GetStaticPropsContext) {
+  return getOnePackage((context.params!.package as string[]).join("/"))
+    .then((fullPkg) => ({
+      props: { fullPkg },
+    }))
+    .catch(() => ({
+      notFound: true,
+    }));
+}
 
-  const [fullPkg, setFullPkg] = useState<FullPackage | null>(null);
-
+const ViewPackage = ({ fullPkg }: { fullPkg: Package }) => {
   const state = useAuditor();
+
   const [requestedAudits, setRequestedAudits] = useState<Requested[] | null>(
     null
   );
 
   useEffect(() => {
-    if (!params["*"]) return navigate("/");
-
-    getOnePackage(params["*"]!).then((pkg) => {
-      if (!pkg) return;
-      setFullPkg({ package: pkg });
-    });
-  }, []);
-
-  useEffect(() => {
     let subscription = true;
-    console.log("test");
 
     if (state.type === "BOOTED" && fullPkg !== null) {
       const contract = state.contract;
       if (contract.type === "CONTRACT_LINKED") {
         if (subscription) {
           const makeLookup = async () => {
-            const packageName = fullPkg.package.name;
-            const version =
-              fullPkg.package.versions[fullPkg.package["dist-tags"].latest];
-            const requested = await forOnePackage(
-              contract.contract,
-              packageName,
-              version.version
-            );
-            setRequestedAudits(requested);
+            try {
+              const packageName = fullPkg.name;
+              const version = fullPkg.versions[fullPkg["dist-tags"].latest];
+              const requested = await forOnePackage(
+                contract.contract,
+                packageName,
+                version.version
+              );
+              setRequestedAudits(requested);
+            } catch (e) {
+              console.log(e);
+            }
           };
           makeLookup();
         }
@@ -64,7 +70,7 @@ const ViewPackage = () => {
     };
   }, [fullPkg, state]);
 
-  const pkg = fullPkg?.package.versions[fullPkg.package["dist-tags"].latest];
+  const pkg = fullPkg.versions[fullPkg["dist-tags"].latest];
 
   const links = [pkg?.website, pkg?.repository].filter(
     (e: string | Repository | null | undefined) => !!e
@@ -91,7 +97,7 @@ const ViewPackage = () => {
   });
 
   return (
-    <PageContainer>
+    <>
       {(() => {
         if (!pkg)
           return (
@@ -144,18 +150,16 @@ const ViewPackage = () => {
                 <div className="mt-4 flex flex-col md:flex-row">
                   <div className="w-full md:w-4/6">
                     <section className="mb-2 md:mb-6 package-meta space-x-4">
-                      {!!fullPkg.package.license && (
-                        <span className="tag is-medium">
-                          {fullPkg.package.license}
-                        </span>
+                      {!!fullPkg.license && (
+                        <span className="tag is-medium">{fullPkg.license}</span>
                       )}
                       <span className="text-lg p-2 bg-neutral-100 rounded">
                         <span className="font-bold">Built by </span>
                         {pkg.author.name}
                       </span>
                       <span>
-                        {fullPkg.package.downloads}
-                        {` download${fullPkg.package.downloads > 1 ? "s" : ""}`}
+                        {fullPkg.downloads}
+                        {` download${fullPkg.downloads > 1 ? "s" : ""}`}
                       </span>
                     </section>
 
@@ -168,12 +172,12 @@ const ViewPackage = () => {
                         </code>
                       </pre>
                     </section>
-                    {fullPkg.package.readme !== null && (
+                    {fullPkg.readme !== null && (
                       <section className="mt-4">
                         <h2 className="text-2xl font-bold">Readme</h2>
                         <div className="box content p-3 md:p-6 mt-4">
                           <ReactMarkdown>
-                            {fullPkg.package.readme.replaceAll("\\n", "\n")}
+                            {fullPkg.readme.replace(/\\n/g, "\n")}
                           </ReactMarkdown>
                         </div>
                       </section>
@@ -213,7 +217,7 @@ const ViewPackage = () => {
             </section>
           );
       })()}
-    </PageContainer>
+    </>
   );
 };
 
