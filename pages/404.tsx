@@ -1,4 +1,4 @@
-import { Head } from "next/document";
+import Head from "next/head";
 import Link from "next/link";
 import Footer from "../src/components/layout/Footer";
 import Header from "../src/components/layout/Header";
