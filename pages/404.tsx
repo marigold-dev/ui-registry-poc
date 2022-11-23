@@ -18,7 +18,7 @@ const Error = () => {
               <article className="message is-danger">
                 <div className="message-body">
                   The page you're looking for doesn't exists. If you think it's
-                  an issue please send us an email at contact@marigold.dev
+                  an issue, please send us an email at contact@marigold.dev
                 </div>
               </article>
               <Link className="button is-warning is-small" href="/">

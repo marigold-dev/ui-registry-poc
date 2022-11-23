@@ -1,8 +1,7 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { PageContainer } from "../src/components";
-import Header from "../src/components/layout/Header";
-import Footer from "../src/components/layout/Header";
+import { Footer, Header } from "../src/components/layout";
 import AuditorProvider from "../src/context/AuditorContext";
 import "../styles/globals.css";
 
