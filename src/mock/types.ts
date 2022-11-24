@@ -6,7 +6,7 @@ export type Repository = {
 
 export type version = {
   _id: string;
-  author: { name: string };
+  author?: { name: string };
   contributors: [];
   description: string;
   dist: { integrity: string; shasum: string; tarball: string };
@@ -19,7 +19,7 @@ export type version = {
 
 export type AllPackage = {
   name: string;
-  author: {
+  author?: {
     name: string;
     email: string;
     url: string;
@@ -47,7 +47,7 @@ export type AllPackage = {
 };
 
 export type DownloadPackage = {
-  author: { name: string; email: string };
+  author?: { name: string; email: string };
   downloads: number;
   name: string;
   version: string;

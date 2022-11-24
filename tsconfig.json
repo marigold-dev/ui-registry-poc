@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,19 +13,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "allowUnreachableCode": false,
-    "strictNullChecks": true, /* When type checking, take into account `null` and `undefined`. */
-    "strictFunctionTypes": true, /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
-    "strictBindCallApply": true, /* Check that the arguments for `bind`, `call`, and `apply` methods match the original function. */
-    "strictPropertyInitialization": true, /* Check for class properties that are declared but not set in the constructor. */
+    "strictNullChecks": true /* When type checking, take into account `null` and `undefined`. */,
+    "strictFunctionTypes": true /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */,
+    "strictBindCallApply": true /* Check that the arguments for `bind`, `call`, and `apply` methods match the original function. */,
+    "strictPropertyInitialization": true /* Check for class properties that are declared but not set in the constructor. */,
     "noImplicitThis": true,
-    "exactOptionalPropertyTypes": true, /* Interpret optional property types as written, rather than adding 'undefined'. */
-    "noImplicitReturns": true, /* Enable error reporting for codepaths that do not explicitly return in a function. */
-    "noFallthroughCasesInSwitch": true, /* Enable error reporting for fallthrough cases in switch statements. */
-    "skipLibCheck": true, /* Skip type checking all .d.ts files. */
+    "exactOptionalPropertyTypes": true /* Interpret optional property types as written, rather than adding 'undefined'. */,
+    "noImplicitReturns": true /* Enable error reporting for codepaths that do not explicitly return in a function. */,
+    "noFallthroughCasesInSwitch": true /* Enable error reporting for fallthrough cases in switch statements. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "incremental": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src", "pages"],
+  "exclude": ["node_modules"]
 }

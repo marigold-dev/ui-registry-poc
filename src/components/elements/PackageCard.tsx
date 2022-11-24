@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { AllPackage } from "../../mock/types";
-import { Link } from "react-router-dom";
 
 type Props = {
   pkg: AllPackage;
@@ -8,7 +8,7 @@ type Props = {
 const PackageCard = ({ pkg }: Props) => {
   return (
     <div className="card rounded">
-      <Link className="has-text-black" to={`packages/${pkg.name}`}>
+      <Link className="has-text-black" href={`packages/${pkg.name}`}>
         <header className="card-header">
           <p className="card-header-title">
             {pkg.isFeatured && (

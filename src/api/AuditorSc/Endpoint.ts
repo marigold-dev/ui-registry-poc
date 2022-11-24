@@ -1,6 +1,6 @@
 import { TransactionWalletOperation, WalletContract } from "@taquito/taquito";
 import { Index } from "../../types/common";
-import { boolToResult, Forge, RawAuditedContent } from "./RawStorage";
+import { Forge, RawAuditedContent, boolToResult } from "./RawStorage";
 
 export const enquireAudit = async (
   contract: WalletContract,

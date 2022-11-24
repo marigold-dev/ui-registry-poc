@@ -1,4 +1,4 @@
-import { create, IPFSHTTPClient } from "ipfs-http-client";
+import { IPFSHTTPClient, create } from "ipfs-http-client";
 import { IPFS_GATEWAY_MULTIADDR } from "../config";
 
 export type client = IPFSHTTPClient;

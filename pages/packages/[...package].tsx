@@ -1,59 +1,94 @@
+import { GetStaticPropsContext } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { getOnePackage } from "../mock/data";
-import { Package } from "../mock/types";
-import { Repository } from "../mock/types";
-import { resolveRepositoryUrl } from "../util/Resolver";
-import { useAuditor } from "../context/AuditorContext";
-import { forOnePackage } from "../api/AuditorSc/Views";
-import EnquirementButton from "../components/elements/EnquirementButton";
-import { Requested } from "../api/AuditorSc/ProceededStorage";
-import RequestedAuditsList from "../components/elements/RequestedAuditsList";
-import { PageContainer } from "../components";
+import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
+import { forOnePackage } from "../../src/api/AuditorSc/Views";
+import EnquirementButton from "../../src/components/elements/EnquirementButton";
+import RequestedAuditsList from "../../src/components/elements/RequestedAuditsList";
+import { useAuditor } from "../../src/context/AuditorContext";
+import { allPackages, getOnePackage } from "../../src/mock/data";
+import { Package } from "../../src/mock/types";
+import { Repository } from "../../src/mock/types";
+import { resolveRepositoryUrl } from "../../src/util/Resolver";
 
-type FullPackage = {
-  package: Package;
-};
+export async function getStaticPaths() {
+  return allPackages()
+    .then((packages) => {
+      return {
+        paths: packages.map((p) => ({
+          params: { package: p.name.split("/") },
+        })),
+        fallback: true,
+      };
+    })
+    .catch(() => ({
+      paths: [],
+      fallback: true,
+    }));
+}
 
-const ViewPackage = () => {
-  const params = useParams();
-  const navigate = useNavigate();
+export async function getStaticProps(context: GetStaticPropsContext) {
+  return getOnePackage((context.params!.package as string[]).join("/"))
+    .then((pkg) => {
+      return {
+        props: {
+          pkg,
+        },
+        revalidate: 60,
+      };
+    })
+    .catch(() => {
+      return {
+        notFound: true,
+      };
+    });
+}
 
-  const [fullPkg, setFullPkg] = useState<FullPackage | null>(null);
+const ViewPackage = ({ pkg }: { pkg: Package }) => {
+  const router = useRouter();
 
   const state = useAuditor();
+
+  const [fallbackPackage, setFallbackPackage] = useState<Package | null>(null);
+
   const [requestedAudits, setRequestedAudits] = useState<Requested[] | null>(
     null
   );
 
-  useEffect(() => {
-    if (!params["*"]) return navigate("/");
+  const fullPkg = router.isFallback ? fallbackPackage : pkg;
 
-    getOnePackage(params["*"]!).then((pkg) => {
-      if (!pkg) return;
-      setFullPkg({ package: pkg });
-    });
+  useEffect(() => {
+    if (!router.isFallback) return;
+
+    getOnePackage(router.asPath.replace(/^\/packages\//, ""))
+      .then(setFallbackPackage)
+      .catch(() => {
+        router.push("/");
+      });
   }, []);
 
   useEffect(() => {
     let subscription = true;
-    console.log("test");
 
     if (state.type === "BOOTED" && fullPkg !== null) {
       const contract = state.contract;
       if (contract.type === "CONTRACT_LINKED") {
         if (subscription) {
           const makeLookup = async () => {
-            const packageName = fullPkg.package.name;
-            const version =
-              fullPkg.package.versions[fullPkg.package["dist-tags"].latest];
-            const requested = await forOnePackage(
-              contract.contract,
-              packageName,
-              version.version
-            );
-            setRequestedAudits(requested);
+            try {
+              const packageName = fullPkg.name;
+              const version = fullPkg.versions[fullPkg["dist-tags"].latest];
+              const requested = await forOnePackage(
+                contract.contract,
+                packageName,
+                version.version
+              );
+              setRequestedAudits(requested);
+            } catch (e) {
+              console.log(e);
+            }
           };
           makeLookup();
         }
@@ -64,9 +99,9 @@ const ViewPackage = () => {
     };
   }, [fullPkg, state]);
 
-  const pkg = fullPkg?.package.versions[fullPkg.package["dist-tags"].latest];
+  const versionPkg = fullPkg?.versions[fullPkg["dist-tags"]?.latest];
 
-  const links = [pkg?.website, pkg?.repository].filter(
+  const links = [versionPkg?.website, versionPkg?.repository].filter(
     (e: string | Repository | null | undefined) => !!e
   ) as (string | Repository)[];
 
@@ -91,9 +126,13 @@ const ViewPackage = () => {
   });
 
   return (
-    <PageContainer>
+    <>
+      <Head>
+        <title>Ligo Package Registry - {fullPkg?.name ?? ""}</title>
+        <meta name="description" content={fullPkg?.readme.substring(0, 155)} />
+      </Head>
       {(() => {
-        if (!pkg)
+        if (!versionPkg)
           return (
             <section>
               <div>
@@ -137,25 +176,27 @@ const ViewPackage = () => {
             <section>
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold">
-                  {pkg.name}
-                  <span className="ml-2 font-light">{"v" + pkg.version}</span>
+                  {versionPkg.name}
+                  <span className="ml-2 font-light">
+                    {"v" + versionPkg.version}
+                  </span>
                 </h1>
-                <h2 className="mt-1 text-md md:text-xl">{pkg.description}</h2>
+                <h2 className="mt-1 text-md md:text-xl">
+                  {versionPkg.description}
+                </h2>
                 <div className="mt-4 flex flex-col md:flex-row">
                   <div className="w-full md:w-4/6">
                     <section className="mb-2 md:mb-6 package-meta space-x-4">
-                      {!!fullPkg.package.license && (
-                        <span className="tag is-medium">
-                          {fullPkg.package.license}
-                        </span>
+                      {!!fullPkg.license && (
+                        <span className="tag is-medium">{fullPkg.license}</span>
                       )}
                       <span className="text-lg p-2 bg-neutral-100 rounded">
                         <span className="font-bold">Built by </span>
-                        {pkg.author.name}
+                        {versionPkg.author?.name ?? "Unknown"}
                       </span>
                       <span>
-                        {fullPkg.package.downloads}
-                        {` download${fullPkg.package.downloads > 1 ? "s" : ""}`}
+                        {fullPkg.downloads}
+                        {` download${fullPkg.downloads > 1 ? "s" : ""}`}
                       </span>
                     </section>
 
@@ -164,16 +205,16 @@ const ViewPackage = () => {
                       <pre className="text-white bg-black shell mt-4">
                         <code>
                           ligo install{" "}
-                          <strong className="has-text-white">{`${pkg.name}  `}</strong>
+                          <strong className="has-text-white">{`${versionPkg.name}  `}</strong>
                         </code>
                       </pre>
                     </section>
-                    {fullPkg.package.readme !== null && (
+                    {fullPkg.readme !== null && (
                       <section className="mt-4">
                         <h2 className="text-2xl font-bold">Readme</h2>
                         <div className="box content p-3 md:p-6 mt-4">
                           <ReactMarkdown>
-                            {fullPkg.package.readme.replaceAll("\\n", "\n")}
+                            {fullPkg.readme.replace(/\\n/g, "\n")}
                           </ReactMarkdown>
                         </div>
                       </section>
@@ -183,8 +224,8 @@ const ViewPackage = () => {
                   <div className="w-full md:w-2/6 md:pl-5">
                     <section className="mb-6">
                       <EnquirementButton
-                        version={pkg.version}
-                        packageName={pkg.name}
+                        version={versionPkg.version}
+                        packageName={versionPkg.name}
                         requested={requestedAudits}
                       />
                     </section>
@@ -213,7 +254,7 @@ const ViewPackage = () => {
             </section>
           );
       })()}
-    </PageContainer>
+    </>
   );
 };
 

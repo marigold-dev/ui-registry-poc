@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { useAuditor } from "../../context/AuditorContext";
-import { MdError, MdCheckBox } from "react-icons/md";
-import AddressBadge from "./AddressBadge";
-import publishAndPerformAudit from "../../handlers/publishAndPerformAudit";
-import { Requested } from "../../api/AuditorSc/ProceededStorage";
-import {
-  boolToResult,
-  RawReviewedDoc,
-  resultToBool,
-} from "../../api/AuditorSc/RawStorage";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { MdCheckBox, MdError } from "react-icons/md";
+import { Requested } from "../../api/AuditorSc/ProceededStorage";
+import { RawReviewedDoc, resultToBool } from "../../api/AuditorSc/RawStorage";
+import { useAuditor } from "../../context/AuditorContext";
+import publishAndPerformAudit from "../../handlers/publishAndPerformAudit";
+import AddressBadge from "./AddressBadge";
 
 type Props = {
   requested: Requested;
