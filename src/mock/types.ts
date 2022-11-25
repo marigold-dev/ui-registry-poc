@@ -70,3 +70,11 @@ export type Package = {
   downloads: number;
   isFeatured?: boolean;
 };
+
+export type Template = {
+  name: string;
+  category: string;
+  description: string;
+  readme: string;
+  mainFile: string;
+};

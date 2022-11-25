@@ -7,3 +7,5 @@ export { default as PackagesEnum } from "./PackagesEnum";
 export { default as RequestedAuditsList } from "./RequestedAuditsList";
 export { default as WalletSection } from "./WalletSection";
 export { default as SkeletonCard } from "./SkeletonCard";
+export { default as Icon, IconName } from "./Icon";
+export { default as Button } from "./Button";

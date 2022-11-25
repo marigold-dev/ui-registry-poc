@@ -21,10 +21,17 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
 
 const Packages = ({ packages }: { packages: AllPackage[] }) => {
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<string>(
     () => (router.query?.search as string) ?? ""
   );
+
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    setFilter((router.query?.search as string) ?? "");
+  }, [router.query]);
 
   useEffect(() => {
     setIsLoading(false);
@@ -50,7 +57,7 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
           className="w-full h-12 border p-4 rounded-full"
           defaultValue={filter}
         />
-        <div className="mt-8 flex flex-col space-y-4">
+        <div className="mt-8 grid grid-cols-2 gap-4">
           {isLoading ? (
             <>
               <SkeletonCard />
@@ -62,41 +69,24 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
             packages
               .filter((p) => p.name.toLowerCase().includes(filter))
               .map((pkg, i) => (
-                <div className="card" key={i}>
-                  <Link
-                    className="has-text-black"
-                    href={`/packages/${pkg.name}`}
-                  >
-                    <header className="card-header">
-                      <p className="card-header-title">
-                        {/* {pkg.isFeatured && (
-                  <span className="tag is-info  is-vcentered is-pulled-right mr-4">
-                    featured
-                  </span>
-                )} */}
-                        {pkg.name}
-                      </p>
-                    </header>
-                    <div className="card-content">
-                      <div className="content">{pkg.description}</div>
-                    </div>
-                    <div className="card-footer">
-                      <div className="card-footer-item">
-                        <span className="has-text-weight-light">
-                          <span className="has-text-weight-light ml-2">
-                            {pkg.version}
-                          </span>
-                        </span>
-                      </div>
-                      <div className="card-footer-item">
-                        <span className="has-text-weight-bold mr-2">
-                          {pkg.downloads}
-                        </span>
-                        <span className="has-text-weight-light">downloads</span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
+                <Link
+                  className="block rounded bg-slate-100 p-4"
+                  href={`/packages/${pkg.name}`}
+                  key={i}
+                >
+                  <header className="flex items-center justify-between">
+                    <p className="text-xl">{pkg.name}</p>
+                    <p>
+                      Downloads <span>{pkg.downloads}</span>
+                    </p>
+                  </header>
+
+                  <p className="mt-2 text-slate-500">
+                    {pkg.description === ""
+                      ? "No description"
+                      : pkg.description}
+                  </p>
+                </Link>
               ))
           )}
         </div>
