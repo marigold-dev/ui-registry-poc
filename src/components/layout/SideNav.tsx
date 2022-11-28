@@ -41,9 +41,9 @@ const SideNav = () => (
       <h3 className="text-2xl text-ligo">Packages</h3>
       <ul className="mt-2 space-y-2 w-full">
         <NavLink href="/packages">All</NavLink>
-        <NavLink href="">Curated by developers</NavLink>
-        <NavLink href="">New packages</NavLink>
-        <NavLink href="">Most downloaded</NavLink>
+        <NavLink href="/packages/curated">Curated by developers</NavLink>
+        <NavLink href="/packages/new-packages">New packages</NavLink>
+        <NavLink href="/packages/most-downloaded">Most downloaded</NavLink>
       </ul>
     </section>
   </aside>

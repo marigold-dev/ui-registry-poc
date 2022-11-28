@@ -22,7 +22,9 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
       props: {
         allSortedDl,
         allFeatured,
-        allPackages,
+        allPackages: allPackages.sort(
+          (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
+        ),
       },
       revalidate: 60,
     }))
@@ -139,7 +141,7 @@ const Home = ({
         </div>
       </section>
 
-      <main className="w-full md:max-w-7xl ml-auto mr-auto mt-8">
+      <main className="w-full md:max-w-7xl ml-auto mr-auto mt-8 mb-40">
         <div className="w-full flex justify-center space-x-8">
           <a
             className="font-bold text-center w-80 px-4 py-2 text-white bg-ligo hover:bg-ligo-dark hover:text-white rounded-full"
