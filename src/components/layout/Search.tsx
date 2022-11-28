@@ -57,7 +57,9 @@ const Search = ({ data }: { data: (AllPackage | Template)[] }) => {
               .map((pkg, i) => (
                 <Link
                   className="block rounded bg-slate-100 hover:bg-slate-200 p-4"
-                  href={`/package/${pkg.name}`}
+                  href={`/${"downloads" in pkg ? "package" : "template"}/${
+                    pkg.name
+                  }`}
                   key={i}
                 >
                   <header className="flex items-center justify-between">

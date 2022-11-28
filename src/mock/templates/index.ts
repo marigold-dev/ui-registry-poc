@@ -12,6 +12,6 @@ export default {
     tokens: tokens.all,
     governance: governance.all,
     utilities: utilities.all,
-    all: [...tokens.all, ...governance.all, utilities.all],
+    all: [...tokens.all, ...governance.all, ...utilities.all],
   },
 };

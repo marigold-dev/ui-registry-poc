@@ -231,6 +231,17 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                                     )
                               }/tree/main/${href}`;
                             }}
+                            transformImageUri={(href) => {
+                              const repoName = (
+                                !!(versionPkg.repository as Repository).url
+                                  ? (versionPkg.repository as Repository).url
+                                  : (versionPkg.repository as string)
+                              )
+                                .replace(".git", "")
+                                .replace("https://github.com/", "");
+
+                              return `https://raw.githubusercontent.com/${repoName}/main/${href}`;
+                            }}
                           >
                             {fullPkg.readme.replace(/\\n/g, "\n")}
                           </ReactMarkdown>

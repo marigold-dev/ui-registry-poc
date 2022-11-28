@@ -76,10 +76,13 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
 
               <section className="mt-4">
                 <h2 className="text-2xl font-bold">Installation</h2>
-                <pre className="text-white bg-slate-800 shell mt-4 px-2 py-4 rounded">
+                <pre className="text-white bg-slate-800 shell mt-4 px-3 py-4 rounded">
                   <code>
-                    ligo install{" "}
-                    <strong className="has-text-white">{`${template?.name}  `}</strong>
+                    ligo init contract --template{" "}
+                    <strong className="text-white">
+                      {template?.name.toLowerCase()}
+                    </strong>{" "}
+                    [PROJECT_NAME]
                   </code>
                 </pre>
               </section>
@@ -91,6 +94,14 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
                       className="prose max-w-none"
                       transformLinkUri={(href) => {
                         return `${template.repository}${href}`;
+                      }}
+                      transformImageUri={(href) => {
+                        const repoName = template.repository.replace(
+                          "https://github.com/",
+                          ""
+                        );
+
+                        return `https://raw.githubusercontent.com/${repoName}/main/${href}`;
                       }}
                     >
                       {template.readme.replace(/\\n/g, "\n")}
