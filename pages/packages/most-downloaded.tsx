@@ -4,14 +4,14 @@ import { allSortedByDownloadPackages } from "../../src/mock/data";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
   return allSortedByDownloadPackages()
-    .then((packages) => ({
+    .then((data) => ({
       props: {
-        packages,
+        data,
       },
       revalidate: 60,
     }))
     .catch(() => ({
-      props: { packages: [] },
+      props: { data: [] },
       revalidate: 60,
     }));
 }

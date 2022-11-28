@@ -4,12 +4,12 @@ import { allFeaturedPackages } from "../../src/mock/data";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
   return allFeaturedPackages()
-    .then((packages) => ({
-      props: { packages },
+    .then((data) => ({
+      props: { data },
       revalidate: 60,
     }))
     .catch(() => ({
-      props: { packages: [] },
+      props: { data: [] },
       revalidate: 60,
     }));
 }

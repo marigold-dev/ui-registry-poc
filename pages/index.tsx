@@ -106,9 +106,7 @@ const Home = ({
           <div className="flex flex-col w-full space-y-2 md:space-y-0 py-4 md:py-0 md:w-auto md:flex-row items-center justify-center md:justify-start space-x-4">
             <Link
               className={navLinkClass({ isActive: false })}
-              href="https://ligolang.org/docs/intro/installation"
-              target="_blank"
-              rel="noreferrer"
+              href="/templates"
             >
               Browse templates
             </Link>
