@@ -1,29 +1,11 @@
-import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { SkeletonCard } from "../../src/components";
-import { allPackages } from "../../src/mock/data";
-import { AllPackage } from "../../src/mock/types";
+import { SkeletonCard } from "..";
+import { AllPackage, Template } from "../../mock/types";
 
-export async function getStaticProps(_context: GetStaticPropsContext) {
-  return allPackages()
-    .then((packages) => ({
-      props: {
-        packages: packages.sort(
-          (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
-        ),
-      },
-      revalidate: 60,
-    }))
-    .catch(() => ({
-      props: { packages: [] },
-      revalidate: 60,
-    }));
-}
-
-const NewPackages = ({ packages }: { packages: AllPackage[] }) => {
+const Search = ({ data }: { data: (AllPackage | Template)[] }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -70,19 +52,21 @@ const NewPackages = ({ packages }: { packages: AllPackage[] }) => {
               <SkeletonCard />
             </>
           ) : (
-            packages
+            data
               .filter((p) => p.name.toLowerCase().includes(filter))
               .map((pkg, i) => (
                 <Link
-                  className="block rounded bg-slate-100 p-4"
+                  className="block rounded bg-slate-100 hover:bg-slate-200 p-4"
                   href={`/package/${pkg.name}`}
                   key={i}
                 >
                   <header className="flex items-center justify-between">
                     <p className="text-xl">{pkg.name}</p>
-                    <p>
-                      Downloads <span>{pkg.downloads}</span>
-                    </p>
+                    {"downloads" in pkg && (
+                      <p>
+                        Downloads <span>{pkg.downloads}</span>
+                      </p>
+                    )}
                   </header>
 
                   <p className="mt-2 text-slate-500">
@@ -99,4 +83,4 @@ const NewPackages = ({ packages }: { packages: AllPackage[] }) => {
   );
 };
 
-export default NewPackages;
+export default Search;

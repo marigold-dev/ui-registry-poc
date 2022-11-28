@@ -73,6 +73,11 @@ export type Package = {
 
 export type Template = {
   name: string;
+  version: string;
+  author: {
+    name: string;
+  };
+  repository: string;
   category: string;
   description: string;
   readme: string;

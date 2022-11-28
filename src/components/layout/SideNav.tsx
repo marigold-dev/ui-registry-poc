@@ -31,10 +31,10 @@ const SideNav = () => (
     <section>
       <h3 className="text-2xl text-ligo">Templates</h3>
       <ul className="space-y-2 mt-2 w-full">
-        <NavLink href="">See all</NavLink>
-        <NavLink href="">Token</NavLink>
-        <NavLink href="">Governance</NavLink>
-        <NavLink href="">Utilities</NavLink>
+        <NavLink href="/templates">See all</NavLink>
+        <NavLink href="/templates/token">Token</NavLink>
+        <NavLink href="/templates/governance">Governance</NavLink>
+        <NavLink href="/templates/utilities">Utilities</NavLink>
       </ul>
     </section>
     <section className="mt-4">

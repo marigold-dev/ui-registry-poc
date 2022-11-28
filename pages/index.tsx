@@ -47,7 +47,7 @@ type packageProps = {
 
 const Package = ({ data }: packageProps) => (
   <Link
-    href={`/package/${data.name}`}
+    href={`/${"category" in data ? "template" : "package"}/${data.name}`}
     className="flex items-center justify-between w-full p-4 bg-slate-100 rounded text-left hover:bg-slate-200"
   >
     <div>
@@ -183,7 +183,7 @@ const Home = ({
           <div className="grid grid-cols-3 gap-4 mt-4">
             <div className="space-y-2">
               <h3 className="text-center mb-2 text-lg font-medium">Token</h3>
-              {templates.categories.token.slice(0, 3).map((t, i) => (
+              {templates.categories.tokens.slice(0, 3).map((t, i) => (
                 <Package key={i} data={t} />
               ))}
             </div>
