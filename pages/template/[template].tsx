@@ -92,7 +92,21 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
                   <div className="box content mt-4">
                     <ReactMarkdown
                       className="prose max-w-none"
+                      components={{
+                        a: ({ children, href, title }) => (
+                          <a
+                            href={href}
+                            title={title}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
                       transformLinkUri={(href) => {
+                        if (href.includes("http")) return href;
+
                         return `${template.repository}${href}`;
                       }}
                       transformImageUri={(href) => {

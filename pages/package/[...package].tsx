@@ -205,7 +205,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
 
                     <section className="mt-4">
                       <h2 className="text-2xl font-bold">Installation</h2>
-                      <pre className="text-white bg-slate-800 shell mt-4">
+                      <pre className="text-white bg-slate-800 shell mt-4 px-3 py-4 rounded">
                         <code>
                           ligo install{" "}
                           <strong className="has-text-white">{`${versionPkg.name}  `}</strong>
@@ -217,25 +217,33 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         <h2 className="text-2xl font-bold">Readme</h2>
                         <div className="box content mt-4">
                           <ReactMarkdown
+                            components={{
+                              a: ({ children, href, title }) => (
+                                <a
+                                  href={href}
+                                  title={title}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {children}
+                                </a>
+                              ),
+                            }}
                             className="prose max-w-none"
                             transformLinkUri={(href) => {
-                              return `${
-                                //@ts-ignore
-                                !!versionPkg.repository.url
-                                  ? (
-                                      versionPkg.repository as Repository
-                                    ).url.replace(".git", "")
-                                  : (versionPkg.repository as string).replace(
-                                      ".git",
-                                      ""
-                                    )
-                              }/tree/main/${href}`;
+                              if (href.includes("http")) return href;
+
+                              return `${(
+                                (!!(versionPkg.repository as Repository)?.url
+                                  ? (versionPkg.repository as Repository).url
+                                  : (versionPkg.repository as string)) ?? ""
+                              ).replace(".git", "")}/tree/main/${href}`;
                             }}
                             transformImageUri={(href) => {
                               const repoName = (
-                                !!(versionPkg.repository as Repository).url
+                                (!!(versionPkg.repository as Repository).url
                                   ? (versionPkg.repository as Repository).url
-                                  : (versionPkg.repository as string)
+                                  : (versionPkg.repository as string)) ?? ""
                               )
                                 .replace(".git", "")
                                 .replace("https://github.com/", "");
@@ -276,7 +284,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         ))}
                       </>
                     )} */}
-                    <RequestedAuditsList requests={requestedAudits} />
+                    {/* <RequestedAuditsList requests={requestedAudits} /> */}
                   </div>
                 </div>
               </div>
