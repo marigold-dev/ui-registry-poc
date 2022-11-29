@@ -21,18 +21,12 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
 
 const Packages = ({ packages }: { packages: AllPackage[] }) => {
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState<string>(
-    () => (router.query?.search as string) ?? ""
-  );
 
   useEffect(() => {
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    window.history.replaceState(null, "", `?search=${encodeURI(filter ?? "")}`);
-  }, [filter]);
 
   return (
     <>
@@ -44,13 +38,7 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
         />
       </Head>
       <div>
-        <input
-          placeholder="Search"
-          onChange={(e) => setFilter(e.target.value.toLowerCase())}
-          className="w-full h-12 border p-4 rounded-full"
-          defaultValue={filter}
-        />
-        <div className="mt-8 flex flex-col space-y-4">
+        <div className="mt-4 flex flex-col space-y-4">
           {isLoading ? (
             <>
               <SkeletonCard />
@@ -60,7 +48,11 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
             </>
           ) : (
             packages
-              .filter((p) => p.name.toLowerCase().includes(filter))
+              .filter((p) =>
+                p.name
+                  .toLowerCase()
+                  .includes((router.query?.search as string) ?? "")
+              )
               .map((pkg, i) => (
                 <div className="card" key={i}>
                   <Link

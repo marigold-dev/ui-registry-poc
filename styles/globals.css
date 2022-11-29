@@ -96,3 +96,9 @@ main {
     stroke-dashoffset: -124;
   }
 }
+
+/* Router loading bar */
+#nprogress .bar {
+  background: #0e74ff !important;
+  height: 3px !important;
+}

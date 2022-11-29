@@ -5,8 +5,9 @@ module.exports = {
     extend: {
       colors: {
         ligo: "#0e74ff",
+        "ligo-dark": "#0e63d8",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

@@ -175,9 +175,9 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
           return (
             <section>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold">
+                <h1 className="text-2xl md:text-3xl font-bold text-ligo">
                   {versionPkg.name}
-                  <span className="ml-2 font-light">
+                  <span className="ml-2 font-light text-base">
                     {"v" + versionPkg.version}
                   </span>
                 </h1>
@@ -202,7 +202,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
 
                     <section className="mt-4">
                       <h2 className="text-2xl font-bold">Installation</h2>
-                      <pre className="text-white bg-black shell mt-4">
+                      <pre className="text-white bg-black shell mt-4 rounded">
                         <code>
                           ligo install{" "}
                           <strong className="has-text-white">{`${versionPkg.name}  `}</strong>
@@ -212,8 +212,42 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                     {fullPkg.readme !== null && (
                       <section className="mt-4">
                         <h2 className="text-2xl font-bold">Readme</h2>
-                        <div className="box content p-3 md:p-6 mt-4">
-                          <ReactMarkdown>
+                        <div className="p-3 md:p-6 mt-4 bg-white drop-shadow-xl rounded">
+                          <ReactMarkdown
+                            className="prose max-w-none"
+                            components={{
+                              a: ({ children, href, title }) => (
+                                <a
+                                  href={href}
+                                  title={title}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {children}
+                                </a>
+                              ),
+                            }}
+                            transformLinkUri={(href) => {
+                              if (href.includes("http")) return href;
+
+                              return `${(
+                                (!!(versionPkg.repository as Repository)?.url
+                                  ? (versionPkg.repository as Repository).url
+                                  : (versionPkg.repository as string)) ?? ""
+                              ).replace(".git", "")}/tree/main/${href}`;
+                            }}
+                            transformImageUri={(href) => {
+                              const repoName = (
+                                (!!(versionPkg.repository as Repository).url
+                                  ? (versionPkg.repository as Repository).url
+                                  : (versionPkg.repository as string)) ?? ""
+                              )
+                                .replace(".git", "")
+                                .replace("https://github.com/", "");
+
+                              return `https://raw.githubusercontent.com/${repoName}/main/${href}`;
+                            }}
+                          >
                             {fullPkg.readme.replace(/\\n/g, "\n")}
                           </ReactMarkdown>
                         </div>
