@@ -38,7 +38,7 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
         />
       </Head>
       <div>
-        <div className="mt-4 flex flex-col space-y-4">
+        <div className="mt-4 grid grid-cols-2 gap-4 space-y-4">
           {isLoading ? (
             <>
               <SkeletonCard />

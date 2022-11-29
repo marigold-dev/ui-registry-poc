@@ -85,12 +85,6 @@ const Header = () => {
               }}
               onChange={(e) => {
                 searchRef.current = e.target.value;
-
-                window.history.replaceState(
-                  null,
-                  "",
-                  `?search=${encodeURI(e.target.value)}`
-                );
               }}
             />
             <button
