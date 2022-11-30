@@ -9,6 +9,12 @@ body,
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: #1b1b1b;
+}
+
+#__next {
+  min-height: 100vh;
+  position: relative;
 }
 
 main {

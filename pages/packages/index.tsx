@@ -28,6 +28,9 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
     setIsLoading(false);
   }, []);
 
+  const list = packages.filter((p) =>
+    p.name.toLowerCase().includes((router.query?.search as string) ?? "")
+  );
   return (
     <>
       <Head>
@@ -37,7 +40,11 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
           content="Search any Ligo package through our registry"
         />
       </Head>
-      <div>
+      {list.length === 0 ? (
+        <h3 className="w-full text-center text-3xl mt-8 text-slate-600">
+          No package matching '{router.query?.search}'
+        </h3>
+      ) : (
         <div className="mt-4 grid grid-cols-2 gap-4 space-y-4">
           {isLoading ? (
             <>
@@ -47,52 +54,40 @@ const Packages = ({ packages }: { packages: AllPackage[] }) => {
               <SkeletonCard />
             </>
           ) : (
-            packages
-              .filter((p) =>
-                p.name
-                  .toLowerCase()
-                  .includes((router.query?.search as string) ?? "")
-              )
-              .map((pkg, i) => (
-                <div className="card" key={i}>
-                  <Link
-                    className="has-text-black"
-                    href={`/packages/${pkg.name}`}
-                  >
-                    <header className="card-header">
-                      <p className="card-header-title">
-                        {/* {pkg.isFeatured && (
-                  <span className="tag is-info  is-vcentered is-pulled-right mr-4">
-                    featured
-                  </span>
-                )} */}
-                        {pkg.name}
-                      </p>
-                    </header>
-                    <div className="card-content">
-                      <div className="content">{pkg.description}</div>
+            list.map((pkg, i) => (
+              <div className="card" key={i}>
+                <Link className="has-text-black" href={`/packages/${pkg.name}`}>
+                  <header className="card-header">
+                    <p className="card-header-title">{pkg.name}</p>
+                  </header>
+                  <div className="card-content">
+                    <div className="content">
+                      {pkg.description === ""
+                        ? "No description"
+                        : pkg.description}
                     </div>
-                    <div className="card-footer">
-                      <div className="card-footer-item">
-                        <span className="has-text-weight-light">
-                          <span className="has-text-weight-light ml-2">
-                            {pkg.version}
-                          </span>
+                  </div>
+                  <div className="card-footer">
+                    <div className="card-footer-item">
+                      <span className="has-text-weight-light">
+                        <span className="has-text-weight-light ml-2">
+                          {pkg.version}
                         </span>
-                      </div>
-                      <div className="card-footer-item">
-                        <span className="has-text-weight-bold mr-2">
-                          {pkg.downloads}
-                        </span>
-                        <span className="has-text-weight-light">downloads</span>
-                      </div>
+                      </span>
                     </div>
-                  </Link>
-                </div>
-              ))
+                    <div className="card-footer-item">
+                      <span className="has-text-weight-bold mr-2">
+                        {pkg.downloads}
+                      </span>
+                      <span className="has-text-weight-light">downloads</span>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            ))
           )}
         </div>
-      </div>
+      )}
     </>
   );
 };
