@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import RawStorage from "../../api/AuditorSc/RawStorage";
 import {
   getContract,
@@ -14,15 +14,18 @@ import {
   useAuditorDispatch,
 } from "../../context/AuditorContext";
 import useInterval from "../../hooks/useInterval";
+import useOnClickOutside from "../../hooks/useOnClickOutside";
 import AddressBadge from "./AddressBadge";
 import WalletSection from "./WalletSection";
 
 const ChainHeightButton = () => {
   const state = useAuditor();
+  const containerRef = useRef<HTMLDivElement>(null);
   const dispatch = useAuditorDispatch();
   const [isActive, setActive] = useState(false);
   const [clock, setClock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState<string | null>(null);
+  const _ = useOnClickOutside(containerRef, () => setActive(false));
 
   useInterval(() => setClock(clock + 1), BLOCK_FREQUENCY);
 
@@ -81,6 +84,7 @@ const ChainHeightButton = () => {
     default: {
       return (
         <div
+          ref={containerRef}
           className={
             "dropdown is-right is-left-mobile is-desktop" +
             (isActive ? " is-active" : "")
