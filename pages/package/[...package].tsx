@@ -129,7 +129,10 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
     <>
       <Head>
         <title>Ligo Package Registry - {fullPkg?.name ?? ""}</title>
-        <meta name="description" content={fullPkg?.readme.substring(0, 155)} />
+        <meta
+          name="description"
+          content={versionPkg?.description.substring(0, 155)}
+        />
       </Head>
       {(() => {
         if (!versionPkg)
@@ -202,7 +205,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
 
                     <section className="mt-4">
                       <h2 className="text-2xl font-bold">Installation</h2>
-                      <pre className="text-white bg-black shell mt-4 rounded">
+                      <pre className="text-white bg-slate-800 shell mt-4 px-3 py-4 rounded">
                         <code>
                           ligo install{" "}
                           <strong className="has-text-white">{`${versionPkg.name}  `}</strong>
@@ -212,9 +215,8 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                     {fullPkg.readme !== null && (
                       <section className="mt-4">
                         <h2 className="text-2xl font-bold">Readme</h2>
-                        <div className="p-3 md:p-6 mt-4 bg-white drop-shadow-xl rounded">
+                        <div className="box content mt-4">
                           <ReactMarkdown
-                            className="prose max-w-none"
                             components={{
                               a: ({ children, href, title }) => (
                                 <a
@@ -227,6 +229,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                                 </a>
                               ),
                             }}
+                            className="prose max-w-none"
                             transformLinkUri={(href) => {
                               if (href.includes("http")) return href;
 
@@ -281,7 +284,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         ))}
                       </>
                     )} */}
-                    <RequestedAuditsList requests={requestedAudits} />
+                    {/* <RequestedAuditsList requests={requestedAudits} /> */}
                   </div>
                 </div>
               </div>

@@ -27,14 +27,14 @@ const Header = () => {
     <nav
       className={`w-full fixed top-0 left-0 right-0 ${
         hasNav ? "h-auto" : "h-20"
-      } bg-white drop-shadow z-50 flex justify-center overflow-hidden md:overflow-visible`}
+      } bg-white drop-shadow z-50 flex justify-center overflow-hidden lg:overflow-visible`}
       role="navigation"
       aria-label="main navigation"
     >
-      <div className="max-w-7xl px-4 md:px-0 flex items-center justify-between flex-wrap md:flex-no-wrap w-full h-full">
+      <div className="max-w-7xl px-4 lg:px-0 flex items-center justify-between flex-wrap lg:flex-no-wrap w-full h-full">
         <Link
           href="/"
-          className="mt-4 md:mt-0 md:-translate-y-2"
+          className="mt-4 lg:mt-0 lg:-translate-y-2"
           onClick={removeNav}
         >
           <h1 className="flex items-center">
@@ -54,7 +54,7 @@ const Header = () => {
           </h1>
         </Link>
         <button
-          className={`md:hidden mt-4 md:mt-0 flex items-center hamburger hamburger--spin ${
+          className={`lg:hidden mt-4 lg:mt-0 flex items-center hamburger hamburger--spin ${
             hasNav ? "is-active" : ""
           }`}
           onClick={() => setHasNav(!hasNav)}
@@ -63,8 +63,8 @@ const Header = () => {
             <span className="hamburger-inner bg-neutral-700 before:bg-neutral-700 after:bg-neutral-700"></span>
           </span>
         </button>
-        <div className="flex flex-col w-full space-y-2 md:space-y-0 py-4 md:py-0 md:w-auto md:flex-row items-center justify-center md:justify-start space-x-2">
-          <div className="w-full md:w-56 relative">
+        <div className="flex flex-col w-full space-y-2 lg:space-y-0 py-4 lg:py-0 lg:w-auto lg:flex-row items-center justify-center lg:justify-start space-x-2">
+          <div className="w-full lg:w-56 relative">
             <input
               placeholder="Search"
               className="w-full h-8 border p-4 rounded-full mr-2"
@@ -82,6 +82,7 @@ const Header = () => {
 
                 target.value = "";
                 target.blur();
+                setHasNav(false);
               }}
               onChange={(e) => {
                 searchRef.current = e.target.value;
@@ -91,6 +92,7 @@ const Header = () => {
               className="bg-ligo h-9 -mt-px -mr-px px-4 py-2 rounded-full text-white absolute right-0 top-0 hover:bg-ligo-dark"
               onClick={() => {
                 router.push(`/packages?search=${searchRef.current}`);
+                setHasNav(false);
               }}
             >
               <Icon name={IconName.Search} />
@@ -113,15 +115,14 @@ const Header = () => {
           >
             Packages
           </Link>
-
-          <a
+          {/* <a
             className={navLinkClass({ isActive: false })}
             href="http://ligolang.org/"
             target="_blank"
             rel="noreferrer"
           >
             About Ligo
-          </a>
+          </a> */}
           <a
             className={navLinkClass({ isActive: false })}
             href="https://ligolang.org/docs/advanced/package-management"
