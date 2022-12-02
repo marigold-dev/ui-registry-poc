@@ -76,7 +76,7 @@ export const linkWallet = (
   wallet: BeaconWallet,
   address: string,
   balance: BigNumber,
-  ipfsClient: ipfsClient
+  ipfsClient: ipfsClient | undefined
 ): WalletState => ({
   type: "WALLET_LINKED",
   wallet,
