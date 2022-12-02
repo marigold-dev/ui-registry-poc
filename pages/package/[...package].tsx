@@ -284,7 +284,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         ))}
                       </>
                     )} */}
-                    {/* <RequestedAuditsList requests={requestedAudits} /> */}
+                    <RequestedAuditsList requests={requestedAudits} />
                   </div>
                 </div>
               </div>

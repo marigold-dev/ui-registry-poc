@@ -14,7 +14,7 @@ export type WalletLinked = {
   wallet: BeaconWallet;
   balance: BigNumber;
   address: string;
-  ipfsClient: ipfsClient;
+  ipfsClient: ipfsClient | undefined;
 };
 
 export type WalletState = NotAsked | WalletLinked;
