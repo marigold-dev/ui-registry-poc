@@ -33,7 +33,6 @@ jobs:
           echo "::set-output name=date::$(date +%Y-%m-%d)"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build and push release version
-        if: ${{ github.ref == 'refs/heads/master' }}
         uses: docker/build-push-action@v3
         with:
           file: ./Dockerfile
