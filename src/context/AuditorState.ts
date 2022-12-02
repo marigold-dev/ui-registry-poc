@@ -14,7 +14,7 @@ export type WalletLinked = {
   wallet: BeaconWallet;
   balance: BigNumber;
   address: string;
-  ipfsClient: ipfsClient;
+  ipfsClient: ipfsClient | undefined;
 };
 
 export type WalletState = NotAsked | WalletLinked;
@@ -76,7 +76,7 @@ export const linkWallet = (
   wallet: BeaconWallet,
   address: string,
   balance: BigNumber,
-  ipfsClient: ipfsClient
+  ipfsClient: ipfsClient | undefined
 ): WalletState => ({
   type: "WALLET_LINKED",
   wallet,

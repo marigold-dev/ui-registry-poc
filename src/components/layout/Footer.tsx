@@ -4,8 +4,8 @@ import Marigold from "../images/Marigold";
 
 const Footer = () => {
   return (
-    <div className="w-full py-8">
-      <div className="max-w-7xl flex flex-col md:flex-row justify-between m-auto">
+    <div className="w-full py-8 absolute bottom-0 left-0 right-0 bg-white h-36 z-50 px-2">
+      <div className="max-w-7xl flex flex-col md:flex-row justify-between m-auto px-8 lg:px-0">
         <nav>
           <ul className="flex flex-col items-center md:block">
             <li>

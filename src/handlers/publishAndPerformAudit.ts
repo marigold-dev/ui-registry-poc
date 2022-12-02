@@ -7,19 +7,22 @@ import { FileOrNullDispatcher, Index } from "../types/common";
 const handle = async (
   wallet: BeaconWallet,
   contract: WalletContract,
-  ipfsClient: client,
   docIndex: Index,
   result: boolean,
   file: File,
   setContent: FileOrNullDispatcher
 ): Promise<void> => {
   try {
-    const artifact = await ipfsClient.add(file, {
-      progress: (progress) => console.log(`publish ${progress}`),
-    });
-    const content = artifact.cid.toString();
-    console.log("file hash", content);
-    await performAudit(contract, docIndex, result, content);
+    const formData = new FormData();
+    formData.append("file", file, file.name);
+
+    const { cid } = await fetch("https://ipfs-proxy.gcp.marigold.dev/add", {
+      method: "POST",
+      body: formData,
+    }).then((res) => res.json());
+
+    console.log("HERE:", cid);
+    await performAudit(contract, docIndex, result, cid);
     setContent(null);
   } catch (err: any) {
     console.log(err);

@@ -18,15 +18,9 @@ const handle =
           toolkit.setPackerProvider(new MichelCodecPacker());
           const walletAddress = await connectWallet(wallet);
           const balance = await getBalance(toolkit, walletAddress);
-          const ipfs = await ipfsConnect();
-          if (ipfs.status === "OK") {
-            dispatch(
-              linkBeaconWallet(wallet, walletAddress, balance, ipfs.client)
-            );
-          } else {
-            const message = ipfs.error;
-            console.error(message);
-          }
+          // const ipfs = await ipfsConnect();
+
+          dispatch(linkBeaconWallet(wallet, walletAddress, balance));
         } catch (err: any) {
           console.error(err);
         }

@@ -1,9 +1,9 @@
 import { GetStaticPropsContext } from "next";
 import { Search } from "../../src/components";
-import { allPackages } from "../../src/mock/data";
+import { allFeaturedPackages } from "../../src/mock/data";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
-  return allPackages()
+  return allFeaturedPackages()
     .then((data) => ({
       props: { data },
       revalidate: 60,

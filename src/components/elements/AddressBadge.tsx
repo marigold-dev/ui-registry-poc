@@ -62,7 +62,12 @@ const AddressBadge = ({ value, needNormalization, needLookup }: Props) => {
   const representableValue = needNormalization ? normalize(value) : value;
   return (
     <span className="tag is-medium is-white is-family-monospace">
-      <a className="has-text-info mr-2" href={exploreHashUrl(value)}>
+      <a
+        className="has-text-info mr-2"
+        href={exploreHashUrl(value)}
+        target="_blank"
+        rel="noreferrer"
+      >
         <TbZoomIn />
       </a>
       <span>{representableValue}</span>

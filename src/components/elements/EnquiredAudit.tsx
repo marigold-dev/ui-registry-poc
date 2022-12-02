@@ -55,7 +55,6 @@ const ToolBox = ({ requested }: Props) => {
                         publishAndPerformAudit(
                           wallet.wallet,
                           contract.contract,
-                          wallet.ipfsClient,
                           requested.index,
                           true,
                           content,
@@ -71,7 +70,6 @@ const ToolBox = ({ requested }: Props) => {
                         publishAndPerformAudit(
                           wallet.wallet,
                           contract.contract,
-                          wallet.ipfsClient,
                           requested.index,
                           false,
                           content,

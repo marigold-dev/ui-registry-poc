@@ -34,7 +34,7 @@ export type LinkBeaconWallet = {
   wallet: BeaconWallet;
   address: string;
   balance: BigNumber;
-  ipfsClient: ipfsClient;
+  ipfsClient: ipfsClient | undefined;
 };
 
 export type UnlinkBeaconWallet = {
@@ -64,7 +64,7 @@ export const linkBeaconWallet = (
   wallet: BeaconWallet,
   address: string,
   balance: BigNumber,
-  ipfsClient: ipfsClient
+  ipfsClient?: ipfsClient
 ): LinkBeaconWallet => ({
   type: ACTION_LINK_BEACON_WALLET,
   wallet,

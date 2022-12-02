@@ -8,7 +8,7 @@ type Props = {
 const PackageCard = ({ pkg }: Props) => {
   return (
     <div className="card rounded">
-      <Link className="has-text-black" href={`packages/${pkg.name}`}>
+      <Link className="has-text-black" href={`package/${pkg.name}`}>
         <header className="card-header">
           <p className="card-header-title">
             {pkg.isFeatured && (

@@ -9,6 +9,12 @@ body,
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: #1b1b1b;
+}
+
+#__next {
+  min-height: 100vh;
+  position: relative;
 }
 
 main {
@@ -95,4 +101,10 @@ main {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -124;
   }
+}
+
+/* Router loading bar */
+#nprogress .bar {
+  background: #0e74ff !important;
+  height: 3px !important;
 }
