@@ -23,14 +23,6 @@ COPY . .
 
 RUN npm run build
 
-FROM ${RUNNER_IMAGE} as runner
-
-ENV NODE_ENV production
-
-# ENV SERVER_FALLBACK_PAGE /public/index.html
-
-COPY --from=builder /app/out /public
-
 EXPOSE 80
 
-CMD ["static-web-server"]
+CMD ["npm", "start"]
