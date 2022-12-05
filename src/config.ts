@@ -1,4 +1,4 @@
-import { NetworkType } from "@airgap/beacon-sdk";
+import { NetworkType } from "@airgap/beacon-dapp";
 
 export const APP_NAME = "Ligo Registry";
 export const NETWORK_TYPE = NetworkType.GHOSTNET;

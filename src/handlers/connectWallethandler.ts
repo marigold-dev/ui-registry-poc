@@ -1,6 +1,5 @@
 import { MichelCodecPacker } from "@taquito/taquito";
 import { connectWallet, createWallet } from "../api/BeaconWallet";
-import { connect as ipfsConnect } from "../api/IPFS";
 import { getBalance } from "../api/Tezos";
 import { linkBeaconWallet } from "../context/AuditorAction";
 import AuditorState from "../context/AuditorState";
@@ -9,22 +8,19 @@ import { AuditorDispatcher } from "../types/common";
 const handle =
   (dispatch: AuditorDispatcher, state: AuditorState) =>
   async (): Promise<void> => {
-    if (state.type === "BOOTED") {
-      if (state.wallet.type === "NOT_ASKED") {
-        try {
-          const toolkit = state.toolkit;
-          const wallet = await createWallet();
-          toolkit.setWalletProvider(wallet);
-          toolkit.setPackerProvider(new MichelCodecPacker());
-          const walletAddress = await connectWallet(wallet);
-          const balance = await getBalance(toolkit, walletAddress);
-          // const ipfs = await ipfsConnect();
+    if (state.type !== "BOOTED" || state.wallet.type !== "NOT_ASKED") return;
 
-          dispatch(linkBeaconWallet(wallet, walletAddress, balance));
-        } catch (err: any) {
-          console.error(err);
-        }
-      }
+    try {
+      const toolkit = state.toolkit;
+      const wallet = await createWallet();
+      toolkit.setWalletProvider(wallet);
+      toolkit.setPackerProvider(new MichelCodecPacker());
+      const walletAddress = await connectWallet(wallet);
+      const balance = await getBalance(toolkit, walletAddress);
+
+      dispatch(linkBeaconWallet(wallet, walletAddress, balance));
+    } catch (err: any) {
+      console.error(err);
     }
   };
 
