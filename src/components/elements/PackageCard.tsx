@@ -34,7 +34,7 @@ const PackageCard = ({ pkg }: Props) => {
         <div className="card-footer mt-auto">
           <div className="card-footer-item">
             <span className="has-text-weight-light">
-              <span className="has-text-weight-light ml-2">{pkg.version}</span>
+              <span className="has-text-weight-light ml-2">v{pkg.version}</span>
             </span>
           </div>
           <div className="card-footer-item">

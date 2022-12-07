@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SkeletonCard } from "..";
-import { AllPackage } from "../../mock/types";
+import { AllPackage, Template } from "../../mock/types";
 
-const Search = ({ data }: { data: AllPackage[] }) => {
+const Search = ({ data }: { data: (AllPackage | Template)[] }) => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +17,7 @@ const Search = ({ data }: { data: AllPackage[] }) => {
   const list = data.filter((p) =>
     p.name.toLowerCase().includes((router.query?.search as string) ?? "")
   );
+
   return (
     <>
       <Head>
@@ -41,32 +42,39 @@ const Search = ({ data }: { data: AllPackage[] }) => {
             </>
           ) : (
             list.map((pkg, i) => (
-              <div className="card" key={i}>
-                <Link className="has-text-black" href={`/package/${pkg.name}`}>
+              <div className="card mt-0" key={i}>
+                <Link
+                  className="has-text-black"
+                  href={`/${"downloads" in pkg ? "package" : "template"}/${
+                    pkg.name
+                  }`}
+                >
                   <header className="card-header">
                     <p className="card-header-title">{pkg.name}</p>
                   </header>
-                  <div className="card-content">
+                  <div className="card-content mb-auto">
                     <div className="content">
                       {pkg.description === ""
                         ? "No description"
                         : pkg.description}
                     </div>
                   </div>
-                  <div className="card-footer">
+                  <div className="card-footer mt-auto">
                     <div className="card-footer-item">
                       <span className="has-text-weight-light">
                         <span className="has-text-weight-light ml-2">
-                          {pkg.version}
+                          v{pkg.version}
                         </span>
                       </span>
                     </div>
-                    <div className="card-footer-item">
-                      <span className="has-text-weight-bold mr-2">
-                        {pkg.downloads}
-                      </span>
-                      <span className="has-text-weight-light">downloads</span>
-                    </div>
+                    {"downloads" in pkg && (
+                      <div className="card-footer-item">
+                        <span className="has-text-weight-bold mr-2">
+                          {pkg.downloads}
+                        </span>
+                        <span className="has-text-weight-light">downloads</span>
+                      </div>
+                    )}
                   </div>
                 </Link>
               </div>

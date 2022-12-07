@@ -115,14 +115,17 @@ const Header = () => {
           >
             Packages
           </Link>
-          {/* <a
-            className={navLinkClass({ isActive: false })}
-            href="http://ligolang.org/"
-            target="_blank"
-            rel="noreferrer"
+
+          <Link
+            className={navLinkClass({
+              isActive: router.pathname === "/templates",
+            })}
+            href="/templates"
+            onClick={removeNav}
           >
-            About Ligo
-          </a> */}
+            Templates
+          </Link>
+
           <a
             className={navLinkClass({ isActive: false })}
             href="https://ligolang.org/docs/advanced/package-management"
