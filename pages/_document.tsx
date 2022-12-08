@@ -14,7 +14,7 @@ export default function Document() {
         <meta charSet="utf-8" />
         <link rel="icon" href="/logo.svg" />
         <meta name="theme-color" content="#000000" />
-        <meta property="og:title" content="Package registry" />
+        <meta property="og:title" content="LIGO Package registry" />
         <meta property="og:site_name" content="LIGO" />
         <meta property="og:url" content="https://packages.ligolang.org" />
         <meta
