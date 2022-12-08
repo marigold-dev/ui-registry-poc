@@ -28,13 +28,13 @@ export default function Document() {
         />
         <meta
           name="description"
-          content="The LIGO registry is used to host LIGO packages and contains the contracts/libraries along with their metadata. The packages which reside on the LIGO registry can be installed using the ligo install command."
+          content="The LIGO registry contains the packages, contracts and libraries. The packages which reside on the LIGO registry can be installed using the ligo install command."
         />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:site" content="@LigoLang" />
         <meta
           name="twitter:description"
-          content="The LIGO registry is used to host LIGO packages and contains the contracts/libraries. The packages which reside on the LIGO registry can be installed using the ligo install command."
+          content="The LIGO registry contains the packages, contracts and libraries. The packages which reside on the LIGO registry can be installed using the ligo install command."
         />
         <meta name="twitter:title" content="LIGO Package registry" />
         <meta
