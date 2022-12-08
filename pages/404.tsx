@@ -7,7 +7,7 @@ const Error = () => {
   return (
     <>
       <Head>
-        <title>Ligo Package Registry</title>
+        <title>LIGO Package Registry</title>
       </Head>
       <Header />
       <main role="main">

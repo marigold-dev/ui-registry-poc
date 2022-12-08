@@ -128,7 +128,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
   return (
     <>
       <Head>
-        <title>Ligo Package Registry - {fullPkg?.name ?? ""}</title>
+        <title>{fullPkg?.name ?? ""} - LIGO Package Registry</title>
         <meta
           name="description"
           content={versionPkg?.description.substring(0, 155)}

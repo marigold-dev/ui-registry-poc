@@ -20,7 +20,7 @@ const Search = ({ data }: { data: AllPackage[] }) => {
   return (
     <>
       <Head>
-        <title>Ligo Package Registry - Search Package</title>
+        <title>Search Package - LIGO Package Registry</title>
         <meta
           name="description"
           content="Search any Ligo package through our registry"

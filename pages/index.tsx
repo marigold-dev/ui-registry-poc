@@ -35,7 +35,7 @@ const Home = ({
   return (
     <>
       <Head>
-        <title>Ligo Package Registry</title>
+        <title>LIGO Package Registry</title>
         <meta
           name="description"
           content="Search for a package or template to use in your project"
