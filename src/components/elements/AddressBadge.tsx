@@ -88,7 +88,7 @@ const AddressBadge = ({ value, needNormalization, needLookup }: Props) => {
         onClick={(e) => {
           e.preventDefault();
           navigator.clipboard
-            .writeText(representableValue)
+            .writeText(value)
             .then(() => {
               setCopied(true);
             })
@@ -103,11 +103,7 @@ const AddressBadge = ({ value, needNormalization, needLookup }: Props) => {
             copied || errorCopied ? "block" : "hidden"
           }`}
         >
-          {copied
-            ? "Value copied"
-            : errorCopied
-            ? "Failed to copy value"
-            : "Copy value"}
+          {copied ? "Copied!" : errorCopied ? "Failed to copy" : "Copy"}
         </div>
       </a>
 

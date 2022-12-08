@@ -28,7 +28,9 @@ const Search = ({ data }: { data: AllPackage[] }) => {
       </Head>
       {list.length === 0 ? (
         <h3 className="w-full text-center text-3xl mt-8 text-slate-600">
-          No package matching '{router.query?.search}'
+          {!!router.query?.search
+            ? "No package matching '{router.query?.search}'"
+            : "No result found"}
         </h3>
       ) : (
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 space-y-4">

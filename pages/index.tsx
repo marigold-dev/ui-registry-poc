@@ -42,16 +42,15 @@ const Home = ({
         />
       </Head>
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold">Templates</h2>
-        <div className="gap-4 mt-4 text-xl text-neutral-500">
-          Templates are baking in Ligo's oven... Coming Soon!
-        </div>
-
         <PackageEnum
           title="Packages"
           subtitle="Most downloaded"
           packages={allSortedDl.slice(0, 6)}
         />
+        <h2 className="text-2xl font-bold mt-6">Templates</h2>
+        <div className="gap-4 mt-4 text-xl text-neutral-500">
+          Templates are baking in Ligo's oven... Coming Soon!
+        </div>
       </div>
     </>
   );
