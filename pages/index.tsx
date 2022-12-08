@@ -42,15 +42,14 @@ const Home = ({
         />
       </Head>
       <div className="space-y-6">
-        <PackageEnum
-          title="Featured Packages"
-          subtitle="Packages curated by developers"
-          packages={allFeatured}
-        />
+        <h2 className="text-2xl font-bold">Templates</h2>
+        <div className="gap-4 mt-4 text-xl text-neutral-500">
+          Templates are baking in Ligo's oven... Coming Soon!
+        </div>
 
         <PackageEnum
-          title="Most downloaded"
-          subtitle="Last week"
+          title="Packages"
+          subtitle="Most downloaded"
           packages={allSortedDl.slice(0, 6)}
         />
       </div>
