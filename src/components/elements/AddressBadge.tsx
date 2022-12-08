@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { GoVerified } from "react-icons/go";
-import { TbClipboard, TbClipboardCheck, TbZoomIn } from "react-icons/tb";
+import { TbZoomIn } from "react-icons/tb";
 import { VscUnverified } from "react-icons/vsc";
 import { hasBadge } from "../../api/AuditorSc/RawStorage";
 import { getBadgeFor } from "../../api/AuditorSc/Views";
@@ -27,13 +26,24 @@ const AddressBadge = ({ value, needNormalization, needLookup }: Props) => {
   const state = useAuditor();
   const dispatch = useAuditorDispatch();
   const [copied, setCopied] = useState(false);
+  const [errorCopied, setErrorCopied] = useState(false);
   const [badge, setBadge] = useState(false);
 
   const needLookupEffect = needLookup ? needLookup : false;
 
   useEffect(() => {
-    setCopied(false);
-  }, [value]);
+    if (copied) {
+      setTimeout(() => {
+        setCopied(false);
+      }, 1000);
+    }
+
+    if (errorCopied) {
+      setTimeout(() => {
+        setErrorCopied(false);
+      }, 1000);
+    }
+  }, [copied, errorCopied]);
 
   useEffect(() => {
     let subscription = true;
@@ -67,22 +77,40 @@ const AddressBadge = ({ value, needNormalization, needLookup }: Props) => {
         href={exploreHashUrl(value)}
         target="_blank"
         rel="noreferrer"
+        title="View in explorer"
       >
         <TbZoomIn />
       </a>
-      <span>{representableValue}</span>
 
-      <CopyToClipboard
-        onCopy={() => setCopied(true)}
-        options={{ message: "Whoa!" }}
-        text={value}
+      <a
+        href="#"
+        className="relative relative group cursor-pointer"
+        onClick={(e) => {
+          e.preventDefault();
+          navigator.clipboard
+            .writeText(representableValue)
+            .then(() => {
+              setCopied(true);
+            })
+            .catch(() => {
+              setErrorCopied(true);
+            });
+        }}
       >
-        {copied ? (
-          <TbClipboardCheck className="ml-2 has-text-info" />
-        ) : (
-          <TbClipboard className="ml-2 has-text-info" />
-        )}
-      </CopyToClipboard>
+        {representableValue}
+        <div
+          className={`absolute px-2 py-2 left-1/2 top-full bg-neutral-700 rounded text-white -translate-x-1/2 z-10 group-hover:block translate-y-1 ${
+            copied || errorCopied ? "block" : "hidden"
+          }`}
+        >
+          {copied
+            ? "Value copied"
+            : errorCopied
+            ? "Failed to copy value"
+            : "Copy value"}
+        </div>
+      </a>
+
       {needLookup === undefined ? (
         <></>
       ) : badge ? (
