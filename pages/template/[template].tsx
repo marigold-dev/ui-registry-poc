@@ -1,12 +1,16 @@
+import mermaid from "mermaid";
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
+import { Mermaid } from "../../src/components";
 import { useAuditor } from "../../src/context/AuditorContext";
 import templates from "../../src/mock/templates";
 import { Template } from "../../src/mock/types";
+
+mermaid.initialize({ startOnLoad: false });
 
 export async function getStaticPaths() {
   return {
@@ -103,6 +107,15 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
                             {children}
                           </a>
                         ),
+                        code: ({ children, className }) => {
+                          return className?.includes("mermaid") ? (
+                            <Mermaid>
+                              {(children as string[]).join(" ")}
+                            </Mermaid>
+                          ) : (
+                            <code className={className}>{children}</code>
+                          );
+                        },
                       }}
                       transformLinkUri={(href) => {
                         if (href.includes("http")) return href;

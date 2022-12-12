@@ -8,3 +8,4 @@ export { default as RequestedAuditsList } from "./RequestedAuditsList";
 export { default as WalletSection } from "./WalletSection";
 export { default as SkeletonCard } from "./SkeletonCard";
 export { default as Icon } from "./Icon";
+export { default as Mermaid } from "./Mermaid";

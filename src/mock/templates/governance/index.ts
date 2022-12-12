@@ -4,7 +4,7 @@ import multisig from "./multisig";
 export default {
   map: {
     ...multisig.map,
-    ...dao,
+    ...dao.map,
   },
   all: [...multisig.all, ...dao.all],
 };
