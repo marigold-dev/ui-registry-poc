@@ -105,6 +105,144 @@ let main (action, storage : request) : result =
     | Sign_proposal(proposal_number) ->
         sign_proposal (proposal_number, storage)
 `,
+  michelson: [
+    `{ parameter
+    (or (pair %create_proposal
+           (address %target_fa2)
+           (list %transfers
+              (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id))))))
+        (nat %sign_proposal)) ;
+  storage
+    (pair (nat %proposal_counter)
+          (big_map %proposal_map
+             nat
+             (pair (set %approved_signers address)
+                   (bool %executed)
+                   (nat %number_of_signer)
+                   (address %target_fa2)
+                   (list %transfers
+                      (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id)))))
+                   (timestamp %timestamp)))
+          (set %signers address)
+          (nat %threshold)
+          (big_map %metadata string bytes)) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { DUP 2 ;
+             GET 5 ;
+             SENDER ;
+             MEM ;
+             IF {}
+                { PUSH string "Only one of the contract signer can create an proposal" ;
+                  FAILWITH } ;
+             AMOUNT ;
+             PUSH mutez 0 ;
+             SWAP ;
+             COMPARE ;
+             EQ ;
+             IF {}
+                { PUSH string "You must not send Tezos to the smart contract" ; FAILWITH } ;
+             NOW ;
+             DUP 2 ;
+             CDR ;
+             DIG 2 ;
+             CAR ;
+             PUSH nat 1 ;
+             PUSH bool False ;
+             EMPTY_SET address ;
+             SENDER ;
+             PUSH bool True ;
+             SWAP ;
+             UPDATE ;
+             PAIR 6 ;
+             PUSH nat 1 ;
+             DUP 3 ;
+             CAR ;
+             ADD ;
+             DUP 3 ;
+             DIG 3 ;
+             GET 3 ;
+             DIG 3 ;
+             DUP 4 ;
+             SWAP ;
+             SOME ;
+             SWAP ;
+             UPDATE ;
+             UPDATE 3 ;
+             SWAP ;
+             UPDATE 1 ;
+             NIL operation }
+           { DUP 2 ;
+             GET 5 ;
+             SENDER ;
+             MEM ;
+             IF {}
+                { PUSH string "Only one of the contract signer can create an proposal" ;
+                  FAILWITH } ;
+             DUP 2 ;
+             GET 3 ;
+             DUP 2 ;
+             GET ;
+             IF_NONE { PUSH string "No proposal exists for this counter" ; FAILWITH } {} ;
+             DUP ;
+             CAR ;
+             SENDER ;
+             MEM ;
+             NOT ;
+             IF {} { PUSH string "You have already signed this proposal" ; FAILWITH } ;
+             DUP 3 ;
+             GET 7 ;
+             SENDER ;
+             DIG 2 ;
+             DUP ;
+             CAR ;
+             DIG 2 ;
+             PUSH bool True ;
+             SWAP ;
+             UPDATE ;
+             DUP 2 ;
+             DUP 2 ;
+             UPDATE 1 ;
+             PUSH nat 1 ;
+             DUP 4 ;
+             GET 5 ;
+             ADD ;
+             UPDATE 5 ;
+             DIG 2 ;
+             GET 3 ;
+             DIG 3 ;
+             DIG 3 ;
+             SIZE ;
+             COMPARE ;
+             GE ;
+             OR ;
+             UPDATE 3 ;
+             DUP ;
+             GET 3 ;
+             IF { NIL operation ;
+                  DUP 2 ;
+                  GET 7 ;
+                  CONTRACT %transfer
+                    (list (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id))))) ;
+                  IF_NONE
+                    { PUSH string "Cannot connect to the target transfer token entrypoint" ;
+                      FAILWITH }
+                    { PUSH mutez 0 ; DUP 4 ; GET 9 ; TRANSFER_TOKENS } ;
+                  CONS }
+                { NIL operation } ;
+             DUP 4 ;
+             DIG 4 ;
+             GET 3 ;
+             DIG 3 ;
+             SOME ;
+             DIG 4 ;
+             UPDATE ;
+             UPDATE 3 ;
+             SWAP } ;
+         PAIR } }
+
+`,
+  ],
 };
 
 const multisigJsligo: Template = {
@@ -205,6 +343,154 @@ const main = ([action, store]: [Parameter.Types.t, Storage.Types.t]): result => 
         Sign_proposal:   (p: nat) => sign_proposal(p, store)
     }));
 `,
+  michelson: [
+    `{ parameter
+    (or (pair %create_proposal
+           (address %target_fa2)
+           (list %transfers
+              (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id))))))
+        (nat %sign_proposal)) ;
+  storage
+    (pair (nat %proposal_counter)
+          (big_map %proposal_map
+             nat
+             (pair (set %approved_signers address)
+                   (bool %executed)
+                   (nat %number_of_signer)
+                   (address %target_fa2)
+                   (list %transfers
+                      (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id)))))
+                   (timestamp %timestamp)))
+          (set %signers address)
+          (nat %threshold)
+          (big_map %metadata string bytes)) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { PUSH string "Only one of the contract signer can create an proposal" ;
+             DUP 3 ;
+             GET 5 ;
+             SENDER ;
+             MEM ;
+             IF { DROP } { FAILWITH } ;
+             AMOUNT ;
+             PUSH mutez 0 ;
+             SWAP ;
+             COMPARE ;
+             EQ ;
+             IF {}
+                { PUSH string "You must not send Tezos to the smart contract" ; FAILWITH } ;
+             NOW ;
+             DUP 2 ;
+             CDR ;
+             DIG 2 ;
+             CAR ;
+             PUSH nat 1 ;
+             PUSH bool False ;
+             EMPTY_SET address ;
+             SENDER ;
+             PUSH bool True ;
+             SWAP ;
+             UPDATE ;
+             PAIR 6 ;
+             PUSH nat 1 ;
+             DUP 3 ;
+             CAR ;
+             ADD ;
+             DUP 3 ;
+             DIG 3 ;
+             GET 3 ;
+             DIG 3 ;
+             DUP 4 ;
+             SWAP ;
+             SOME ;
+             SWAP ;
+             UPDATE ;
+             UPDATE 3 ;
+             SWAP ;
+             UPDATE 1 ;
+             NIL operation }
+           { PUSH string "Only one of the contract signer can create an proposal" ;
+             DUP 3 ;
+             GET 5 ;
+             SENDER ;
+             MEM ;
+             IF { DROP } { FAILWITH } ;
+             DUP 2 ;
+             GET 3 ;
+             DUP 2 ;
+             GET ;
+             IF_NONE { PUSH string "No proposal exists for this counter" ; FAILWITH } {} ;
+             PUSH string "You have already signed this proposal" ;
+             DUP 2 ;
+             CAR ;
+             SENDER ;
+             MEM ;
+             NOT ;
+             IF { DROP } { FAILWITH } ;
+             DUP 3 ;
+             GET 7 ;
+             SENDER ;
+             DIG 2 ;
+             DUP ;
+             CAR ;
+             DIG 2 ;
+             PUSH bool True ;
+             SWAP ;
+             UPDATE ;
+             DUP 2 ;
+             DUP 2 ;
+             UPDATE 1 ;
+             PUSH nat 1 ;
+             DUP 4 ;
+             GET 5 ;
+             ADD ;
+             UPDATE 5 ;
+             DIG 2 ;
+             GET 3 ;
+             DIG 3 ;
+             DIG 3 ;
+             SIZE ;
+             COMPARE ;
+             GE ;
+             OR ;
+             UPDATE 3 ;
+             DIG 2 ;
+             DUP 2 ;
+             DIG 3 ;
+             PAIR ;
+             PAIR ;
+             SWAP ;
+             DUP ;
+             GET 3 ;
+             IF { NIL operation ;
+                  DUP 2 ;
+                  GET 7 ;
+                  CONTRACT %transfer
+                    (list (pair (address %from_) (list %tx (pair (address %to_) (nat %token_id))))) ;
+                  IF_NONE
+                    { SWAP ;
+                      DROP ;
+                      PUSH string "Cannot connect to the target transfer token entrypoint" ;
+                      FAILWITH }
+                    { PUSH mutez 0 ; DIG 3 ; GET 9 ; TRANSFER_TOKENS } ;
+                  CONS }
+                { DROP ; NIL operation } ;
+             SWAP ;
+             UNPAIR ;
+             UNPAIR ;
+             DUP 3 ;
+             DIG 3 ;
+             GET 3 ;
+             DIG 3 ;
+             SOME ;
+             DIG 3 ;
+             UPDATE ;
+             UPDATE 3 ;
+             SWAP } ;
+         PAIR } }
+
+`,
+  ],
 };
 
 export default {

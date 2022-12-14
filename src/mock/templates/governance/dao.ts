@@ -215,6 +215,7 @@ let main (action, store : parameter * storage) : result =
         | Vote v -> Constants.no_operation, vote(v, store)
         | End_vote -> end_vote(store)
 `,
+  michelson: [],
 };
 
 const daoJsligo: Template = {
@@ -465,6 +466,7 @@ const main = (action: parameter, store: storage) : result => {
     });
 };
 `,
+  michelson: [],
 };
 
 export default {

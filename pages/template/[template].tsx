@@ -138,7 +138,15 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
               )}
             </div>
 
-            <div className="w-full md:w-2/6 md:pl-5">
+            <div className="w-full md:w-2/6 md:pl-5 space-y-4">
+              <button
+                onClick={() => {
+                  console.log("");
+                }}
+                className="bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold"
+              >
+                Deploy this template
+              </button>
               <aside className="menu">
                 <h2 className="text-xl font-bold">Links</h2>
                 <ul className="mt-2 space-y-2">
