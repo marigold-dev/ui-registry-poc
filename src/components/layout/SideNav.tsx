@@ -26,24 +26,19 @@ const NavLink = ({ href, children }: navLinkProps) => {
   );
 };
 
-const SideNav = () => (
-  <aside className="fixed top-20 bottom-0 left-0 bg-white w-56 px-4 py-4 drop-shadow z-50 hidden lg:block">
+type props = {
+  title: string;
+  links: { href: string; text: string }[];
+};
+
+const SideNav = ({ title, links }: props) => (
+  <aside className="static lg:fixed top-20 bottom-0 left-0 bg-white w-full lg:w-56 lg:px-4 lg:py-4 lg:drop-shadow z-50 lg:block">
     <section>
-      <h3 className="text-2xl text-ligo font-bold">Templates</h3>
+      <h3 className="text-2xl text-ligo font-bold">{title}</h3>
       <ul className="space-y-2 mt-2 w-full">
-        <NavLink href="/templates">See all</NavLink>
-        <NavLink href="/templates/token">Token</NavLink>
-        <NavLink href="/templates/governance">Governance</NavLink>
-        <NavLink href="/templates/utilities">Utilities</NavLink>
-      </ul>
-    </section>
-    <section className="mt-4">
-      <h3 className="text-2xl text-ligo font-bold">Packages</h3>
-      <ul className="mt-2 space-y-2 w-full">
-        <NavLink href="/packages">All</NavLink>
-        <NavLink href="/packages/curated">Curated by developers</NavLink>
-        <NavLink href="/packages/new-packages">New packages</NavLink>
-        <NavLink href="/packages/most-downloaded">Most downloaded</NavLink>
+        {links.map(({ href, text }) => (
+          <NavLink href={href}>{text}</NavLink>
+        ))}
       </ul>
     </section>
   </aside>

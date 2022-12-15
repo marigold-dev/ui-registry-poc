@@ -26,8 +26,52 @@ export default function App({ Component, pageProps }: AppProps) {
 
       {router.pathname !== "/" ? (
         <div className="w-full flex justify-center pt-20 mb-40 lg:pl-56">
-          <main className="w-full mt-8 pl-8 pr-4">
-            <SideNav />
+          <main className="w-full mt-8 pl-4 lg:pl-8 pr-4">
+            {router.pathname.includes("packages") ? (
+              <SideNav
+                title="Packages"
+                links={[
+                  {
+                    href: "/packages",
+                    text: "See all",
+                  },
+                  {
+                    href: "/packages/curated",
+                    text: "Curated by developers",
+                  },
+                  {
+                    href: "/packages/new-packages",
+                    text: "New packages",
+                  },
+                  {
+                    href: "/packages/most-downloaded",
+                    text: "Most downloaded",
+                  },
+                ]}
+              />
+            ) : (
+              <SideNav
+                title="Templates"
+                links={[
+                  {
+                    href: "/templates",
+                    text: "See all",
+                  },
+                  {
+                    href: "/templates/token",
+                    text: "Token",
+                  },
+                  {
+                    href: "/templates/governance",
+                    text: "Governance",
+                  },
+                  {
+                    href: "/templates/utilities",
+                    text: "Utilities",
+                  },
+                ]}
+              />
+            )}
             <Component {...pageProps} />
           </main>
         </div>
