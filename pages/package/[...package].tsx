@@ -128,7 +128,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
   return (
     <>
       <Head>
-        <title>Ligo Package Registry - {fullPkg?.name ?? ""}</title>
+        <title>{fullPkg?.name ?? ""} - LIGO Package Registry</title>
         <meta
           name="description"
           content={versionPkg?.description.substring(0, 155)}
@@ -259,13 +259,6 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                   </div>
 
                   <div className="w-full md:w-2/6 md:pl-5">
-                    <section className="mb-6">
-                      <EnquirementButton
-                        version={versionPkg.version}
-                        packageName={versionPkg.name}
-                        requested={requestedAudits}
-                      />
-                    </section>
                     {renderedLinks.length > 0 ? (
                       <aside className="menu">
                         <h2 className="text-xl font-bold">Links</h2>
@@ -284,7 +277,15 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         ))}
                       </>
                     )} */}
-                    <RequestedAuditsList requests={requestedAudits} />
+                    <section className="mt-6">
+                      <h2 className="text-xl font-bold">Enquired audits</h2>
+                      <EnquirementButton
+                        version={versionPkg.version}
+                        packageName={versionPkg.name}
+                        requested={requestedAudits}
+                      />
+                      <RequestedAuditsList requests={requestedAudits} />
+                    </section>
                   </div>
                 </div>
               </div>

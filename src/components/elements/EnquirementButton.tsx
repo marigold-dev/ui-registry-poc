@@ -28,7 +28,7 @@ const EnquirementButton = ({ packageName, version, requested }: Props) => {
             },
             contract
           )}
-          className="button is-primary"
+          className="button is-primary mt-2"
         >
           Enquire an audit
         </button>

@@ -35,7 +35,7 @@ const Home = ({
   return (
     <>
       <Head>
-        <title>Ligo Package Registry</title>
+        <title>LIGO Package Registry</title>
         <meta
           name="description"
           content="Search for a package or template to use in your project"
@@ -43,16 +43,14 @@ const Home = ({
       </Head>
       <div className="space-y-6">
         <PackageEnum
-          title="Featured Packages"
-          subtitle="Packages curated by developers"
-          packages={allFeatured}
-        />
-
-        <PackageEnum
-          title="Most downloaded"
-          subtitle="Last week"
+          title="Packages"
+          subtitle="Most downloaded"
           packages={allSortedDl.slice(0, 6)}
         />
+        <h2 className="text-2xl font-bold mt-6">Templates</h2>
+        <div className="gap-4 mt-4 text-xl text-neutral-500">
+          Templates are baking in Ligo's oven... Coming Soon!
+        </div>
       </div>
     </>
   );

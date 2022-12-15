@@ -23,16 +23,6 @@ const Footer = () => {
                 className="text-black hover:text-ligo"
                 target="_blank"
                 rel="noreferrer"
-                href="https://ligolang.org/docs/advanced/package-management"
-              >
-                How to use
-              </a>
-            </li>
-            <li>
-              <a
-                className="text-black hover:text-ligo"
-                target="_blank"
-                rel="noreferrer"
                 href={exploreAuditorSc}
               >
                 Auditor Smart-contract
