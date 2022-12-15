@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
-import { Mermaid } from "../../src/components";
+import { Icon, Mermaid } from "../../src/components";
+import { IconName } from "../../src/components/elements/Icon";
 import { useAuditor } from "../../src/context/AuditorContext";
 import templates from "../../src/mock/templates";
 import { Template } from "../../src/mock/types";
@@ -38,7 +39,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   };
 }
 
-const ViewPackage = ({ template }: { template: Template | null }) => {
+const ViewPackage = ({ template }: { template: Template }) => {
   const router = useRouter();
 
   const state = useAuditor();
@@ -138,15 +139,43 @@ const ViewPackage = ({ template }: { template: Template | null }) => {
               )}
             </div>
 
-            <div className="w-full md:w-2/6 md:pl-5 space-y-4">
-              <button
-                onClick={() => {
-                  console.log("");
-                }}
-                className="bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold"
-              >
-                Deploy this template
-              </button>
+            <div className="w-full md:w-2/6 md:pl-5 space-y-4 mt-4 md:mt-0">
+              {/* <button className="bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold opacity-50 pointer-events-none">
+                Deploy template (Coming soon...)
+              </button> */}
+              <aside className="menu">
+                <h2 className="text-xl font-bold">Permissions</h2>
+                <ul className="mt-2 space-y-2">
+                  <li className="flex items-center space-x-1">
+                    <Icon
+                      name={IconName.Check}
+                      className="w-4 h-4 text-green-500"
+                    />
+                    <span>Commercial use</span>
+                  </li>
+                  <li className="flex items-center space-x-1">
+                    <Icon
+                      name={IconName.Check}
+                      className="w-4 h-4 text-green-500"
+                    />
+                    <span>Modification</span>
+                  </li>
+                  <li className="flex items-center space-x-1">
+                    <Icon
+                      name={IconName.Check}
+                      className="w-4 h-4 text-green-500"
+                    />
+                    <span>Distribution</span>
+                  </li>
+                  <li className="flex items-center space-x-1">
+                    <Icon
+                      name={IconName.Check}
+                      className="w-4 h-4 text-green-500"
+                    />
+                    <span>Private use</span>
+                  </li>
+                </ul>
+              </aside>
               <aside className="menu">
                 <h2 className="text-xl font-bold">Links</h2>
                 <ul className="mt-2 space-y-2">

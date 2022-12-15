@@ -78,7 +78,6 @@ let advisorMain(ep, store : Parameter.Types.t * Storage.Types.t) : return =
     | ChangeAlgorithm(p) -> Storage.Utils.change(p, store)
     | ExecuteAlgorithm(_p) -> Storage.Utils.executeAlgorithm(store) 
     )`,
-  michelson: [],
 };
 
 const advisorJsligo: Template = {
@@ -153,7 +152,6 @@ const advisorMain = ([ep, store] : [parameter, storage]) : return_ => {
         ExecuteAlgorithm: (_p: unit) => Storage.Utils.executeAlgorithm(store) 
     })];
 };`,
-  michelson: [],
 };
 
 export default {

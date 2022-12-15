@@ -1,11 +1,11 @@
-import { AllPackage } from "../../mock/types";
+import { AllPackage, Template } from "../../mock/types";
 import PackageCard from "./PackageCard";
 import SkeletonCard from "./SkeletonCard";
 
 type Props = {
   title: string;
   subtitle: string;
-  packages: AllPackage[] | null | undefined;
+  packages: AllPackage[] | Template[] | null | undefined;
 };
 
 const PackageEnum = ({ title, subtitle, packages }: Props) => {

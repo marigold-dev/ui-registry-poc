@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { AllPackage } from "../../mock/types";
+import { AllPackage, Template } from "../../mock/types";
 
 type Props = {
-  pkg: AllPackage;
+  pkg: AllPackage | Template;
 };
 
 const PackageCard = ({ pkg }: Props) => {
@@ -14,7 +14,7 @@ const PackageCard = ({ pkg }: Props) => {
       >
         <header className="card-header">
           <p className="card-header-title">
-            {pkg.isFeatured && (
+            {"isFeatured" in pkg && pkg.isFeatured && (
               <span className="tag is-info  is-vcentered is-pulled-right mr-4">
                 featured
               </span>
@@ -37,10 +37,12 @@ const PackageCard = ({ pkg }: Props) => {
               <span className="has-text-weight-light ml-2">v{pkg.version}</span>
             </span>
           </div>
-          <div className="card-footer-item">
-            <span className="has-text-weight-bold mr-2">{pkg.downloads}</span>
-            <span className="has-text-weight-light">downloads</span>
-          </div>
+          {"downloads" in pkg && (
+            <div className="card-footer-item">
+              <span className="has-text-weight-bold mr-2">{pkg.downloads}</span>
+              <span className="has-text-weight-light">downloads</span>
+            </div>
+          )}
         </div>
       </Link>
     </div>

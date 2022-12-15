@@ -108,3 +108,21 @@ main {
   background: #0e74ff !important;
   height: 3px !important;
 }
+
+/* Mermaidjs */
+text.actor > tspan {
+  fill: white !important;
+}
+
+.messageText {
+  fill: white !important;
+}
+
+.messageLine0 {
+  stroke: white !important;
+}
+
+#arrowhead path {
+  fill: white !important;
+  stroke: white !important;
+}

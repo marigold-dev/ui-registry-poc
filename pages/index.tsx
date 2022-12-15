@@ -5,6 +5,7 @@ import {
   allFeaturedPackages,
   allSortedByDownloadPackages,
 } from "../src/mock/data";
+import templates from "../src/mock/templates";
 import { AllPackage } from "../src/mock/types";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
@@ -47,10 +48,16 @@ const Home = ({
           subtitle="Most downloaded"
           packages={allSortedDl.slice(0, 6)}
         />
-        <h2 className="text-2xl font-bold mt-6">Templates</h2>
-        <div className="gap-4 mt-4 text-xl text-neutral-500">
-          Templates are baking in Ligo's oven... Coming Soon!
-        </div>
+
+        <PackageEnum
+          title="Templates"
+          subtitle=""
+          packages={[
+            ...templates.categories.governance.slice(0, 2),
+            ...templates.categories.tokens.slice(0, 2),
+            ...templates.categories.utilities.slice(0, 2),
+          ]}
+        />
       </div>
     </>
   );

@@ -66,7 +66,7 @@ const Header = () => {
         <div className="flex flex-col w-full space-y-2 lg:space-y-0 py-4 lg:py-0 lg:w-auto lg:flex-row items-center justify-center lg:justify-start space-x-2">
           <div className="w-full lg:w-56 relative">
             <input
-              placeholder="Search"
+              placeholder="Search package"
               className="w-full h-8 border p-4 rounded-full mr-2"
               style={{
                 paddingRight: "48px !important",

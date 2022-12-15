@@ -1,3 +1,5 @@
+import { TezosToolkit } from "@taquito/taquito";
+
 export type Repository = {
   type: "git";
   url: string;
@@ -82,5 +84,4 @@ export type Template = {
   description: string;
   readme: string;
   mainFile: string;
-  michelson: string[];
 };
