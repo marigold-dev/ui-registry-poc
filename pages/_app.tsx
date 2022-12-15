@@ -27,7 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
       {router.pathname !== "/" ? (
         <div className="w-full flex justify-center pt-20 mb-40 lg:pl-56">
           <main className="w-full mt-8 pl-4 lg:pl-8 pr-4">
-            {router.pathname.includes("packages") ? (
+            {router.pathname.includes("/packages") ||
+            router.pathname.includes("/package") ? (
               <SideNav
                 title="Packages"
                 links={[

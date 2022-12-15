@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
 import { forOnePackage } from "../../src/api/AuditorSc/Views";
+import { Icon } from "../../src/components";
 import EnquirementButton from "../../src/components/elements/EnquirementButton";
+import { IconName } from "../../src/components/elements/Icon";
 import RequestedAuditsList from "../../src/components/elements/RequestedAuditsList";
 import { useAuditor } from "../../src/context/AuditorContext";
 import { allPackages, getOnePackage } from "../../src/mock/data";
@@ -190,12 +192,13 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                 <div className="mt-4 flex flex-col md:flex-row">
                   <div className="w-full md:w-4/6">
                     <section className="mb-2 md:mb-6 package-meta space-x-4">
-                      {!!fullPkg.license && (
-                        <span className="tag is-medium">{fullPkg.license}</span>
-                      )}
                       <span className="text-lg p-2 bg-neutral-100 rounded">
                         <span className="font-bold">Built by </span>
                         {versionPkg.author?.name ?? "Unknown"}
+                      </span>
+                      <span className="text-lg p-2 bg-neutral-100 rounded">
+                        <span className="font-bold">License </span>
+                        MIT
                       </span>
                       <span>
                         {fullPkg.downloads}
@@ -267,6 +270,39 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                     ) : (
                       <></>
                     )}
+                    <aside className="menu mt-4">
+                      <h2 className="text-xl font-bold">Permissions</h2>
+                      <ul className="mt-2 space-y-2">
+                        <li className="flex items-center space-x-1">
+                          <Icon
+                            name={IconName.Check}
+                            className="w-4 h-4 text-green-500"
+                          />
+                          <span>Commercial use</span>
+                        </li>
+                        <li className="flex items-center space-x-1">
+                          <Icon
+                            name={IconName.Check}
+                            className="w-4 h-4 text-green-500"
+                          />
+                          <span>Modification</span>
+                        </li>
+                        <li className="flex items-center space-x-1">
+                          <Icon
+                            name={IconName.Check}
+                            className="w-4 h-4 text-green-500"
+                          />
+                          <span>Distribution</span>
+                        </li>
+                        <li className="flex items-center space-x-1">
+                          <Icon
+                            name={IconName.Check}
+                            className="w-4 h-4 text-green-500"
+                          />
+                          <span>Private use</span>
+                        </li>
+                      </ul>
+                    </aside>
                     {/* {pkg.keywords.length > 0 && (
                       <>
                         <h2 className="title is-5 mt-6">Keywords</h2>
@@ -277,7 +313,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
                         ))}
                       </>
                     )} */}
-                    <section className="mt-6">
+                    <section className="mt-4">
                       <h2 className="text-xl font-bold">Enquired audits</h2>
                       <EnquirementButton
                         version={versionPkg.version}

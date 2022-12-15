@@ -77,10 +77,14 @@ const ViewPackage = ({ template }: { template: Template }) => {
                   <span className="font-bold">Built by </span>
                   {template?.author.name ?? "Unknown"}
                 </span>
+                <span className="text-lg p-2 bg-neutral-100 rounded">
+                  <span className="font-bold">License </span>
+                  MIT
+                </span>
               </section>
 
               <section className="mt-4">
-                <h2 className="text-2xl font-bold">Installation</h2>
+                <h2 className="text-2xl font-bold">Use template</h2>
                 <pre className="text-white bg-slate-800 shell mt-4 px-3 py-4 rounded">
                   <code>
                     ligo init contract --template{" "}
@@ -144,6 +148,21 @@ const ViewPackage = ({ template }: { template: Template }) => {
                 Deploy template (Coming soon...)
               </button> */}
               <aside className="menu">
+                <h2 className="text-xl font-bold">Links</h2>
+                <ul className="mt-2 space-y-2">
+                  <li>
+                    <a
+                      href={template?.repository}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:text-ligo"
+                    >
+                      Repository
+                    </a>
+                  </li>
+                </ul>
+              </aside>
+              <aside className="menu mt-4">
                 <h2 className="text-xl font-bold">Permissions</h2>
                 <ul className="mt-2 space-y-2">
                   <li className="flex items-center space-x-1">
@@ -173,21 +192,6 @@ const ViewPackage = ({ template }: { template: Template }) => {
                       className="w-4 h-4 text-green-500"
                     />
                     <span>Private use</span>
-                  </li>
-                </ul>
-              </aside>
-              <aside className="menu">
-                <h2 className="text-xl font-bold">Links</h2>
-                <ul className="mt-2 space-y-2">
-                  <li>
-                    <a
-                      href={template?.repository}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-ligo"
-                    >
-                      Repository
-                    </a>
                   </li>
                 </ul>
               </aside>

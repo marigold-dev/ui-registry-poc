@@ -21,5 +21,5 @@ export const resolveRepositoryUrl = (
     name = matches[1];
   }
 
-  return { url: repository.url, name };
+  return { url: repository.url, name: "Repository" };
 };

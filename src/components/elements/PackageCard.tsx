@@ -10,7 +10,7 @@ const PackageCard = ({ pkg }: Props) => {
     <div className="card rounded">
       <Link
         className="has-text-black h-full flex flex-col"
-        href={`package/${pkg.name}`}
+        href={`${"downloads" in pkg ? "package" : "template"}/${pkg.name}`}
       >
         <header className="card-header">
           <p className="card-header-title">
