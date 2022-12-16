@@ -25,7 +25,7 @@ const ChainHeightButton = () => {
   const [isActive, setActive] = useState(false);
   const [clock, setClock] = useState(0);
   const [lastBlockHash, setLastBlockHash] = useState<string | null>(null);
-  const _ = useOnClickOutside(containerRef, () => setActive(false));
+  useOnClickOutside(containerRef, () => setActive(false));
 
   useInterval(() => setClock(clock + 1), BLOCK_FREQUENCY);
 

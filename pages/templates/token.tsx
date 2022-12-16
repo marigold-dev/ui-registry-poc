@@ -9,8 +9,12 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   };
 }
 
-export default Search({
-  title: "Explore token",
-  description:
-    "Token templates help you to quickly release your fungible or non-fungible token project following tezos Financial Assets standards",
-});
+export default function Token({ data }: any) {
+  return (
+    <Search
+      data={data}
+      title="Explore token"
+      description="Token templates help you to quickly release your fungible or non-fungible token project following tezos Financial Assets standards"
+    />
+  );
+}

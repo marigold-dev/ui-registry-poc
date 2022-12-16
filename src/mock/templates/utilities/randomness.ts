@@ -315,10 +315,12 @@ const main = ([ep, store] : [parameter, storage]) : return_ => {
 };`,
 };
 
-export default {
+const data = {
   map: {
     [randomnessCameligo.name]: randomnessCameligo,
     [randomnessJsligo.name]: randomnessJsligo,
   },
   all: [randomnessCameligo, randomnessJsligo],
 };
+
+export default data;

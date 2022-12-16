@@ -44,10 +44,6 @@ const ViewPackage = ({ template }: { template: Template }) => {
 
   const state = useAuditor();
 
-  const [requestedAudits, setRequestedAudits] = useState<Requested[] | null>(
-    null
-  );
-
   useEffect(() => {
     if (!router.isFallback && !!template) return;
 

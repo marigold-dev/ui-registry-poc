@@ -1,7 +1,6 @@
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { WalletContract } from "@taquito/taquito";
 import { performAudit } from "../api/AuditorSc/Endpoint";
-import { client } from "../api/IPFS";
 import { FileOrNullDispatcher, Index } from "../types/common";
 
 const handle = async (

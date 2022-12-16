@@ -207,10 +207,12 @@ const main = ([action, store]: [Parameter.Types.t, Storage.Types.t]): result => 
 `,
 };
 
-export default {
+const data = {
   map: {
     [multisigCameligo.name]: multisigCameligo,
     [multisigJsligo.name]: multisigJsligo,
   },
   all: [multisigCameligo, multisigJsligo],
 };
+
+export default data;

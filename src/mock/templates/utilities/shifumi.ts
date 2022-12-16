@@ -402,10 +402,12 @@ export const main = ([ep, store] : [parameter, storage]) : return_ => {
 };`,
 };
 
-export default {
+const data = {
   map: {
     [shifumiCameligo.name]: shifumiCameligo,
     [shifumiJsligo.name]: shifumiJsligo,
   },
   all: [shifumiCameligo, shifumiJsligo],
 };
+
+export default data;

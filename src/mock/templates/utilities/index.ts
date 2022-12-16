@@ -2,7 +2,7 @@ import advisor from "./advisor";
 import randomness from "./randomness";
 import shifumi from "./shifumi";
 
-export default {
+const data = {
   map: {
     ...randomness.map,
     ...shifumi.map,
@@ -10,3 +10,5 @@ export default {
   },
   all: [...randomness.all, ...shifumi.all, ...advisor.all],
 };
+
+export default data;

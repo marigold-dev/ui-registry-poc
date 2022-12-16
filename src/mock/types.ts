@@ -1,5 +1,3 @@
-import { TezosToolkit } from "@taquito/taquito";
-
 export type Repository = {
   type: "git";
   url: string;

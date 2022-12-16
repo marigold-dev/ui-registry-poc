@@ -467,10 +467,12 @@ const main = (action: parameter, store: storage) : result => {
 `,
 };
 
-export default {
+const data = {
   map: {
     [daoCameligo.name]: daoCameligo,
     [daoJsligo.name]: daoJsligo,
   },
   all: [daoCameligo, daoJsligo],
 };
+
+export default data;

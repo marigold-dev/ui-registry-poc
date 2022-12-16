@@ -154,10 +154,12 @@ const advisorMain = ([ep, store] : [parameter, storage]) : return_ => {
 };`,
 };
 
-export default {
+const data = {
   map: {
     [advisorCameligo.name]: advisorCameligo,
     [advisorJsligo.name]: advisorJsligo,
   },
   all: [advisorCameligo, advisorJsligo],
 };
+
+export default data;

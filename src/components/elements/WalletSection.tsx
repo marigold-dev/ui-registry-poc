@@ -6,7 +6,6 @@ import { getBalance } from "../../api/Tezos";
 import { NETWORK_TYPE, RPC_URL } from "../../config";
 import { linkBeaconWallet } from "../../context/AuditorAction";
 import { useAuditor, useAuditorDispatch } from "../../context/AuditorContext";
-import connectWalletHandler from "../../handlers/connectWallethandler";
 import disconnectWalletHandler from "../../handlers/disconnectWalletHandler";
 import AddressBadge from "./AddressBadge";
 import BalanceBox from "./BalanceBox";

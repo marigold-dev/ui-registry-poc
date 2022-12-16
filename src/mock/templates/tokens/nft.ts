@@ -266,10 +266,12 @@ export const main = ([ep, store] : [parameter, storage]) : return_ => {
 };`,
 };
 
-export default {
+const data = {
   map: {
     [nftFactoryCameligo.name]: nftFactoryCameligo,
     [nftFactoryJsligo.name]: nftFactoryJsligo,
   },
   all: [nftFactoryCameligo, nftFactoryJsligo],
 };
+
+export default data;

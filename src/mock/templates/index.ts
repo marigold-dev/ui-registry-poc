@@ -2,7 +2,7 @@ import governance from "./governance";
 import tokens from "./tokens";
 import utilities from "./utilities";
 
-export default {
+const data = {
   map: {
     ...tokens.map,
     ...governance.map,
@@ -15,3 +15,5 @@ export default {
     all: [...tokens.all, ...governance.all, ...utilities.all],
   },
 };
+
+export default data;

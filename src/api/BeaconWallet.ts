@@ -1,9 +1,5 @@
 // import { PermissionScope, BeaconEvent } from "@airgap/beacon-sdk";
-import {
-  BeaconEvent,
-  PermissionScope,
-  defaultEventCallbacks,
-} from "@airgap/beacon-dapp";
+import { PermissionScope } from "@airgap/beacon-dapp";
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { APP_NAME, NETWORK_TYPE, RPC_URL } from "../config";
 

@@ -9,8 +9,12 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   };
 }
 
-export default Search({
-  title: "Explore all",
-  description:
-    "Contract templates help you to kickstart you project with contracts crafted & reviewed by Tezos Community",
-});
+export default function Templates({ data }: any) {
+  return (
+    <Search
+      title="Explore all"
+      description="Contract templates help you to kickstart you project with contracts crafted & reviewed by Tezos Community"
+      data={data}
+    />
+  );
+}

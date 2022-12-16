@@ -685,10 +685,12 @@ const getCounter = ([_,s]: [unit, storage]) : nat => {
 `,
 };
 
-export default {
+const data = {
   map: {
     [permitCameligo.name]: permitCameligo,
     [permitJsligo.name]: permitJsligo,
   },
   all: [permitCameligo, permitJsligo],
 };
+
+export default data;

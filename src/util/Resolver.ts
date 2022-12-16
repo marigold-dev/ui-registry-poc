@@ -11,15 +11,5 @@ const urlRegex = /http[s]?:\/\/.+\/(.+\/.+)/;
 export const resolveRepositoryUrl = (
   repository: Repository
 ): { url: string; name: string } => {
-  const url = repository.url;
-
-  const matches = url.match(urlRegex);
-
-  let name = "";
-
-  if (!!matches) {
-    name = matches[1];
-  }
-
   return { url: repository.url, name: "Repository" };
 };
