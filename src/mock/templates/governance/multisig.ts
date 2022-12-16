@@ -108,7 +108,7 @@ let main (action, storage : request) : result =
 };
 
 const multisigJsligo: Template = {
-  name: "Multisig-JsLIGO",
+  name: "Multisig-Jsligo",
   category: "governance",
   repository: "https://github.com/ligolang/multisig-jsligo",
   author: { name: "LIGO" },

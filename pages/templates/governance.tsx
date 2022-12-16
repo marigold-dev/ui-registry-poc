@@ -9,4 +9,8 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   };
 }
 
-export default Search;
+export default Search({
+  title: "Explore governance",
+  description:
+    "Governance templates help you to empower your decentralized community with multisig or DAO",
+});

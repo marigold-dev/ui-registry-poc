@@ -9,4 +9,8 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   };
 }
 
-export default Search;
+export default Search({
+  title: "Explore utilities",
+  description:
+    "Utilities illustrate useful patterns like randomness or updatable contracts",
+});

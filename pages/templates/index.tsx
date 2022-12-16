@@ -9,4 +9,8 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
   };
 }
 
-export default Search;
+export default Search({
+  title: "Explore all",
+  description:
+    "Contract templates help you to kickstart you project with contracts crafted & reviewed by Tezos Community",
+});

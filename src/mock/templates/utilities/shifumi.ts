@@ -198,7 +198,7 @@ let main(ep, store : parameter * storage) : return =
 };
 
 const shifumiJsligo: Template = {
-  name: "Shifumi-JsLIGO",
+  name: "Shifumi-Jsligo",
   category: "utilities",
   repository: "https://github.com/ligolang/shifumi-jsligo",
   author: { name: "LIGO" },

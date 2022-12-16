@@ -18,4 +18,4 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
     }));
 }
 
-export default Search;
+export default Search();

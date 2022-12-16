@@ -44,6 +44,7 @@ const Home = ({
       </Head>
       <div className="space-y-6">
         <PackageEnum
+          href={"/packages"}
           title="Packages"
           subtitle="Most downloaded"
           packages={allSortedDl.slice(0, 6)}
@@ -51,11 +52,15 @@ const Home = ({
 
         <PackageEnum
           title="Templates"
-          subtitle=""
+          href="/templates"
+          subtitle="Featured contracts"
           packages={[
-            ...templates.categories.governance.slice(0, 2),
-            ...templates.categories.tokens.slice(0, 2),
-            ...templates.categories.utilities.slice(0, 2),
+            templates.map["NFT-Factory-Cameligo"],
+            templates.map["Multisig-Jsligo"],
+            templates.map["Permit-Cameligo"],
+            templates.map["DAO-Jsligo"],
+            templates.map["Randomness-Cameligo"],
+            templates.map["Shifumi-Jsligo"],
           ]}
         />
       </div>

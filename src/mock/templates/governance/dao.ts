@@ -218,7 +218,7 @@ let main (action, store : parameter * storage) : result =
 };
 
 const daoJsligo: Template = {
-  name: "DAO-JsLIGO",
+  name: "DAO-Jsligo",
   category: "governance",
   repository: "https://github.com/ligolang/dao-jsligo",
   author: { name: "LIGO" },
