@@ -13,7 +13,13 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-FROM node:16-alpine AS builder
+FROM node:16 AS builder
+
+RUN npm i -g esy
+RUN wget https://gitlab.com/ligolang/ligo/-/jobs/3438281030/artifacts/raw/ligo
+RUN chmod +x ./ligo
+RUN cp ./ligo /usr/local/bin
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 
