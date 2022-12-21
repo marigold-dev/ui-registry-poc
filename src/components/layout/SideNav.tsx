@@ -36,8 +36,10 @@ const SideNav = ({ title, links }: props) => (
     <section>
       <h3 className="text-2xl text-ligo font-bold">{title}</h3>
       <ul className="space-y-2 mt-2 w-full">
-        {links.map(({ href, text }) => (
-          <NavLink href={href}>{text}</NavLink>
+        {links.map(({ href, text }, i) => (
+          <NavLink key={i} href={href}>
+            {text}
+          </NavLink>
         ))}
       </ul>
     </section>

@@ -1,10 +1,14 @@
 import { GetStaticPropsContext } from "next";
+import { getTemplates } from "../../server/templates";
 import { Search } from "../../src/components";
-import templates from "../../src/mock/templates";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
   return {
-    props: { data: templates.categories.governance },
+    props: {
+      data: getTemplates().filter(
+        (template) => template.category === "governance"
+      ),
+    },
     revalidate: 60,
   };
 }

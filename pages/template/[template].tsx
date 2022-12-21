@@ -2,22 +2,21 @@ import mermaid from "mermaid";
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-import { Requested } from "../../src/api/AuditorSc/ProceededStorage";
+import { getTemplates } from "../../server/templates";
 import { Icon, Mermaid } from "../../src/components";
 import { IconName } from "../../src/components/elements/Icon";
 import { useAuditor } from "../../src/context/AuditorContext";
-import templates from "../../src/mock/templates";
 import { Template } from "../../src/mock/types";
 
 mermaid.initialize({ startOnLoad: false });
 
 export async function getStaticPaths() {
   return {
-    paths: Object.keys(templates.map).map((template) => ({
+    paths: getTemplates().map((template) => ({
       params: {
-        template,
+        template: template.name,
       },
     })),
     fallback: false,
@@ -25,7 +24,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const template = templates.map[context.params!.template as string];
+  const template = getTemplates().find(
+    (template) => template.name === (context.params!.template as string)
+  );
 
   if (!template)
     return {

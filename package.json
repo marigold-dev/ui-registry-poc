@@ -33,11 +33,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "next dev",
-    "start": "next start -p 80",
+    "dev": "node server/server.js",
     "build": "next build",
-    "test": "next test",
-    "eject": "react-scripts eject"
+    "start": "PORT=80 NODE_ENV=production node server/server.js"
   },
   "eslintConfig": {
     "extends": [
