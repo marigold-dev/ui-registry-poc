@@ -12,6 +12,8 @@ export default async (
   req: NextApiRequest & templates,
   res: NextApiResponse
 ) => {
+  if (req.method !== "POST") return res.status(405).end();
+
   const { template } = req.query;
 
   if (!template) {
@@ -19,7 +21,7 @@ export default async (
   }
 
   const toDeploy = req.templates.find(
-    (template) => template.name === template.name
+    (t) => t.name.toLowerCase() === (template as string).toLowerCase()
   );
 
   if (!toDeploy) {
@@ -27,9 +29,11 @@ export default async (
   }
 
   try {
-    await deploy(toDeploy.repository);
-    res.status(200).json({});
+    const deployed = await deploy(toDeploy.repository);
+
+    res.status(200).json(deployed);
   } catch (e) {
+    console.log(e);
     res.status(500).json({ err: "Failed to deploy contract" });
   }
 };

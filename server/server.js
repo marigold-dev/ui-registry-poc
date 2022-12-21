@@ -1,6 +1,7 @@
 const { createServer } = require("http");
 const { parse } = require("url");
 const next = require("next");
+const { updateRepo } = require("./templates");
 const { templates } = require("./constants");
 
 const dev = process.env.NODE_ENV !== "production";
@@ -9,6 +10,30 @@ const port = 3000 || process.env.PORT;
 
 const app = next({ dev, hostname, port });
 const handle = app.getRequestHandler();
+
+const updateRepos = async () => {
+  try {
+    console.log("Pulling repos");
+    await Promise.all(
+      templates.map((template) =>
+        updateRepo(
+          template.repository.replace("https://github.com/ligolang/", "")
+        )
+      )
+    );
+    console.log("Pulled repos");
+  } catch (e) {
+    console.error("Pull error: ", e);
+  }
+};
+
+setInterval(
+  updateRepos,
+  // Every 5min
+  60000 * 5
+);
+
+// updateRepos();
 
 app.prepare().then(() => {
   createServer(async (req, res) => {
