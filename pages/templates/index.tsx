@@ -5,8 +5,13 @@ import { getTemplates } from "../../server/templates";
 import { Template } from "../../src/mock/types";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
+  const templates = await getTemplates();
   return {
-    props: { data: getTemplates() },
+    props: {
+      governance: templates.filter((t) => t.category === "governance"),
+      tokens: templates.filter((t) => t.category === "token"),
+      utilities: templates.filter((t) => t.category === "utilities"),
+    },
     revalidate: 60,
   };
 }

@@ -14,7 +14,7 @@ mermaid.initialize({ startOnLoad: false });
 
 export async function getStaticPaths() {
   return {
-    paths: getTemplates().map((template) => ({
+    paths: (await getTemplates()).map((template) => ({
       params: {
         template: template.name,
       },
@@ -24,7 +24,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context: GetStaticPropsContext) {
-  const template = getTemplates().find(
+  const template = (await getTemplates()).find(
     (template) => template.name === (context.params!.template as string)
   );
 

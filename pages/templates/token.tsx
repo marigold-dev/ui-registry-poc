@@ -5,7 +5,9 @@ import { Search } from "../../src/components";
 export async function getStaticProps(_context: GetStaticPropsContext) {
   return {
     props: {
-      data: getTemplates().filter((template) => template.category === "token"),
+      data: (await getTemplates()).filter(
+        (template) => template.category === "token"
+      ),
     },
     revalidate: 60,
   };
