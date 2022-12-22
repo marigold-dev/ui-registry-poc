@@ -2,12 +2,11 @@ import mermaid from "mermaid";
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { getTemplates } from "../../server/templates";
-import { Icon, Mermaid } from "../../src/components";
+import { Copy, Icon, Mermaid, Spinner } from "../../src/components";
 import { IconName } from "../../src/components/elements/Icon";
-import { useAuditor } from "../../src/context/AuditorContext";
 import { Template } from "../../src/mock/types";
 
 mermaid.initialize({ startOnLoad: false });
@@ -43,12 +42,22 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 const ViewPackage = ({ template }: { template: Template }) => {
   const router = useRouter();
 
-  const state = useAuditor();
+  const [isDeploying, setIsDeploying] = useState(false);
+  const [deployError, setDeployError] = useState("");
+  const [contracts, setContracts] = useState<
+    { address: string; name?: string }[]
+  >([]);
 
   useEffect(() => {
     if (!router.isFallback && !!template) return;
 
     router.push("/");
+  }, []);
+
+  useEffect(() => {
+    const contracts = localStorage.getItem(`@ligo/${template.name}`);
+
+    setContracts(JSON.parse(contracts ?? "[]"));
   }, []);
 
   return (
@@ -122,7 +131,6 @@ const ViewPackage = ({ template }: { template: Template }) => {
                       transformLinkUri={(href) => {
                         if (href.includes("http")) return href;
 
-                        console.log(template.repository);
                         return `${template.repository}/tree/main/${href}`;
                       }}
                       transformImageUri={(href) => {
@@ -142,9 +150,71 @@ const ViewPackage = ({ template }: { template: Template }) => {
             </div>
 
             <div className="w-full md:w-2/6 md:pl-5 space-y-4 mt-4 md:mt-0">
-              {/* <button className="bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold opacity-50 pointer-events-none">
-                Deploy template (Coming soon...)
-              </button> */}
+              <div>
+                {contracts.length > 0 && (
+                  <div className="border-ligo border-4 rounded px-2 py-3 inline-block w-full lg:w-auto overflow-x-auto">
+                    {contracts.length > 1 ? (
+                      <ul className="space-y-2">
+                        {contracts.map(({ name, address }) => (
+                          <li className="flex items-center space-x-2">
+                            <span className="font-bold">{name}:</span>{" "}
+                            <Copy>{address}</Copy>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <Copy>{contracts[0].address}</Copy>
+                    )}
+                  </div>
+                )}
+
+                {contracts.length === 0 && (
+                  <button
+                    className={`flex justify-center bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold relative
+                ${isDeploying ? "pointer-events-none" : ""}`}
+                    onClick={() => {
+                      if (isDeploying) return;
+
+                      setIsDeploying(true);
+                      fetch(`/api/deploy?template=${template.name}`, {
+                        method: "POST",
+                      })
+                        .then((res) => res.json())
+                        .then((res) => {
+                          setIsDeploying(false);
+                          localStorage.setItem(
+                            `@ligo/${template.name}`,
+                            JSON.stringify(res)
+                          );
+
+                          setContracts(res);
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                          setIsDeploying(false);
+                          setDeployError(err);
+                        });
+                    }}
+                  >
+                    <span className={isDeploying ? "opacity-0" : "opacity-100"}>
+                      Deploy template
+                    </span>
+                    {isDeploying && (
+                      <Spinner className="w-6 h-6 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
+                    )}
+                  </button>
+                )}
+                {isDeploying && (
+                  <span className="text-sm mt-1 text-slate-600">
+                    It may takes few minutes to deploy
+                  </span>
+                )}
+                {!!deployError && (
+                  <span className="text-sm mt-1 text-red-500">
+                    {deployError}
+                  </span>
+                )}
+              </div>
               <aside className="menu">
                 <h2 className="text-xl font-bold">Links</h2>
                 <ul className="mt-2 space-y-2">

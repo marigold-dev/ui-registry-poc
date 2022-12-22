@@ -77,7 +77,7 @@ main {
 }
 
 .Spinner__path {
-  stroke: #4a4a4a;
+  stroke: currentColor;
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
 }
