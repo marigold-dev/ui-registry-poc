@@ -121,7 +121,8 @@ const ViewPackage = ({ template }: { template: Template }) => {
                       transformLinkUri={(href) => {
                         if (href.includes("http")) return href;
 
-                        return `${template.repository}${href}`;
+                        console.log(template.repository);
+                        return `${template.repository}/tree/main/${href}`;
                       }}
                       transformImageUri={(href) => {
                         const repoName = template.repository.replace(
