@@ -152,20 +152,33 @@ const ViewPackage = ({ template }: { template: Template }) => {
             <div className="w-full md:w-2/6 md:pl-5 space-y-4 mt-4 md:mt-0">
               <div>
                 {contracts.length > 0 && (
-                  <div className="border-ligo border-4 rounded px-2 py-3 inline-block w-full lg:w-auto overflow-x-auto">
-                    {contracts.length > 1 ? (
-                      <ul className="space-y-2">
-                        {contracts.map(({ name, address }) => (
-                          <li className="flex items-center space-x-2">
-                            <span className="font-bold">{name}:</span>{" "}
-                            <Copy>{address}</Copy>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <Copy>{contracts[0].address}</Copy>
-                    )}
-                  </div>
+                  <>
+                    <div className="border-ligo border-4 rounded px-2 py-3 inline-block w-full lg:w-auto overflow-x-auto">
+                      {contracts.length > 1 ? (
+                        <ul className="space-y-2">
+                          {contracts.map(({ name, address }) => (
+                            <li className="flex items-center space-x-2">
+                              <span className="font-bold">{name}:</span>{" "}
+                              <Copy>{address}</Copy>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <Copy>{contracts[0].address}</Copy>
+                      )}
+                    </div>
+                    <a
+                      href="#"
+                      className="text-ligo hover:text-ligo-dark block"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        localStorage.setItem(`@ligo/${template.name}`, "");
+                        setContracts([]);
+                      }}
+                    >
+                      Clear contract
+                    </a>
+                  </>
                 )}
 
                 {contracts.length === 0 && (
