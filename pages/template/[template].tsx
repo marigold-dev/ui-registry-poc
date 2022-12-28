@@ -5,7 +5,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { getTemplates } from "../../server/templates";
-import { Copy, Icon, Mermaid, Spinner } from "../../src/components";
+import {
+  Copy,
+  Dropdown,
+  Icon,
+  Mermaid,
+  Spinner,
+  TemplateInformations,
+} from "../../src/components";
 import { IconName } from "../../src/components/elements/Icon";
 import { Template } from "../../src/mock/types";
 
@@ -40,6 +47,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const ViewPackage = ({ template }: { template: Template }) => {
+  console.log(template.endpoints);
   const router = useRouter();
 
   const [isDeploying, setIsDeploying] = useState(false);
@@ -47,6 +55,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
   const [contracts, setContracts] = useState<
     { address: string; name?: string }[]
   >([]);
+  const [endpoints, setEndpoints] = useState(template.endpoints[0]);
 
   useEffect(() => {
     if (!router.isFallback && !!template) return;
@@ -57,7 +66,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
   useEffect(() => {
     const contracts = localStorage.getItem(`@ligo/${template.name}`);
 
-    setContracts(JSON.parse(contracts ?? "[]"));
+    setContracts(JSON.parse(!!contracts ? contracts : "[]"));
   }, []);
 
   return (
@@ -144,6 +153,34 @@ const ViewPackage = ({ template }: { template: Template }) => {
                     >
                       {template.readme.replace(/\\n/g, "\n")}
                     </ReactMarkdown>
+                  </div>
+                  <div className="relative bg-white w-full rounded drop-shadow px-4 py-4 mt-4 z-30">
+                    <div className="flex justify-between">
+                      <h3 className="text-2xl font-bold">
+                        Contract informations
+                      </h3>
+                      {template.endpoints.length > 1 ? (
+                        <div className="w-1/4">
+                          <Dropdown
+                            options={template.endpoints.map(({ contract }) => ({
+                              label: contract,
+                              value: contract,
+                            }))}
+                            onChange={(value) => {
+                              if (endpoints.contract === value) return;
+                              const found = template.endpoints.find(
+                                ({ contract }) => contract === value
+                              );
+
+                              if (!found) return;
+
+                              setEndpoints(found);
+                            }}
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+                    <TemplateInformations endpoints={endpoints.params} />
                   </div>
                 </section>
               )}

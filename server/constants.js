@@ -9,6 +9,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of DAO contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "DAO-Jsligo",
@@ -18,6 +19,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of DAO contract in JsLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Multisig-Cameligo",
@@ -27,6 +29,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of multisig contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Multisig-Jsligo",
@@ -36,6 +39,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of multisig contract in JsLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "NFT-Factory-Cameligo",
@@ -45,6 +49,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of a NFT Factory contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "NFT-Factory-JsLIGO",
@@ -54,6 +59,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of a NFT Factory contract in JsLIGO Resources",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Permit-Cameligo",
@@ -63,6 +69,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of a permit contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Permit-JsLIGO",
@@ -72,6 +79,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of a permit contract in JsLIGO Resources",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Advisor-Cameligo",
@@ -81,6 +89,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of an advisor contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Advisor-JSLigo",
@@ -90,6 +99,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of an advisor contract in JSLigo",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Randomness-Cameligo",
@@ -99,6 +109,7 @@ module.exports = {
       version: "1.0",
       description: "Exemple of a NFT Factory contract in CameLIGO ",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Randomness-JsLIGO",
@@ -109,6 +120,7 @@ module.exports = {
       description:
         "An exemple of a contract generating a random number in JsLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Shifumi-Cameligo",
@@ -118,6 +130,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of a shifumi game contract in CameLIGO",
       readme: "",
+      endpoints: [],
     },
     {
       name: "Shifumi-Jsligo",
@@ -127,6 +140,7 @@ module.exports = {
       version: "1.0",
       description: "An exemple of a shifumi game contract in JsLIGO",
       readme: "",
+      endpoints: [],
     },
   ],
 };

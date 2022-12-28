@@ -32,7 +32,7 @@ type props = {
 };
 
 const SideNav = ({ title, links }: props) => (
-  <aside className="static lg:fixed top-20 bottom-0 left-0 bg-white w-full lg:w-56 lg:px-4 lg:py-4 lg:drop-shadow z-50 lg:block">
+  <aside className="static lg:fixed top-20 bottom-0 left-0 bg-white w-full lg:w-56 lg:px-4 lg:py-4 lg:drop-shadow z-20 lg:block">
     <section>
       <h3 className="text-2xl text-ligo font-bold">{title}</h3>
       <ul className="space-y-2 mt-2 w-full">

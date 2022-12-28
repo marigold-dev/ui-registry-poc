@@ -1,5 +1,5 @@
 const { TEMPLATES_PATH, templates: baseTemplates } = require("./constants");
-const { readFileSync, existsSync } = require("fs");
+const { readFileSync, existsSync, readdirSync } = require("fs");
 const { exec } = require("child_process");
 
 let templates = baseTemplates;
@@ -66,12 +66,77 @@ const updateReadmes = async () => {
   );
 };
 
+const parseArgs = (args) => {
+  return args.reduce((acc, curr) => {
+    return [
+      ...acc,
+      {
+        type: curr.prim,
+        name: !!curr.annots ? curr.annots[0].replace("%", "") : null,
+        content: !!curr.args ? parseArgs(curr.args) : [],
+      },
+    ];
+  }, []);
+};
+
+const parseParameter = (parameter) => {
+  if (!parameter.annots)
+    return parameter.args.reduce((acc, curr) => {
+      const params = parseParameter(curr);
+
+      if (Array.isArray(params)) return [...acc, ...params];
+      else return [...acc, params];
+    }, []);
+
+  return {
+    name: !!parameter.annots ? parameter.annots[0].replace("%", "") : null,
+    args: (() => {
+      if (!parameter.args)
+        return [
+          {
+            type: parameter.prim,
+            name: null,
+            content: null,
+          },
+        ];
+      else return parseArgs(parameter.args);
+    })(),
+  };
+};
+
+const parseEndpoints = (url) => {
+  const repoName = url.replace("https://github.com/ligolang/", "");
+
+  const base = `${TEMPLATES_PATH}/${repoName}/compiled`;
+
+  const files = readdirSync(base).filter((file) => file.includes(".json"));
+
+  const parameters = files
+    .map((name) => ({
+      name,
+      content: JSON.parse(readFileSync(`${base}/${name}`).toString())[0],
+    }))
+    .filter(({ content }) => content.prim === "parameter");
+
+  return parameters.map(({ name, content }) => ({
+    contract: name.replace(".json", ""),
+    params: parseParameter(content),
+  }));
+};
+
 const setup = async () => {
   await Promise.all(
     templates.map((template) => cloneRepo(template.repository))
   );
 
   await updateReadmes();
+
+  templates = templates.map((template) => {
+    return {
+      ...template,
+      endpoints: parseEndpoints(template.repository),
+    };
+  });
 };
 
 const deploy = async (repoLink) => {
