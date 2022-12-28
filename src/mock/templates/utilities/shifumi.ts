@@ -49,7 +49,9 @@ The repository provides a Makefile for compiling the smart contract Shifumi.
 \`\`\`sh
 make compile
 \`\`\`
+
 You can also override \`make\` parameters by running :
+
 \`\`\`sh
 make compile ligo_compiler=<LIGO_EXECUTABLE> protocol_opt="--protocol <PROTOCOL>"
 \`\`\`
@@ -68,18 +70,11 @@ make test
 
 The repository provides a deployment script for deploying the smart contract Shifumi.
 
-\`\`\`sh
-make sandbox-start
+\`\`\`
 make deploy
 \`\`\`
 
-It is based on a .env file that contains deployment information:
-
-\`\`\`sh
-ADMIN_PK - private key
-ADMIN_ADDRESS - public key
-RPC - URL of the RPC node that will process the transaction
-\`\`\`
+You have to rename \`deploy/.env.dist\` to \`deploy/.env\` and **fill the required variables** to be able to deploy.
 `,
   mainFile: `#import "storage.mligo" "Storage"
 #import "parameter.mligo" "Parameter"
@@ -204,49 +199,39 @@ const shifumiJsligo: Template = {
   author: { name: "LIGO" },
   version: "1.0",
   description: "An exemple of a shifumi game contract in JsLIGO",
-  readme: `# Contract Shifumi
+  readme: `## Contract Shifumi
 
-This contract implements a "Shifumi" ([Rock Paper
-Scissors](https://en.wikipedia.org/wiki/Rock_paper_scissors) game for 2 players.
-
-This smart contract implements a "commit & reveal" mechanism with chest allowing
-players to keep choice secret until all players have played. In order to motivate
-players to reveal their secret action, players must lock 10 mutez during "Commit"
-and they get back their 10 mutez once the secret action is "revealed".
+This contract implements a Shifumi game for 2 players. This smart contract implements a "commit & reveal" mecanism with chest allowing players to keep choice secret until all players have played. In order to motivate players to reveal their secret action, players must lock 10 mutez during "Commit" and they get back their 10 mutez once the secret action is "revealed".
 
 Users can create a new session and specify players and the number of round.
 
-Players can choose an action (Stone, Paper, Cisor) secretly and commit their
-secret choice.
+Players can choose an action (Stone, Paper, Cisor) secretly and commit their secret choice.
 Once all players have chosen their secret action, they can reveal it.
 
 Players can reveal their secret action and commit their secret choice.
-Once all players have revealed their secret action (for the current round), the
-result for this round is computed and the session goes to the next round.
-
-The result of the session is automatically computed once all rounds have been played.
+Once all players have revealed their secret action (for the current round), the result for this round is computed and the session goes to the next round. The result of the session is automatically computed once all rounds have been played.
 
 The smart contract provides an on-chian view for retrieving the session information:
 
 - the status of a session (Inplay, Winner, Draw)
 - winners for each round
 
-In the case of a player refusing to play (and keep the session stuck), an
-entrypoint has been provided to claim victory for 10 minutes of inactivity.
+In the case of a player refusing to play (and keep the session stuck), an entrypoint has been provided to claim victory for 10 minutes of inactivity.
 
-## Makefile usage
+### Makefile usage
 
-The repository provides a Makefile for compiling/testing/deploying the smart
-contract Shifumi. All makefile targets are described with the \`make\` command.
+The repository provides a Makefile for compiling/testing/deploying the smart contract Shifumi. All makefile targets are described with the \`make\` command.
 
 ### Compile Shifumi contract
 
 The repository provides a Makefile for compiling the smart contract Shifumi.
 
-\`\`\`sh
+\`\`\`
 make compile
 \`\`\`
+
 You can also override \`make\` parameters by running :
+
 \`\`\`sh
 make compile ligo_compiler=<LIGO_EXECUTABLE> protocol_opt="--protocol <PROTOCOL>"
 \`\`\`
@@ -257,26 +242,20 @@ It compiles the smart contract in TZ file and also in the JSON format
 
 The repository provides a Makefile for testing the smart contract Shifumi.
 
-\`\`\`sh
+\`\`\`
 make test
 \`\`\`
 
-### Deploy Shifumi contract
+### Test Shifumi contract
 
 The repository provides a deployment script for deploying the smart contract Shifumi.
 
-\`\`\`sh
-make sandbox-start
+\`\`\`
 make deploy
 \`\`\`
 
-It is based on a .env file that contains deployment information:
+You have to rename \`deploy/.env.dist\` to \`deploy/.env\` and **fill the required variables** to be able to deploy.
 
-\`\`\`sh
-ADMIN_PK - private key
-ADMIN_ADDRESS - public key
-RPC - URL of the RPC node that will process the transaction
-\`\`\`
 `,
   mainFile: `#import "storage.jsligo" "Storage"
 #import "parameter.jsligo" "Parameter"
