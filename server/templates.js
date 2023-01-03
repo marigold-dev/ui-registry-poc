@@ -3,6 +3,16 @@ const { readFileSync, existsSync, readdirSync } = require("fs");
 const { exec } = require("child_process");
 
 let templates = baseTemplates;
+const EXCLUDED_DIRS = [
+  "assets",
+  "compiled",
+  "deploy",
+  "esy.lock",
+  "_esy",
+  ".ligo",
+  ".git",
+  "docs",
+];
 
 const cloneRepo = (url) => {
   const repoName = url.replace("https://github.com/ligolang/", "");
@@ -124,6 +134,35 @@ const parseEndpoints = (url) => {
   }));
 };
 
+const readRecursiveFiles = (path) =>
+  readdirSync(path, { withFileTypes: true }).flatMap((f) => {
+    if (f.isFile() && f.name.includes("ligo") && f.name !== ".ligoproject") {
+      const filePath = `${path}/${f.name}`;
+
+      return [
+        {
+          path: filePath,
+          content: readFileSync(filePath).toString(),
+        },
+      ];
+    } else if (f.isDirectory() && !EXCLUDED_DIRS.includes(f.name)) {
+      return readRecursiveFiles(`${path}/${f.name}`);
+    } else {
+      return [];
+    }
+  });
+
+const readAllFiles = (url) => {
+  const repoName = url.replace("https://github.com/ligolang/", "");
+
+  const base = `${TEMPLATES_PATH}/${repoName}`;
+
+  return readRecursiveFiles(base).map(({ path, content }) => ({
+    content,
+    path: path.replace(`${base}/`, ""),
+  }));
+};
+
 const setup = async () => {
   await Promise.all(
     templates.map((template) => cloneRepo(template.repository))
@@ -135,6 +174,7 @@ const setup = async () => {
     return {
       ...template,
       endpoints: parseEndpoints(template.repository),
+      files: readAllFiles(template.repository),
     };
   });
 };

@@ -47,7 +47,6 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 }
 
 const ViewPackage = ({ template }: { template: Template }) => {
-  console.log(template.endpoints);
   const router = useRouter();
 
   const [isDeploying, setIsDeploying] = useState(false);
@@ -180,7 +179,10 @@ const ViewPackage = ({ template }: { template: Template }) => {
                         </div>
                       ) : null}
                     </div>
-                    <TemplateInformations endpoints={endpoints.params} />
+                    <TemplateInformations
+                      endpoints={endpoints.params}
+                      files={template.files}
+                    />
                   </div>
                 </section>
               )}
