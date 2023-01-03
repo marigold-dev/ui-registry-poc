@@ -9,8 +9,8 @@ import Ligo from "../images/Ligo";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `p-2 rounded ${
-    isActive ? "text-ligo" : ""
-  } hover:bg-neutral-100 hover:text-ligo`;
+    isActive ? "text-ligo-600" : ""
+  } hover:bg-neutral-100 hover:text-ligo-600`;
 
 const Header = () => {
   const searchRef = useRef("");
@@ -44,7 +44,7 @@ const Header = () => {
               viewBox={viewbox(0, 0, 60, 60)}
               fill="#0E74FF"
             />
-            <div className="uppercase ml-2 text-ligo text-xl">
+            <div className="uppercase ml-2 text-ligo-600 text-xl">
               <span className="font-bold">Ligo</span>
               <span className="font-medium">Registry</span>
             </div>

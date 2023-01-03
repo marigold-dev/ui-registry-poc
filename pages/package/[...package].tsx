@@ -119,7 +119,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
           href={url}
           target="_blank"
           rel="noreferrer"
-          className="hover:text-ligo"
+          className="hover:text-ligo-600"
         >
           {name}
         </a>
@@ -180,7 +180,7 @@ const ViewPackage = ({ pkg }: { pkg: Package }) => {
           return (
             <section>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-ligo">
+                <h1 className="text-2xl md:text-3xl font-bold text-ligo-600">
                   {versionPkg.name}
                   <span className="ml-2 font-light text-base">
                     {"v" + versionPkg.version}

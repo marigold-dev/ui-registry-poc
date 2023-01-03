@@ -10,7 +10,7 @@ const Footer = () => {
           <ul className="flex flex-col items-center md:block">
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href="http://ligolang.org/"
@@ -20,7 +20,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href={exploreAuditorSc}
@@ -30,7 +30,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/marigold-dev/auditor"

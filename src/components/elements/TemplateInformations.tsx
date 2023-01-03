@@ -40,8 +40,8 @@ const Endpoints = ({ endpoints }: { endpoints: endpoint[] }) => {
             <a
               href="#"
               className={`${
-                selected.name === name ? "text-ligo underline" : ""
-              } hover:text-ligo`}
+                selected.name === name ? "text-ligo-600 underline" : ""
+              } hover:text-ligo-600`}
               onClick={(e) => {
                 e.preventDefault();
                 setSelected(endpoints[i]);
@@ -99,8 +99,8 @@ const Sources = ({ files }: { files: file[] }) => {
             <a
               href="#"
               className={`${
-                selected.path === path ? "text-ligo underline" : ""
-              } hover:text-ligo`}
+                selected.path === path ? "text-ligo-600 underline" : ""
+              } hover:text-ligo-600`}
               onClick={(e) => {
                 e.preventDefault();
                 setSelected(files[i]);
@@ -142,7 +142,7 @@ export default function TemplateInformations({ endpoints, files }: props) {
       <div className="border-b pt-2 space-x-2">
         <button
           className={`${
-            selectedView === 0 ? "text-ligo border-b-2 border-ligo" : ""
+            selectedView === 0 ? "text-ligo-600 border-b-2 border-ligo" : ""
           } p-2 font-medium translate-y-px`}
           onClick={() => {
             setSelectedView(0);
@@ -152,7 +152,7 @@ export default function TemplateInformations({ endpoints, files }: props) {
         </button>
         <button
           className={`${
-            selectedView === 1 ? "text-ligo border-b-2 border-ligo" : ""
+            selectedView === 1 ? "text-ligo-600 border-b-2 border-ligo" : ""
           } p-2 font-medium translate-y-px`}
           onClick={() => {
             setSelectedView(1);

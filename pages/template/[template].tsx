@@ -77,7 +77,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
 
       <section>
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-ligo">
+          <h1 className="text-2xl md:text-3xl font-bold text-ligo-600">
             {template?.name}
             <span className="ml-2 font-light text-base">
               {"v" + template?.version}
@@ -208,7 +208,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
                     </div>
                     <a
                       href="#"
-                      className="text-ligo hover:text-ligo-dark block"
+                      className="text-ligo-600 hover:text-ligo-600-700 block"
                       onClick={(e) => {
                         e.preventDefault();
                         localStorage.setItem(`@ligo/${template.name}`, "");
@@ -275,7 +275,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
                       href={template?.repository}
                       target="_blank"
                       rel="noreferrer"
-                      className="hover:text-ligo"
+                      className="hover:text-ligo-600"
                     >
                       Repository
                     </a>
