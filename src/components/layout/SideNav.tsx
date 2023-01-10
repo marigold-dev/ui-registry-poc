@@ -16,7 +16,7 @@ const NavLink = ({ href, children }: navLinkProps) => {
         href={href}
         className={`block px-2 py-1 hover:bg-slate-100 w-full rounded ${
           router.pathname === href
-            ? "bg-ligo text-white hover:bg-ligo hover:text-white"
+            ? "bg-ligo-600 text-white hover:bg-ligo-600 hover:text-white"
             : ""
         }`}
       >

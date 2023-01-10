@@ -198,12 +198,46 @@ const ViewPackage = ({ template }: { template: Template }) => {
                           {contracts.map(({ name, address }) => (
                             <li className="flex items-center space-x-2">
                               <span className="font-bold">{name}:</span>{" "}
-                              <Copy>{address}</Copy>
+                              <Copy value={address}>
+                                <a
+                                  href={`https://ghostnet.tzkt.io/${address}`}
+                                  className="text-ligo-600 text-underline hover:text-ligo-700"
+                                  rel="norel"
+                                  target="_blank"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                  }}
+                                >
+                                  {`${address.substring(
+                                    0,
+                                    5
+                                  )}...${address.substring(
+                                    address.length - 5
+                                  )}`}
+                                </a>
+                              </Copy>
                             </li>
                           ))}
                         </ul>
                       ) : (
-                        <Copy>{contracts[0].address}</Copy>
+                        <Copy value={contracts[0].address} className="">
+                          <a
+                            href={`https://ghostnet.tzkt.io/${contracts[0].address}`}
+                            className="text-ligo-600 text-underline hover:text-ligo-700"
+                            rel="norel"
+                            target="_blank"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                          >
+                            {`${contracts[0].address.substring(
+                              0,
+                              5
+                            )}...${contracts[0].address.substring(
+                              contracts[0].address.length - 5
+                            )}`}
+                          </a>
+                        </Copy>
                       )}
                     </div>
                     <a
@@ -222,7 +256,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
 
                 {contracts.length === 0 && (
                   <button
-                    className={`flex justify-center bg-ligo hover:bg-ligo-dark rounded px-2 py-3 text-white font-bold relative
+                    className={`flex justify-center bg-ligo-600 hover:bg-ligo-700 rounded px-2 py-3 text-white font-bold relative
                 ${isDeploying ? "pointer-events-none" : ""}`}
                     onClick={() => {
                       if (isDeploying) return;

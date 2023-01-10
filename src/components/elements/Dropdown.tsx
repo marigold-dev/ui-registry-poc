@@ -53,7 +53,7 @@ export default function Dropdown({ options, onChange }: props) {
                   key={option.value}
                   className={({ active }) =>
                     classNames(
-                      active ? "text-white bg-ligo" : "text-gray-900",
+                      active ? "text-white bg-ligo-600" : "text-gray-900",
                       "relative cursor-default select-none py-2 pr-9"
                     )
                   }

@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Icon, { IconName } from "./Icon";
 
 type props = {
-  children: string;
+  children: ReactNode;
+  value: string;
+  className?: string;
 };
 
-const Copy = ({ children }: props) => {
+const Copy = ({ value, children, className }: props) => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -16,10 +18,10 @@ const Copy = ({ children }: props) => {
 
   return (
     <button
-      className="flex space-x-2 items-center"
+      className={`flex space-x-2 items-center ${className}`}
       onClick={(e) => {
         e.preventDefault();
-        navigator.clipboard.writeText(children).then(() => {
+        navigator.clipboard.writeText(value).then(() => {
           setCopied(true);
         });
       }}

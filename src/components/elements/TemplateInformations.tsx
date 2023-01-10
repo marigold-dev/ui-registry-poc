@@ -114,7 +114,6 @@ const Sources = ({ files }: { files: file[] }) => {
       <div className="py-2 px-4 flex-1 flex flex-col">
         <section className="border-b py-2">
           <h4 className="text-xl font-bold">{selected.path}</h4>
-          {/* <p className="text-slate-700">description</p> */}
         </section>
         <div
           className="w-full rounded max-w-3xl overflow-y-auto"
