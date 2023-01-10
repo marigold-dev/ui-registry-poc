@@ -1,19 +1,24 @@
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
+import { getTemplates } from "../server/templates";
 import PackageEnum from "../src/components/elements/PackagesEnum";
 import {
   allFeaturedPackages,
   allSortedByDownloadPackages,
 } from "../src/mock/data";
-import templates from "../src/mock/templates";
-import { AllPackage } from "../src/mock/types";
+import { AllPackage, Template } from "../src/mock/types";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
-  return Promise.all([allSortedByDownloadPackages(), allFeaturedPackages()])
-    .then(([allSortedDl, allFeatured]) => ({
+  return Promise.all([
+    allSortedByDownloadPackages(),
+    allFeaturedPackages(),
+    getTemplates(),
+  ])
+    .then(([allSortedDl, allFeatured, templates]) => ({
       props: {
         allSortedDl,
         allFeatured,
+        templates,
       },
       revalidate: 60,
     }))
@@ -28,10 +33,11 @@ export async function getStaticProps(_context: GetStaticPropsContext) {
 
 const Home = ({
   allSortedDl,
-  allFeatured,
+  templates,
 }: {
   allSortedDl: AllPackage[];
   allFeatured: AllPackage[];
+  templates: Template[];
 }) => {
   return (
     <>
@@ -55,12 +61,12 @@ const Home = ({
           href="/templates"
           subtitle="Featured contracts"
           packages={[
-            templates.map["NFT-Factory-Cameligo"],
-            templates.map["Multisig-Jsligo"],
-            templates.map["Permit-Cameligo"],
-            templates.map["DAO-Jsligo"],
-            templates.map["Randomness-Cameligo"],
-            templates.map["Shifumi-Jsligo"],
+            templates.find((t) => t.name === "NFT-Factory-Cameligo")!,
+            templates.find((t) => t.name === "Multisig-Jsligo")!,
+            templates.find((t) => t.name === "Permit-Cameligo")!,
+            templates.find((t) => t.name === "DAO-Jsligo")!,
+            templates.find((t) => t.name === "Randomness-Cameligo")!,
+            templates.find((t) => t.name === "Shifumi-Jsligo")!,
           ]}
         />
       </div>
