@@ -22,7 +22,7 @@ const cloneRepo = (url) => {
     exec(`git -C ${TEMPLATES_PATH} clone ${url}`, (error, _, __) => {
       if (!!error) return reject(error);
 
-      exec(`cd ${TEMPLATES_PATH}/${repoName} && make install`, (...all) => {
+      exec(`cd ${TEMPLATES_PATH}/${repoName} && make install`, () => {
         exec(`cd ${TEMPLATES_PATH}/${repoName} && make compile`);
       });
 
