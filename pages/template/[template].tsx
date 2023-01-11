@@ -54,6 +54,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
   const [contracts, setContracts] = useState<
     { address: string; name?: string }[]
   >([]);
+
   const [endpoints, setEndpoints] = useState(template.endpoints[0]);
 
   useEffect(() => {

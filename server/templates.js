@@ -17,20 +17,21 @@ const EXCLUDED_DIRS = [
 const cloneRepo = (url) => {
   const repoName = url.replace("https://github.com/ligolang/", "");
   return new Promise((resolve, reject) => {
-    if (existsSync(`${TEMPLATES_PATH}/${repoName}`)) return resolve();
+    if (existsSync(`${TEMPLATES_PATH}/${repoName}`)) return resolve("Skip");
 
     exec(`git -C ${TEMPLATES_PATH} clone ${url}`, (error, _, __) => {
       if (!!error) return reject(error);
 
       exec(`cd ${TEMPLATES_PATH}/${repoName} && make install`, () => {
-        exec(`cd ${TEMPLATES_PATH}/${repoName} && make compile`);
+        exec(`cd ${TEMPLATES_PATH}/${repoName} && make compile`, () => {
+          exec(
+            `cd ${TEMPLATES_PATH}/${repoName} && cp deploy/.env.dist deploy/.env`,
+            () => {
+              resolve("Nice");
+            }
+          );
+        });
       });
-
-      exec(
-        `cd ${TEMPLATES_PATH}/${repoName} && cp deploy/.env.dist deploy/.env`
-      );
-
-      resolve();
     });
   });
 };
@@ -163,7 +164,11 @@ const readAllFiles = (url) => {
   }));
 };
 
+let alreadySetup = false;
+
 const setup = async () => {
+  if (alreadySetup) return;
+
   await Promise.all(
     templates.map((template) => cloneRepo(template.repository))
   );
@@ -177,6 +182,8 @@ const setup = async () => {
       files: readAllFiles(template.repository),
     };
   });
+
+  alreadySetup = true;
 };
 
 const deploy = async (repoLink) => {
@@ -206,13 +213,11 @@ const deploy = async (repoLink) => {
   });
 };
 
-(async () => {
-  await setup();
-})();
-
 const getTemplates = async () => {
-  await updateReadmes();
+  console.log("SETUP");
+  await setup();
 
+  console.log("ICI: ", templates[0].endpoints);
   return templates;
 };
 
