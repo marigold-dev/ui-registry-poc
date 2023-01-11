@@ -1,5 +1,5 @@
 const { TEMPLATES_PATH, templates: baseTemplates } = require("./constants");
-const { readFileSync, existsSync, readdirSync } = require("fs");
+const { readFileSync, existsSync, readdirSync, watch } = require("fs");
 const { exec } = require("child_process");
 
 let templates = baseTemplates;
@@ -17,20 +17,20 @@ const EXCLUDED_DIRS = [
 const cloneRepo = (url) => {
   const repoName = url.replace("https://github.com/ligolang/", "");
   return new Promise((resolve, reject) => {
-    if (existsSync(`${TEMPLATES_PATH}/${repoName}`)) return resolve("Skip");
+    if (existsSync(`${TEMPLATES_PATH}/${repoName}`)) return resolve();
 
     exec(`git -C ${TEMPLATES_PATH} clone ${url}`, (error, _, __) => {
       if (!!error) return reject(error);
 
-      exec(`cd ${TEMPLATES_PATH}/${repoName} && make install`, () => {
-        exec(`cd ${TEMPLATES_PATH}/${repoName} && make compile`, () => {
-          exec(
-            `cd ${TEMPLATES_PATH}/${repoName} && cp deploy/.env.dist deploy/.env`,
-            () => {
-              resolve("Nice");
-            }
-          );
-        });
+      const child = exec(
+        `cd ${TEMPLATES_PATH}/${repoName} && make install || true && make compile && cp deploy/.env.dist deploy/.env`,
+        (...args) => {
+          console.log(repoName);
+          console.log(args);
+        }
+      );
+      child.on("exit", () => {
+        resolve();
       });
     });
   });
@@ -169,8 +169,16 @@ let alreadySetup = false;
 const setup = async () => {
   if (alreadySetup) return;
 
+  const half = Math.ceil(templates.length / 2);
+
   await Promise.all(
-    templates.map((template) => cloneRepo(template.repository))
+    templates.slice(0, half).map((template) => cloneRepo(template.repository))
+  );
+
+  await Promise.all(
+    templates
+      .slice(half, templates.length)
+      .map((template) => cloneRepo(template.repository))
   );
 
   await updateReadmes();
@@ -217,7 +225,6 @@ const getTemplates = async () => {
   console.log("SETUP");
   await setup();
 
-  console.log("ICI: ", templates[0].endpoints);
   return templates;
 };
 
