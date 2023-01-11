@@ -23,7 +23,7 @@ const cloneRepo = (url) => {
       if (!!error) return reject(error);
 
       const child = exec(
-        `cd ${TEMPLATES_PATH}/${repoName} && make install || true && make compile && cp deploy/.env.dist deploy/.env`,
+        `cd ${TEMPLATES_PATH}/${repoName} && make install ligo_compiler=ligo || true && make compile ligo_compiler=ligo && cp deploy/.env.dist deploy/.env`,
         (...args) => {
           console.log(repoName);
           console.log(args);
@@ -201,7 +201,7 @@ const deploy = async (repoLink) => {
     if (!process.env.PK) throw new Error("PK env var missing");
 
     exec(
-      `PK=${process.env.PK} cd ${TEMPLATES_PATH}/${repoName} && make deploy`,
+      `PK=${process.env.PK} cd ${TEMPLATES_PATH}/${repoName} && make deploy ligo_compiler=ligo`,
       (error, stdout, stderr) => {
         if (!!error) {
           console.log(stderr);
