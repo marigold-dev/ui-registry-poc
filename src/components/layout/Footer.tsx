@@ -4,13 +4,13 @@ import Marigold from "../images/Marigold";
 
 const Footer = () => {
   return (
-    <div className="w-full py-8 absolute bottom-0 left-0 right-0 bg-white h-36 z-50 px-2">
+    <div className="w-full py-8 absolute bottom-0 left-0 right-0 bg-white h-36 z-20 px-2">
       <div className="max-w-7xl flex flex-col md:flex-row justify-between m-auto px-8 lg:px-0">
         <nav>
           <ul className="flex flex-col items-center md:block">
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href="http://ligolang.org/"
@@ -20,7 +20,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href={exploreAuditorSc}
@@ -30,7 +30,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                className="text-black hover:text-ligo"
+                className="text-black hover:text-ligo-600"
                 target="_blank"
                 rel="noreferrer"
                 href="https://github.com/marigold-dev/auditor"

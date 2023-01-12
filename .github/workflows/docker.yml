@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -33,6 +34,7 @@ jobs:
           echo "::set-output name=date::$(date +%Y-%m-%d)"
           echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Build and push release version
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
         uses: docker/build-push-action@v3
         with:
           file: ./Dockerfile
@@ -40,5 +42,15 @@ jobs:
           tags: |
             ghcr.io/marigold-dev/ligo-registry:stable
             ghcr.io/marigold-dev/ligo-registry:${{ steps.vars.outputs.date }}-${{ steps.vars.outputs.sha_short }}-release
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Build and push preprod version
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'docker') }}
+        uses: docker/build-push-action@v3
+        with:
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ghcr.io/marigold-dev/ligo-registry:preprod
           cache-from: type=gha
           cache-to: type=gha,mode=max

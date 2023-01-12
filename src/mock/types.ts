@@ -71,6 +71,16 @@ export type Package = {
   isFeatured?: boolean;
 };
 
+export type arg = {
+  type: string;
+  name: string | null;
+  content: arg[] | null;
+};
+
+export type endpoint = { name: string; args: arg[] };
+
+export type file = { path: string; content: string };
+
 export type Template = {
   name: string;
   version: string;
@@ -82,4 +92,6 @@ export type Template = {
   description: string;
   readme: string;
   mainFile: string;
+  endpoints: { contract: string; params: endpoint[] }[];
+  files: file[];
 };

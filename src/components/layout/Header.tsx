@@ -9,8 +9,8 @@ import Ligo from "../images/Ligo";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `p-2 rounded ${
-    isActive ? "text-ligo" : ""
-  } hover:bg-neutral-100 hover:text-ligo`;
+    isActive ? "text-ligo-600" : ""
+  } hover:bg-neutral-100 hover:text-ligo-600`;
 
 const Header = () => {
   const searchRef = useRef("");
@@ -44,11 +44,11 @@ const Header = () => {
               viewBox={viewbox(0, 0, 60, 60)}
               fill="#0E74FF"
             />
-            <div className="uppercase ml-2 text-ligo text-xl">
+            <div className="uppercase ml-2 text-ligo-600 text-xl">
               <span className="font-bold">Ligo</span>
               <span className="font-medium">Registry</span>
             </div>
-            <button className="ml-1 px-3 py-1 bg-ligo text-white rounded-full hover:text-white hover:bg-ligo-dark">
+            <button className="ml-1 px-3 py-1 bg-ligo-600 text-white rounded-full hover:text-white hover:bg-ligo-700">
               Beta
             </button>
           </h1>
@@ -89,7 +89,7 @@ const Header = () => {
               }}
             />
             <button
-              className="bg-ligo h-9 -mt-px -mr-px px-4 py-2 rounded-full text-white absolute right-0 top-0 hover:bg-ligo-dark"
+              className="bg-ligo-600 h-9 -mt-px -mr-px px-4 py-2 rounded-full text-white absolute right-0 top-0 hover:bg-ligo-700"
               onClick={() => {
                 router.push(`/packages?search=${searchRef.current}`);
                 setHasNav(false);

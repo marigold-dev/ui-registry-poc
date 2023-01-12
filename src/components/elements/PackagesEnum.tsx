@@ -13,7 +13,7 @@ const PackageEnum = ({ title, subtitle, packages, href }: Props) => {
   return (
     <section>
       <h2 className="text-2xl font-bold">
-        <a href={href} className="text-ligo hover:text-ligo-dark">
+        <a href={href} className="text-ligo-600 hover:text-ligo-600-700">
           {title}
         </a>
       </h2>

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.7",
+    "@heroicons/react": "^2.0.13",
     "@tailwindcss/typography": "^0.5.8",
     "@taquito/beacon-wallet": "^15.0.0",
     "@taquito/taquito": "^15.0.0",
@@ -33,11 +35,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "next dev",
-    "start": "next start -p 80",
+    "dev": "node server/server.js",
     "build": "next build",
-    "test": "next test",
-    "eject": "react-scripts eject"
+    "start": "PORT=80 NODE_ENV=production node server/server.js"
   },
   "eslintConfig": {
     "extends": [

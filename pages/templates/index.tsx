@@ -1,12 +1,17 @@
 import { GetStaticPropsContext } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import templates from "../../src/mock/templates";
+import { getTemplates } from "../../server/templates";
 import { Template } from "../../src/mock/types";
 
 export async function getStaticProps(_context: GetStaticPropsContext) {
+  const templates = await getTemplates();
   return {
-    props: templates.categories,
+    props: {
+      governance: templates.filter((t) => t.category === "governance"),
+      tokens: templates.filter((t) => t.category === "token"),
+      utilities: templates.filter((t) => t.category === "utilities"),
+    },
     revalidate: 60,
   };
 }
