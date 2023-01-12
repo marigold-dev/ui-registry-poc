@@ -203,7 +203,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
                                 <a
                                   href={`https://ghostnet.tzkt.io/${address}`}
                                   className="text-ligo-600 text-underline hover:text-ligo-700"
-                                  rel="norel"
+                                  rel="noreferrer"
                                   target="_blank"
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -225,7 +225,7 @@ const ViewPackage = ({ template }: { template: Template }) => {
                           <a
                             href={`https://ghostnet.tzkt.io/${contracts[0].address}`}
                             className="text-ligo-600 text-underline hover:text-ligo-700"
-                            rel="norel"
+                            rel="noreferrer"
                             target="_blank"
                             onClick={(e) => {
                               e.stopPropagation();
